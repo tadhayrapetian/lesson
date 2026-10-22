@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>English lessons</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--forest:#5E6C5B;--cream:#F4EFE6;--white:#FEFCF6;--sky:#D6E0E2;--storm:#686867;--midnight:#162A2C;
+--bg:var(--cream);--panel:var(--white);--ink:var(--midnight);--muted:var(--storm);--line:#E4DED3;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0F1E20;--panel:#162A2C;--ink:#F4EFE6;--muted:#A9AFA8;--line:#2A3E40;color-scheme:dark}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:300 16px/1.6 Poppins,"Segoe UI",system-ui,sans-serif}
+body.viewing{overflow:hidden}
+:focus-visible{outline:2px solid var(--forest);outline-offset:3px}
+button{font:inherit;color:inherit}
+.serif{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-weight:400}
+
+.page{max-width:1280px;margin:0 auto;padding:clamp(1.5rem,5vw,4rem) clamp(1rem,4vw,3rem) 3rem}
+.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1.5rem 3rem;padding-bottom:2rem;border-bottom:1px solid var(--line)}
+.head h1{margin:0;font-size:clamp(3rem,8vw,6rem);line-height:.95}
+.head p{margin:.6rem 0 0;color:var(--muted);letter-spacing:.14em;font-size:.82rem}
+.search{min-width:min(100%,320px)}
+.search input{font:inherit;font-size:1rem;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--ink);padding:.5rem 0;width:100%}
+.search input:focus{outline:none;border-bottom-color:var(--forest)}
+.filters{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.6rem 0 2rem}
+.chip{background:transparent;border:1px solid var(--line);border-radius:999px;padding:.35rem 1.1rem;font-size:.85rem;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.count{color:var(--muted);font-size:.8rem;letter-spacing:.12em;margin:0 0 1rem}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0;border:1px solid var(--line)}
+.card{display:flex;flex-direction:column;justify-content:space-between;gap:2rem;min-height:340px;padding:1.8rem;border:0;background:var(--c);color:var(--f);text-align:left;cursor:pointer;transition:filter .2s}
+.card:hover{filter:brightness(1.06)}
+.meta{display:flex;gap:1.2rem;font-size:.75rem;letter-spacing:.14em;opacity:.85}
+.card h2{margin:0;font-size:clamp(2.4rem,4vw,3.2rem);line-height:1}
+.card p{margin:0;font-size:.9rem;opacity:.9;max-width:30ch}
+.open{font-size:.8rem;letter-spacing:.1em;border-bottom:1px solid currentColor;align-self:flex-start}
+.empty{padding:3rem 1rem;text-align:center;font-size:2rem}
+.foot{margin-top:3rem;color:var(--muted);font-size:.8rem;letter-spacing:.1em}
+
+.viewer{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;background:var(--bg)}
+.vbar{display:flex;align-items:center;gap:1rem;padding:.6rem clamp(.8rem,3vw,1.6rem);background:var(--midnight);color:var(--white)}
+.vbar button,.vbar a{background:none;border:1px solid rgba(254,252,246,.5);border-radius:999px;color:var(--white);padding:.3rem 1rem;font-size:.85rem;cursor:pointer;text-decoration:none;white-space:nowrap}
+.vbar button:hover,.vbar a:hover{background:rgba(254,252,246,.12)}
+.vtitle{flex:1;text-align:center;font-size:1.5rem;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vname{font-size:.75rem;letter-spacing:.14em;opacity:.7;white-space:nowrap}
+.viewer iframe{flex:1;width:100%;border:0;background:var(--panel)}
+@media (max-width:640px){.vname{display:none}.vtitle{font-size:1.2rem;text-align:left}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="page">
+ <header class="head">
+  <div><h1 class="serif" id="siteName"></h1><p id="tagline"></p></div>
+  <label class="search"><input id="q" type="search" placeholder="Search lessons" aria-label="Search lessons"></label>
+ </header>
+ <div class="filters" id="filters" role="group" aria-label="Filter lessons"></div>
+ <p class="count" id="count"></p>
+ <main class="grid" id="grid"></main>
+ <p class="empty serif" id="empty" hidden>No lessons found</p>
+ <footer class="foot" id="foot"></footer>
+</div>
+
+<div class="viewer" id="viewer" hidden>
+ <div class="vbar">
+  <button type="button" id="back">← All lessons</button>
+  <span class="vtitle serif" id="vtitle"></span>
+  <span class="vname" id="vname"></span>
+  <a id="vfull" target="_blank" rel="noopener">Full screen</a>
+ </div>
+ <iframe id="frame" title="Lesson" allow="autoplay; fullscreen"></iframe>
+</div>
+
+<script src="lessons.js"></script>
+<script>
+const S=window.SITE||{},L=window.LESSONS||[];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const COLORS={forest:['#5E6C5B','#FEFCF6'],midnight:['#162A2C','#FEFCF6'],sky:['#D6E0E2','#162A2C'],storm:['#686867','#FEFCF6'],cream:['#F4EFE6','#162A2C'],white:['#FEFCF6','#162A2C']};
+const ORDER=['forest','midnight','sky','storm','cream'];
+
+document.title=[S.name,S.tagline].filter(Boolean).join(', ')||'English lessons';
+$('#siteName').textContent=S.name||'English lessons';
+$('#tagline').textContent=S.tagline||'';
+$('#vname').textContent=S.name||'';
+$('#foot').textContent='© '+new Date().getFullYear()+' '+(S.name||'');
+
+let tag='All',q='';
+const tags=['All',...new Set(L.map(l=>l.tag).filter(Boolean))];
+$('#filters').innerHTML=tags.length>2?tags.map(t=>`<button type="button" class="chip" aria-pressed="${t===tag}">${esc(t)}</button>`).join(''):'';
+$('#filters').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;tag=b.textContent;document.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c===b));render();});
+$('#q').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();render();});
+
+function render(){
+ const list=L.filter(l=>(tag==='All'||l.tag===tag)&&(!q||(l.title+' '+(l.topic||'')+' '+(l.tag||'')).toLowerCase().includes(q)));
+ $('#grid').innerHTML=list.map((l,i)=>{const c=COLORS[l.color]||COLORS[ORDER[i%ORDER.length]];return `<button type="button" class="card" data-slug="${esc(l.slug)}" style="--c:${c[0]};--f:${c[1]}">
+  <span class="meta">${l.tag?`<span>${esc(l.tag)}</span>`:''}${l.minutes?`<span>${esc(l.minutes)} min</span>`:''}</span>
+  <span><h2 class="serif">${esc(l.title)}</h2></span>
+  <span>${l.topic?`<p>${esc(l.topic)}</p>`:''}<span class="open">Open lesson</span></span>
+ </button>`;}).join('');
+ $('#grid').hidden=!list.length;$('#empty').hidden=!!list.length;
+ $('#count').textContent=list.length===1?'1 lesson':list.length+' lessons';
+}
+$('#grid').addEventListener('click',e=>{const c=e.target.closest('.card');if(c)location.hash=c.dataset.slug;});
+
+function route(){
+ const slug=decodeURIComponent(location.hash.slice(1)),l=L.find(x=>x.slug===slug);
+ if(l){
+  $('#frame').src=l.file;$('#vtitle').textContent=l.title;$('#vfull').href=l.file;
+  $('#viewer').hidden=false;document.body.classList.add('viewing');document.title=l.title+(S.name?', '+S.name:'');
+ }else{
+  $('#viewer').hidden=true;document.body.classList.remove('viewing');$('#frame').src='about:blank';
+  document.title=[S.name,S.tagline].filter(Boolean).join(', ')||'English lessons';
+ }
+}
+$('#back').addEventListener('click',()=>{history.pushState('',document.title,location.pathname+location.search);route();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#viewer').hidden)$('#back').click();});
+window.addEventListener('hashchange',route);
+render();route();
+</script>
+</body>
+</html>

@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Small joys</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Poppins:wght@300;400;500&family=Noto+Sans+Armenian:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--forest:#5E6C5B;--cream:#F4EFE6;--white:#FEFCF6;--sky:#D6E0E2;--storm:#686867;--midnight:#162A2C;
+--bg:var(--cream);--panel:var(--white);--ink:var(--midnight);--muted:var(--storm);--line:#E4DED3;--soft:#F8F5EF;--accent:var(--forest);--sel:var(--sky);--onacc:var(--white);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1E20;--panel:#162A2C;--ink:#F4EFE6;--muted:#A9AFA8;--line:#2A3E40;--soft:#1C3234;--accent:#8FA08B;--sel:#2C4447;--onacc:#0F1E20;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F1E20;--panel:#162A2C;--ink:#F4EFE6;--muted:#A9AFA8;--line:#2A3E40;--soft:#1C3234;--accent:#8FA08B;--sel:#2C4447;--onacc:#0F1E20;color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:300 17px/1.7 Poppins,"Segoe UI",system-ui,sans-serif}
+b,strong{font-weight:500}
+h1,h2,h3{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-style:italic;line-height:1.05;margin:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+button{font:inherit;color:inherit}
+
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:1.2rem;padding:1rem clamp(1rem,3vw,2.4rem);background:var(--bg)}
+.progress{position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--line)}
+.progress span{display:block;height:100%;width:0;background:var(--ink);transition:width .6s ease}
+.brand{margin-right:auto;font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:2.1rem;line-height:1}
+.clock{display:flex;align-items:center;gap:.5rem}
+.clock output{font:400 1rem/1 Poppins,sans-serif;letter-spacing:.12em;font-variant-numeric:tabular-nums;min-width:4.5ch;text-align:right}
+.clock output.over,.cdc.over{color:var(--accent);text-decoration:underline}
+.ghost{background:none;border:0;color:var(--muted);font-size:.8rem;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.ghost[aria-pressed="true"]{color:var(--accent)}
+.navsel{display:none;font:inherit;font-size:.9rem;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:.4rem .9rem;max-width:100%}
+
+.wrap{display:grid;grid-template-columns:200px minmax(0,1fr);gap:clamp(1rem,3vw,3rem);max-width:1440px;margin:0 auto;padding:2rem clamp(1rem,3vw,2.4rem) 6rem}
+.branch{position:sticky;top:100px;align-self:start;max-height:calc(100vh - 190px);overflow:auto}
+.npart{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:1.35rem;margin:1.5rem 0 .3rem}
+.npart:first-child{margin-top:0}
+.nitem{display:grid;grid-template-columns:1.6rem 1fr;align-items:baseline;width:100%;text-align:left;background:none;border:0;padding:.3rem 0;font-size:.86rem;cursor:pointer;line-height:1.35;color:var(--muted)}
+.nitem:hover{color:var(--ink)}
+.nitem[aria-current="step"]{color:var(--ink);font-weight:500}
+.nn{font-size:.72rem;letter-spacing:.08em;font-variant-numeric:tabular-nums}
+
+.sheet{display:grid;grid-template-columns:minmax(260px,30%) minmax(0,1fr);background:var(--panel);min-height:calc(100vh - 220px)}
+.cover{background:var(--c);color:var(--f);padding:clamp(1.6rem,3vw,2.6rem);display:flex;flex-direction:column;justify-content:center;text-align:center;gap:.6rem}
+.cover-in{position:sticky;top:110px}
+.tag{font-size:.78rem;letter-spacing:.14em;opacity:.85;margin:0 0 .8rem}
+.cover h2{font-size:clamp(2.6rem,4.6vw,4rem);margin-bottom:1.2rem}
+.task{font-size:1rem;max-width:30ch;margin:0 auto;opacity:.92}
+.content{padding:clamp(1.4rem,3.5vw,3rem);min-width:0}
+
+.btn{font-size:.9rem;background:transparent;border:1px solid var(--ink);border-radius:999px;padding:.5rem 1.25rem;cursor:pointer;transition:background .15s,color .15s}
+.btn:hover{background:var(--sel)}
+.btn:disabled{opacity:.3;cursor:default}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--onacc)}
+.btn.primary:hover{background:var(--accent);filter:brightness(1.08)}
+.btn.sm{font-size:.84rem;padding:.3rem .95rem}
+.btn.good,.chip.good,.word.good{background:var(--accent);border-color:var(--accent);color:var(--onacc)}
+.btn.bad,.chip.bad{border-style:dashed;border-color:var(--muted);color:var(--muted);text-decoration:line-through}
+.row{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin-top:1rem}
+.fb{color:var(--muted);font-size:.9rem;min-height:1.4em;margin:0}
+.box{padding:1.4rem 1.5rem;background:var(--soft);border:1px solid var(--line)}
+.box h3{font-size:1.8rem;margin-bottom:.6rem}
+.mt{margin-top:1.6rem}
+.hint{color:var(--muted);font-size:.9rem;margin:.1rem 0 .9rem}
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:1.6rem;align-items:start}
+.stack{display:grid;gap:1.4rem}
+.field{font:inherit;font-size:.98rem;color:var(--ink);background:var(--panel);border:0;border-bottom:1px solid var(--muted);padding:.55rem .1rem;width:100%}
+.field:focus{border-bottom-color:var(--accent);outline:none}
+textarea.field{resize:vertical;border:1px solid var(--line);padding:.6rem .8rem}
+
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:0;border:1px solid var(--line)}
+.qtile{min-height:200px;border:0;background:var(--c);color:var(--f);cursor:pointer;display:grid;place-items:center;padding:1.4rem;text-align:center}
+.qtile .qf{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:2rem}
+.qtile .qq{display:none;font-family:"Instrument Serif",Georgia,serif;font-size:1.55rem;line-height:1.25}
+.qtile.open .qf{display:none}
+.qtile.open .qq{display:block}
+
+.article{font-size:1.02rem;line-height:1.8}
+.kicker{font-size:.78rem;letter-spacing:.14em;color:var(--muted);margin:0}
+.article h3{font-size:2.8rem;margin:.4rem 0 1.2rem}
+.article p{margin:.8rem 0;max-width:60ch}
+.article .lead::first-letter{float:left;font-family:"Instrument Serif",Georgia,serif;font-size:4.4rem;line-height:.8;padding:.35rem .55rem 0 0;color:var(--accent)}
+.article blockquote{margin:1.6rem 0;padding:1.4rem 1.6rem;background:var(--sky);color:var(--midnight);font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:1.8rem;line-height:1.2;text-align:center}
+.qa,.tf,.yn,.check{list-style:none;margin:0;padding:0;display:grid;gap:1.1rem}
+.qa li,.tf li,.yn li{display:grid;gap:.45rem;justify-items:start}
+.tfb{display:flex;gap:.5rem}
+.ans{background:var(--sel);padding:.35rem .8rem}
+
+.pool{display:flex;flex-wrap:wrap;gap:.55rem;min-height:3.4rem;padding:1rem;border:1px dashed var(--muted);margin-bottom:1.2rem}
+.chip{font-size:.92rem;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:.45rem 1.05rem;cursor:pointer;text-align:left}
+.chip b{color:var(--accent)}
+.chip.good b{color:inherit}
+.chip.sel{background:var(--sel);border-color:var(--ink)}
+.baskets{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:0}
+.basket{padding:1.4rem;min-height:200px;cursor:pointer;background:var(--forest);color:var(--white)}
+.basket[data-b="n"]{background:var(--midnight)}
+.basket h3{font-size:2rem}
+.basket .hint{color:inherit;opacity:.8;margin:.2rem 0 .8rem}
+.basket .in{display:flex;flex-wrap:wrap;gap:.5rem}
+.basket .chip{background:var(--white);color:var(--midnight);border-color:transparent}
+.basket .chip.good{background:var(--sky);color:var(--midnight)}
+.basket .chip.bad{background:transparent;color:var(--white);border-color:var(--white)}
+.pattern{margin-top:1.6rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:0}
+.pcol{padding:1.5rem;background:var(--soft);border:1px solid var(--line)}
+.pcol.n{background:var(--sky);color:var(--midnight);border-color:var(--sky)}
+.pcol h3{font-size:1.9rem;margin-bottom:.6rem}
+.pcol p{margin:.35rem 0}
+.pcol .sig{opacity:.75;font-size:.88rem;margin-top:.9rem}
+.plus{text-decoration:underline;text-underline-offset:3px}
+.watch{grid-column:1/-1;padding:1.2rem 1.5rem;border:1px solid var(--line);border-top:0}
+.watch p{margin:.3rem 0}
+.watch s{color:var(--muted)}
+
+.mcq{margin:0;padding-left:1.4rem;display:grid;gap:1.3rem}
+.mcq .s{margin:0 0 .45rem;font-size:1.02rem}
+.gap{display:inline-block;min-width:5.5em;border-bottom:1px solid var(--ink);text-align:center}
+.gap.filled{color:var(--accent);font-weight:500}
+.opts{display:flex;gap:.5rem;flex-wrap:wrap}
+.mcq .fb{margin-top:.3rem}
+.build{padding:1.1rem 0;border-top:1px solid var(--line)}
+.line{min-height:2.9rem;border-bottom:1px solid var(--ink);display:flex;flex-wrap:wrap;gap:.4rem;padding:.3rem 0;margin-bottom:.7rem}
+.bank{display:flex;flex-wrap:wrap;gap:.4rem}
+.word{font-size:.95rem;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:.3rem .9rem;cursor:pointer}
+.line .word{background:var(--sel);border-color:var(--sel)}
+.build.good .line{border-bottom:2px solid var(--accent)}
+.build.bad .line{border-bottom:2px dashed var(--muted)}
+
+.jar{display:grid;justify-items:center;gap:1rem;padding:2rem 1rem;text-align:center;background:var(--midnight);color:var(--white)}
+.prompt{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:2.2rem;line-height:1.15;min-height:2.6em;display:grid;place-items:center;margin:0}
+.jar .btn.primary{background:var(--white);border-color:var(--white);color:var(--midnight)}
+.count{margin:0;opacity:.7;font-size:.82rem;letter-spacing:.08em}
+.truths{display:grid;gap:.5rem;margin-bottom:1.1rem}
+.profile{margin:1.3rem 0 0;padding:1.3rem 1.5rem;background:var(--sky);color:var(--midnight);font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:1.6rem;line-height:1.35}
+
+.eb{display:grid;gap:.4rem}
+.ebhead{display:grid;grid-template-columns:1fr 1fr 5rem;gap:1rem;color:var(--muted);font-size:.8rem;letter-spacing:.08em}
+.ebrow{display:grid;grid-template-columns:1fr 1fr 5rem;gap:1rem;align-items:center}
+.ebrow .better{transition:filter .2s}
+.ebrow:not(.open) .better:not(:focus){filter:blur(6px)}
+
+.joys{display:flex;flex-wrap:wrap;gap:.7rem;max-width:900px}
+.joy{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:1.45rem;background:transparent;border:1px solid var(--line);border-radius:999px;padding:.5rem 1.4rem;cursor:pointer;transition:background .15s,color .15s}
+.joy:hover{border-color:var(--ink)}
+.joy[aria-pressed="true"]{background:var(--forest);border-color:var(--forest);color:var(--white)}
+.ask{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:2rem;line-height:1.2;margin:2rem 0 0}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0;border:1px solid var(--line)}
+.flip{perspective:1100px;min-height:250px;cursor:pointer}
+.fi{position:relative;min-height:250px;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.flip.on .fi{transform:rotateY(180deg)}
+.ff,.fbk{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;padding:1.4rem;display:flex;flex-direction:column}
+.ff{background:var(--c);color:var(--f);justify-content:center;align-items:center;text-align:center;gap:1rem}
+.fbk{transform:rotateY(180deg);background:var(--panel);color:var(--ink);gap:.45rem;font-size:.9rem;line-height:1.55;border:1px solid var(--line)}
+.flip:not(.on) .fbk,.flip.on .ff{pointer-events:none}
+.ch{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:2.1rem;line-height:1.05}
+.mean{margin:0;font-weight:500}
+.hy{margin:0;font-family:"Noto Sans Armenian","DejaVu Sans",sans-serif;color:var(--accent)}
+.ex{margin:0;font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:1.3rem;line-height:1.3}
+.hear{font-size:.75rem;letter-spacing:.06em;background:none;border:1px solid currentColor;border-radius:999px;padding:.15rem .85rem;cursor:pointer;opacity:.8}
+.fbk .hear{margin-top:auto;align-self:flex-start;color:var(--muted)}
+
+.match{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.mcol{display:grid;gap:.5rem;align-content:start}
+.tile{font-size:.92rem;text-align:left;padding:.65rem 1rem;border:1px solid var(--line);background:var(--panel);cursor:pointer}
+.tile[data-side="l"]{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:1.45rem;line-height:1.15}
+.tile.sel{background:var(--sel);border-color:var(--ink)}
+.tile.done{background:var(--forest);border-color:var(--forest);color:var(--white);cursor:default}
+.tile.no{border-color:var(--ink);border-style:dashed;animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+
+.wordbank{display:flex;flex-wrap:wrap;gap:.5rem;padding:1.1rem;background:var(--sky);margin-bottom:1.6rem}
+.wordbank span{padding:.25rem .9rem;background:var(--white);color:var(--midnight);border-radius:999px;font-size:.88rem}
+.story{font-size:1.05rem;line-height:2.5;max-width:72ch;margin:0}
+.gsel{font:inherit;font-size:.86rem;color:var(--ink);background:var(--panel);border:0;border-bottom:1px solid var(--ink);padding:.1rem .3rem;max-width:100%}
+.gsel.good{background:var(--accent);color:var(--onacc);border-bottom-color:var(--accent)}
+.gsel.bad{border-bottom:2px dashed var(--muted);color:var(--muted)}
+
+.deck{background:var(--midnight);color:var(--white);padding:2rem;min-height:360px;display:flex;flex-direction:column}
+.dcount{margin:0;font-size:.78rem;letter-spacing:.12em;opacity:.7}
+.dq{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:clamp(2rem,3.4vw,2.8rem);line-height:1.15;margin:1rem 0}
+.deeper ul{margin:.2rem 0;padding-left:1.2rem;color:var(--sky)}
+.deck .row{margin-top:auto;padding-top:1rem}
+.deck .btn{border-color:var(--white);color:var(--white)}
+.deck .btn:hover{background:rgba(254,252,246,.1)}
+.deck .btn.primary{background:var(--white);color:var(--midnight)}
+.boost{background:var(--sky);color:var(--midnight);border:0}
+.boost ul{list-style:none;padding:0;margin:0;display:grid;gap:.5rem}
+.boost li{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:1.6rem;line-height:1.2}
+.boost .hint{color:var(--midnight);opacity:.75}
+
+.cd{display:grid;justify-items:center;gap:.4rem;padding:1.6rem 1rem;background:var(--forest);color:var(--white)}
+.cdc{font:300 4rem/1 Poppins,sans-serif;letter-spacing:.05em;font-variant-numeric:tabular-nums}
+.cd .row{margin-top:.4rem;justify-content:center}
+.cd .btn{border-color:var(--white);color:var(--white)}
+.cd .btn:hover{background:rgba(254,252,246,.12)}
+.cd .btn.primary{background:var(--white);color:var(--forest)}
+.cdc.over{color:var(--sky)}
+.plan{display:grid;gap:.1rem;margin-bottom:1.1rem}
+.plan span{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:1.4rem}
+.check label{display:flex;gap:.7rem;align-items:flex-start;cursor:pointer}
+.check input{width:1.05rem;height:1.05rem;accent-color:var(--forest);margin-top:.4rem;flex:none}
+
+.can p{margin:.2rem 0 .5rem}
+.rate{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.3rem}
+.rl{font-size:.82rem;background:transparent;border:1px solid var(--line);border-radius:999px;padding:.3rem 1rem;cursor:pointer}
+.rl.on{background:var(--forest);border-color:var(--forest);color:var(--white)}
+.hw{margin:0;padding-left:1.3rem;display:grid;gap:.8rem}
+
+.tnotes{display:none;margin-top:2.6rem;border:1px dashed var(--muted);padding:1.1rem 1.3rem;font-size:.9rem;background:var(--soft)}
+body.teacher .tnotes{display:block}
+.tnotes h3{font-size:1.6rem;margin-bottom:.4rem}
+.tnotes p{margin:.35rem 0}
+
+.pager{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;align-items:center;gap:1.2rem;padding:.8rem 1rem;background:var(--bg);border-top:1px solid var(--line)}
+#pos{color:var(--muted);font-size:.8rem;letter-spacing:.12em;min-width:7rem;text-align:center}
+
+@media (max-width:1150px){.sheet{grid-template-columns:1fr}.cover{min-height:260px}.cover-in{position:static}}
+@media (max-width:900px){.wrap{grid-template-columns:1fr}.branch{display:none}.navsel{display:block}.top{flex-wrap:wrap}}
+@media (max-width:600px){.match{grid-template-columns:1fr}.ebrow,.ebhead{grid-template-columns:1fr}.ebhead{display:none}.brand{font-size:1.7rem}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+ <div class="brand">Small joys</div>
+ <select class="navsel" id="navSel" aria-label="Go to stage"></select>
+ <div class="clock" aria-label="Stage timer">
+  <output id="tClock">5:00</output>
+  <button class="btn sm" id="tGo" type="button">Start</button>
+  <button class="btn sm" id="tReset" type="button">Reset</button>
+ </div>
+ <button class="ghost" id="teachBtn" type="button" aria-pressed="false">Teacher view</button>
+ <div class="progress" aria-hidden="true"><span id="progBar"></span></div>
+</header>
+
+<div class="wrap">
+ <nav class="branch" id="nav" aria-label="Lesson stages"></nav>
+ <main id="main"></main>
+</div>
+
+<footer class="pager">
+ <button class="btn" id="prev" type="button">Back</button>
+ <span id="pos"></span>
+ <button class="btn primary" id="next" type="button">Next</button>
+</footer>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+function shuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+function mix(a){if(a.length<2)return a.slice();let b,n=0;do{b=shuffle(a);n++;}while(n<40&&b.every((x,i)=>x===a[i]));return b;}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function speak(t){try{if(!('speechSynthesis' in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=.9;speechSynthesis.speak(u);}catch(e){}}
+const TONES=[['#5E6C5B','#FEFCF6'],['#D6E0E2','#162A2C'],['#162A2C','#FEFCF6'],['#F4EFE6','#162A2C'],['#686867','#FEFCF6'],['#FEFCF6','#162A2C']];
+const tone=(i,list=TONES)=>{const t=list[i%list.length];return `--c:${t[0]};--f:${t[1]}`;};
+const COVERS=[['#5E6C5B','#FEFCF6'],['#162A2C','#FEFCF6'],['#D6E0E2','#162A2C'],['#686867','#FEFCF6']];
+
+function countdown(out,goBtn,secs){
+ let total=secs,left=secs,id=null;
+ const draw=()=>{const a=Math.abs(left),m=Math.floor(a/60),s=a%60;out.textContent=(left<0?'+':'')+m+':'+String(s).padStart(2,'0');out.classList.toggle('over',left<=0);};
+ const stop=()=>{clearInterval(id);id=null;goBtn.textContent='Start';};
+ draw();
+ return{set(t){stop();total=left=t;draw();},go(){if(id){stop();return;}id=setInterval(()=>{left--;draw();},1000);goBtn.textContent='Pause';},reset(){stop();left=total;draw();}};
+}
+function bindAnswers(r){
+ $$('li[data-a]',r).forEach(li=>$$('button[data-v]',li).forEach(b=>b.addEventListener('click',()=>{
+  const ok=b.dataset.v===li.dataset.a;
+  $$('button[data-v]',li).forEach(x=>x.classList.remove('good','bad'));
+  b.classList.add(ok?'good':'bad');
+  $('.fb',li).textContent=ok?(li.dataset.w||'Right!'):'Look again.';
+ })));
+}
+
+/* ---------- content ---------- */
+const PARTS={1:'Part one: grammar in conversation',2:'Part two: words and stories'};
+
+const WARM=['What’s the last photo on your phone? What’s the story behind it?','What was the best moment of your week so far, and why?','What’s on your table right now, and what does it say about your day?','From one to ten, how do you feel today? What’s influencing your mood?','What do you usually do on a cold, dark evening to feel cosy?','How is the weather affecting your plans and your mood this week?'];
+
+const TF=[
+ {s:'Nora believes that happiness mostly comes from big events.',a:'false',w:'Right! She thinks it comes from small joys.'},
+ {s:'The copper pot was a present from her sister.',a:'false',w:'Right! It belonged to her grandmother.'},
+ {s:'Nora and her sister usually spend a lot of money at the market.',a:'false',w:'Right! They rarely buy much.'},
+ {s:'Her bread doesn’t always turn out well.',a:'true',w:'Right! Most of her loaves are still a disaster.'},
+ {s:'The gratitude journal is having a positive effect on her.',a:'true',w:'Right! It’s slowly changing the way she sees her life.'}
+];
+
+const CHIPS=[
+ {t:'I <b>get up</b> twenty minutes before the rest of the family',k:'h'},
+ {t:'Happiness <b>doesn’t</b> usually <b>come</b> from big events',k:'h'},
+ {t:'Nobody <b>talks</b> to me, and I <b>don’t check</b> my phone',k:'h'},
+ {t:'We rarely <b>buy</b> much',k:'h'},
+ {t:'I<b>’m learning</b> to bake sourdough bread',k:'n'},
+ {t:'I<b>’m</b> also <b>keeping</b> a gratitude journal',k:'n'},
+ {t:'It<b>’s</b> slowly <b>changing</b> the way I see my life',k:'n'},
+ {t:'The rain <b>is tapping</b> on the window',k:'n'}
+];
+const YN=[
+ {q:'Does Nora drink her coffee by the window every morning?',a:'yes',w:'Right! It’s her daily ritual.'},
+ {q:'Is she baking bread at the moment she’s writing the column?',a:'no',w:'Right! She’s in a café. Baking is something she’s doing these days, in general.'},
+ {q:'Is the journal changing her life gradually, step by step?',a:'yes',w:'Right! It’s a change in progress: “slowly changing”.'}
+];
+
+const MCQ=[
+ {s:'My grandmother ___ that a good breakfast is the secret to a long life.',o:['believes','is believing'],a:0,why:'Believe is a state verb: no -ing.'},
+ {s:'I ___ about taking a pottery class this winter. What do you think?',o:['’m thinking','think'],a:0,why:'Think about = a plan in progress in your head.'},
+ {s:'More and more people ___ to smaller towns these days.',o:['are moving','move'],a:0,why:'A trend: a situation that is changing.'},
+ {s:'We ___ a really stressful month at work, so I’m exhausted.',o:['’re having','have'],a:0,why:'Have = experience, so -ing is possible.'},
+ {s:'She ___ her parents every Sunday, without exception.',o:['visits','is visiting'],a:0,why:'A fixed routine.'},
+ {s:'Could you speak quietly? The baby ___ in the next room.',o:['’s sleeping','sleeps'],a:0,why:'It’s happening right now.'},
+ {s:'How often ___ to the cinema these days?',o:['do you go','are you going'],a:0,why:'How often asks about habits.'},
+ {s:'This cake ___ amazing. Did you make it yourself?',o:['tastes','is tasting'],a:0,why:'Taste = a quality here, a state.'},
+ {s:'My English ___ better because I practise every day.',o:['is getting','gets'],a:0,why:'Get + comparative: a change in progress.'},
+ {s:'Well, it ___ on what you mean by happiness.',o:['depends','is depending'],a:0,why:'Depend is a state verb.'}
+];
+const BUILD=['What do you usually do when you need to clear your head?','Are you trying to change any of your habits at the moment?','How often do you spend time completely on your own?','What does a perfect weekend look like for you?'];
+
+const PROMPTS=['a habit you’re trying to build / at the moment','how you usually spend Sunday mornings','a book, series or podcast you’re enjoying these days','something that’s changing in your city','a family tradition you really love','a place where you feel completely relaxed','what you usually do after a stressful day','how your free time is changing these days','a small luxury you can’t live without','something you’re looking forward to this month'];
+
+const JOYS=['the first sip of coffee in a quiet kitchen','the smell of bread straight from the oven','a long phone call with an old friend','getting into bed with clean sheets','a walk with no plan and no phone','cooking a big meal for people I love','the sound of rain on the window','finishing a book I couldn’t put down','looking through old family photos','fresh flowers on the kitchen table','a hot bath after a really long day','an unexpected message from someone I miss'];
+
+const CHUNKS=[
+ {c:'savour the moment',m:'enjoy something slowly and completely, without hurrying',hy:'վայելել պահը',ex:'On holiday I put my phone away and really savour the moment.'},
+ {c:'treat yourself to something',m:'buy or do something special just for you',hy:'ինքդ քեզ ինչ-որ հաճելի բան նվիրել',ex:'After a difficult week, I usually treat myself to a massage.'},
+ {c:'take something for granted',m:'not notice how valuable something is, because you always have it',hy:'չգնահատել, ինքնին հասկանալի համարել',ex:'We often take simple things for granted, like a quiet evening.'},
+ {c:'have a soft spot for',m:'like something or someone a lot, often without a logical reason',hy:'թուլություն ունենալ ինչ-որ բանի հանդեպ',ex:'I have a soft spot for old black-and-white films.'},
+ {c:'a guilty pleasure',m:'something you enjoy but feel a little embarrassed about',hy:'գաղտնի թուլություն, «մեղավոր» հաճույք',ex:'Reality shows are my guilty pleasure. I watch them when nobody’s home.'},
+ {c:'lose track of time',m:'forget about the time because you’re busy or enjoying yourself',hy:'ժամանակի հաշիվը կորցնել',ex:'When I’m painting, I completely lose track of time.'},
+ {c:'clear your head',m:'stop worrying so you can think calmly again',hy:'միտքդ թեթևացնել, գլուխդ մաքրել',ex:'After a stressful meeting, I go for a short walk to clear my head.'},
+ {c:'recharge your batteries',m:'rest so that you get your energy back',hy:'ուժերը վերականգնել',ex:'I spend one weekend a month in the countryside to recharge my batteries.'},
+ {c:'be in your element',m:'feel happy and confident because you’re doing what you love',hy:'քո տարերքի մեջ լինել',ex:'My sister is in her element when she’s cooking for twenty people.'},
+ {c:'get into the habit of',m:'start doing something regularly until it becomes normal',hy:'սովորություն ձեռք բերել',ex:'This autumn I’m getting into the habit of walking to work.'}
+];
+
+const ANS=['savour the moment','treat myself to','take it for granted','have a soft spot for','my guilty pleasure','lose track of time','clear my head','’ve recharged my batteries','in my element','getting into the habit of'];
+const STORY='Sunday is the only day of the week when I can really slow down and {0}. In the morning I {1} a long breakfast in bed with croissants and fresh orange juice. A few years ago I never had time for this, so now I don’t {2}. After breakfast I usually go to the flea market near my flat, because I {3} old cups and plates with flowers on them. My husband laughs at me, but I don’t care. In the afternoon I watch a silly romantic comedy. It’s {4}, and nobody is allowed to talk to me during the film! In the evening I bake, and I always {5}: suddenly it’s nine o’clock and the kitchen is a mess. When I have a busy week ahead, I go for a long walk on Sunday night to {6}. By Monday morning I feel that I {7} completely. My sister says I’m {8} when I’m in the kitchen, and she’s probably right. These days I’m also {9} writing down three good things before I go to sleep.';
+
+const TALK=[
+ {q:'Do you have a small morning ritual? Describe it in detail. Why does it matter to you?',f:['How long have you had it?','What happens to your day if you skip it?']},
+ {q:'What do you usually do to clear your head after a stressful day?',f:['Does it always work?','Did you learn it from someone in your family?']},
+ {q:'Do you have a guilty pleasure? Be honest!',f:['When did it start?','Who knows about it?']},
+ {q:'When are you completely in your element?',f:['How do you feel in those moments?','Do other people notice it?']},
+ {q:'What do you think people today take for granted?',f:['Do you take anything for granted?','What changed your mind about it?']},
+ {q:'How do you recharge your batteries when life gets too busy?',f:['Is it easier or harder than ten years ago?','What would your perfect day off look like?']},
+ {q:'Are you trying to get into the habit of doing something at the moment?',f:['Why now?','What makes it difficult?']},
+ {q:'Is anything changing in your life these days? Is it a good change?',f:['How do you feel about it?','What are you doing to adapt?']},
+ {q:'When was the last time you really savoured the moment?',f:['Where were you?','Who were you with?']}
+];
+const BOOST=['To be honest, …','The thing is, …','What I love about it is …','It reminds me of …','On the other hand, …','I’d say that …'];
+
+const PLAN=['A ritual I never skip','A habit I’m building these days','Something people take for granted'];
+const CHECK=['I described my routines and rituals.','I talked about things that are changing these days.','I used at least five new phrases.','I used linking words: because, although, so, but.','I gave examples and small details.'];
+const CAN=['I can describe my routines and the changes in my life these days.','I can use verbs like think and have correctly in both forms.','I can use new phrases to tell a short story about my life.'];
+
+/* ---------- stages ---------- */
+const STAGES=[
+{part:1,title:'Your week so far',min:5,task:'Open a card. Tell me about it in a few sentences. Then ask me the same question.',
+ body:()=>`<div class="tiles">${mix(WARM).map((q,i)=>`<button type="button" class="qtile" style="${tone(i)}" aria-expanded="false"><span class="qf">Open</span><span class="qq">${q}</span></button>`).join('')}</div>`,
+ init:r=>$$('.qtile',r).forEach(b=>b.addEventListener('click',()=>{const o=b.classList.toggle('open');b.setAttribute('aria-expanded',o);})),
+ notes:`<p><b>Цель:</b> разогрев и мягкий вход в тему маленьких радостей. Записывай 3-4 ошибки для этапа 6. Не исправляй сейчас.</p><p><b>Say:</b> “Let’s start with your week. Open a card. Tell me about it, then ask me the same question.”</p><p>Жди 3-4 предложения, не одно. Если коротко: “Tell me more. Why?”</p><p><b>Переход:</b> “I want to show you a magazine column. It’s about small joys.”</p>`},
+
+{part:1,title:'Nora’s small joys',min:7,task:'Read the column. Then answer the questions.',
+ body:()=>`<div class="split">
+ <article class="article">
+  <p class="kicker">Column, Life at home</p>
+  <h3>The little things</h3>
+  <p class="lead">I’m Nora, I’m 38, and I live in a city that never seems to slow down. Between my job at an architecture firm, my two children and the hundred messages I get every day, my life is full, sometimes too full. But over the years I’ve learned that happiness doesn’t usually come from big events. It comes from small joys, and I protect them carefully.</p>
+  <p>Every morning I get up twenty minutes before the rest of the family. I make coffee in an old copper pot that belonged to my grandmother, and I drink it by the window while the city is still quiet. Nobody talks to me, and I don’t check my phone. On Sundays my sister and I go to the farmers’ market. We rarely buy much. We just walk, talk about our week and taste far too much cheese.</p>
+  <blockquote>“Happiness doesn’t usually come from big events.”</blockquote>
+  <p>This autumn, though, I’m discovering some new small joys. I’m learning to bake sourdough bread, and although most of my loaves are still a disaster, the kitchen smells wonderful. I’m also keeping a gratitude journal: every evening I write down three good things that happened during the day. It sounds simple, but it’s slowly changing the way I see my life.</p>
+  <p>And right now? I’m sitting in my favourite café, the rain is tapping on the window, and the barista is playing old jazz records. Life isn’t perfect, but it’s good. What are your small joys?</p>
+ </article>
+ <div class="stack">
+  <div class="box"><h3>Read for the main idea</h3>
+   <ul class="qa">
+    <li><span>Where does Nora find happiness, according to the column?</span><button type="button" class="btn sm reveal" data-ans="Not in big events, but in small daily joys that she protects carefully.">Show answer</button></li>
+    <li><span>What two new things is she doing this autumn, and how do they make her feel?</span><button type="button" class="btn sm reveal" data-ans="She’s learning to bake sourdough bread and keeping a gratitude journal. Baking makes the kitchen smell wonderful, and the journal is slowly changing the way she sees her life.">Show answer</button></li>
+   </ul></div>
+  <div class="box"><h3>True or false?</h3>
+   <ul class="tf">${TF.map(t=>`<li data-a="${t.a}" data-w="${esc(t.w)}"><span>${t.s}</span><span class="tfb"><button type="button" class="btn sm" data-v="true">True</button><button type="button" class="btn sm" data-v="false">False</button></span><p class="fb" aria-live="polite"></p></li>`).join('')}</ul></div>
+ </div></div>`,
+ init:r=>{
+  $$('.reveal',r).forEach(b=>b.addEventListener('click',()=>{const s=document.createElement('span');s.className='ans';s.textContent=b.dataset.ans;b.replaceWith(s);}));
+  bindAnswers(r);
+ },
+ notes:`<p><b>Цель:</b> контекст для грамматики. В тексте обе формы и глаголы состояния.</p><p><b>Say:</b> “Read for the main idea first. Three minutes. Don’t worry about every word.”</p><p>Потом True or false. Пусть подтверждает цитатой из текста. Затем: “Which of Nora’s small joys is closest to yours?”</p><p><b>Переход:</b> “Nora uses two kinds of verbs. Let’s look closer.”</p>`},
+
+{part:1,title:'Two kinds of verbs',min:8,task:'Tap a sentence, then tap a box. Put each sentence in the right group.',
+ body:()=>`<div class="pool" data-pool>${mix(CHIPS).map(c=>`<button type="button" class="chip" data-k="${c.k}">${c.t}</button>`).join('')}</div>
+ <div class="baskets">
+  <div class="basket" data-b="h" tabindex="0" role="button" aria-label="Group: usually, always"><h3>Usually, always</h3><p class="hint">routines, habits, facts and beliefs</p><div class="in"></div></div>
+  <div class="basket" data-b="n" tabindex="0" role="button" aria-label="Group: these days, right now"><h3>These days, right now</h3><p class="hint">temporary situations and changes in progress</p><div class="in"></div></div>
+ </div>
+ <div class="row"><button type="button" class="btn primary" data-check>Check</button><p class="fb" data-sortfb aria-live="polite"></p></div>
+ <div class="box mt"><h3>Look again</h3>
+  <ul class="yn">${YN.map(y=>`<li data-a="${y.a}" data-w="${esc(y.w)}"><span>${y.q}</span><span class="tfb"><button type="button" class="btn sm" data-v="yes">Yes</button><button type="button" class="btn sm" data-v="no">No</button></span><p class="fb" aria-live="polite"></p></li>`).join('')}</ul></div>
+ <div class="row"><button type="button" class="btn" data-pattern aria-expanded="false">See the pattern</button></div>
+ <div class="pattern" hidden>
+  <div class="pcol"><h3>Usually, always</h3>
+   <p>She <b>gets up</b> early and <b>doesn’t check</b> her phone.</p>
+   <p>Happiness <b>doesn’t come</b> from big events.</p>
+   <p><b>How often does</b> she <b>go</b> to the market?</p>
+   <p class="sig">rarely, hardly ever, as a rule, once a week, every morning</p></div>
+  <div class="pcol n"><h3>These days, right now</h3>
+   <p>I<b>’m learning</b> to bake. It<b>’s</b> slowly <b>changing</b> my life.</p>
+   <p>More and more people <b>are working</b> from home.</p>
+   <p><b>Are</b> you <b>reading</b> anything interesting at the moment?</p>
+   <p class="sig">these days, at the moment, nowadays, this year, more and more</p></div>
+  <div class="watch"><b>Watch out: one verb, two meanings</b>
+   <p>I <b>think</b> it’s a great idea. (opinion) I<b>’m thinking</b> about changing jobs. (a plan in progress)</p>
+   <p>I <b>have</b> two children. (possession) We<b>’re having</b> a busy week. (experience)</p>
+   <p>The soup <b>tastes</b> amazing. (quality) She<b>’s tasting</b> the soup. (action)</p>
+   <p>Usually no -ing: know, believe, prefer, belong, depend, mean. <s>I’m knowing.</s></p></div>
+ </div>`,
+ init:r=>{
+  let sel=null;const pool=$('[data-pool]',r);
+  const drop=bk=>{if(!sel)return;$('.in',bk).appendChild(sel);sel.classList.remove('sel','good','bad');sel=null;};
+  r.addEventListener('click',e=>{
+   const chip=e.target.closest('.chip');
+   if(chip){
+    if(chip.closest('.basket')){chip.classList.remove('good','bad','sel');pool.appendChild(chip);if(sel===chip)sel=null;return;}
+    const was=sel;if(sel){sel.classList.remove('sel');sel=null;}
+    if(was!==chip){sel=chip;chip.classList.add('sel');}
+    return;
+   }
+   const bk=e.target.closest('.basket');if(bk)drop(bk);
+  });
+  $$('.basket',r).forEach(bk=>bk.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target===bk){e.preventDefault();drop(bk);}}));
+  $('[data-check]',r).addEventListener('click',()=>{
+   let ok=0;$$('.basket .chip',r).forEach(c=>{const g=c.dataset.k===c.closest('.basket').dataset.b;c.classList.toggle('good',g);c.classList.toggle('bad',!g);if(g)ok++;});
+   const left=$$('.chip',pool).length,fb=$('[data-sortfb]',r);
+   fb.textContent=left?`${ok} correct so far. ${left} still to sort.`:(ok===CHIPS.length?'All correct!':`${ok} of ${CHIPS.length} correct. Move the crossed-out ones.`);
+  });
+  bindAnswers(r);
+  const pb=$('[data-pattern]',r),pt=$('.pattern',r);
+  pb.addEventListener('click',()=>{pt.hidden=!pt.hidden;pb.setAttribute('aria-expanded',!pt.hidden);pb.textContent=pt.hidden?'See the pattern':'Hide the pattern';});
+ },
+ notes:`<p><b>Цель:</b> guided discovery. Повторение базового контраста и новый для B1 шаг: тренды и глаголы с двумя значениями.</p><p><b>Say:</b> “Look at these sentences from the column. Put them into two groups.”</p><p>После “Look again” открой паттерн. Особое внимание на “Watch out”. Спроси: “I think or I’m thinking? Give me one example from your life for each.”</p><p><b>Переход:</b> “Let’s check you can use it.”</p>`},
+
+{part:1,title:'Choose and check',min:8,task:'Choose the best answer and explain why. Then build four questions and ask me.',
+ body:()=>`<div class="box"><h3>Choose the best answer</h3><ol class="mcq">${MCQ.map(m=>{const opts=mix(m.o.map((o,j)=>({o,ok:j===m.a})));return `<li data-why="${esc(m.why)}"><p class="s">${m.s.replace('___','<span class="gap">&nbsp;</span>')}</p><div class="opts">${opts.map(x=>`<button type="button" class="btn sm" data-ok="${x.ok}" data-t="${esc(x.o)}">${x.o}</button>`).join('')}</div><p class="fb" aria-live="polite"></p></li>`;}).join('')}</ol></div>
+ <div class="box mt"><h3>Build the question</h3><p class="hint">Tap the words in order. Tap a word again to send it back.</p>${BUILD.map(q=>`<div class="build" data-q="${esc(q)}"><div class="line" aria-label="Your question"></div><div class="bank">${mix(q.split(' ')).map(x=>`<button type="button" class="word">${x}</button>`).join('')}</div><div class="row"><button type="button" class="btn sm" data-bcheck>Check</button><p class="fb" aria-live="polite"></p></div></div>`).join('')}</div>`,
+ init:r=>{
+  $$('.mcq li',r).forEach(li=>$$('button',li).forEach(b=>b.addEventListener('click',()=>{
+   const ok=b.dataset.ok==='true',g=$('.gap',li);
+   $$('button',li).forEach(x=>x.classList.remove('good','bad'));b.classList.add(ok?'good':'bad');
+   if(ok){g.textContent=b.dataset.t;g.classList.add('filled');}
+   $('.fb',li).textContent=ok?li.dataset.why:'Not quite. Try the other one.';
+  })));
+  $$('.build',r).forEach(bd=>{
+   const line=$('.line',bd),bank=$('.bank',bd),fb=$('.fb',bd);
+   bd.addEventListener('click',e=>{const w=e.target.closest('.word');if(!w)return;(w.parentElement===line?bank:line).appendChild(w);bd.classList.remove('good','bad');fb.textContent='';});
+   $('[data-bcheck]',bd).addEventListener('click',()=>{
+    const got=$$('.word',line).map(x=>x.textContent).join(' '),ok=got===bd.dataset.q;
+    bd.classList.toggle('good',ok);bd.classList.toggle('bad',!ok);
+    fb.textContent=ok?'Perfect. Now ask me!':($$('.word',bank).length?'Use all the words.':'Almost. Check the word order.');
+   });
+  });
+ },
+ notes:`<p><b>Цель:</b> контролируемая практика с мгновенной обратной связью.</p><p><b>Say:</b> “Choose, then tell me why.” Главное: она объясняет выбор вслух своими словами.</p><p>Build the question: после каждого верного вопроса она задаёт его тебе. Отвечай 2-3 предложениями.</p><p><b>Переход:</b> “Now you’re the journalist. Interview me.”</p>`},
+
+{part:1,title:'The interview',min:12,task:'You’re the journalist. Turn each topic into a question and interview me. Then I interview you.',
+ body:()=>`<div class="split">
+ <div class="box"><h3>Interview me</h3><p class="hint">Take a topic. Turn it into a full question. Then ask a follow-up question.</p>
+  <div class="jar"><p class="prompt" data-prompt aria-live="polite">Take your first topic</p><button type="button" class="btn primary" data-pull>Next topic</button><p class="count"><span data-n>0</span> topics</p></div></div>
+ <div class="box"><h3>Your column</h3><p class="hint">Finish these sentences about your own life, like Nora. Then I ask you more.</p>
+  <div class="truths">${['A small ritual that I never skip is …','These days I’m trying to …, because …','Something that is slowly changing in my life is …'].map((p,i)=>`<input type="text" class="field" placeholder="${p}" aria-label="Sentence ${i+1}">`).join('')}</div>
+  <button type="button" class="btn primary" data-show>Show my column</button>
+  <blockquote class="profile" hidden></blockquote></div>
+ </div>`,
+ init:r=>{
+  let deck=mix(PROMPTS),n=0;
+  $('[data-pull]',r).addEventListener('click',()=>{if(!deck.length)deck=mix(PROMPTS);$('[data-prompt]',r).textContent=deck.pop();n++;$('[data-n]',r).textContent=n;});
+  const pr=$('.profile',r);
+  $('[data-show]',r).addEventListener('click',()=>{
+   const t=$$('.truths input',r).map(i=>i.value.trim()).filter(Boolean).map(s=>/[.!?]$/.test(s)?s:s+'.').join(' ');
+   pr.textContent=t;pr.hidden=!t;
+  });
+ },
+ notes:`<p><b>Цель:</b> свободное использование обеих форм в вопросах и ответах. Сначала беглость, потом точность.</p><p><b>Say:</b> “Turn the topic into a question. After my answer, ask one follow-up.” Пример: “a family tradition you really love” → “Is there a family tradition you really love?”</p><p>Your column: 3 минуты на запись. Потом ты журналист: “Why?”, “Since when?”, “How does it make you feel?”</p><p>Параллельно записывай ошибки в “Better English”.</p><p><b>Переход:</b> “I wrote down some things you said. Let’s make them even better.”</p>`},
+
+{part:1,title:'Better English',min:5,task:'Here are some things you said today. How can we make them more accurate and more natural?',
+ body:()=>`<div class="eb" data-eb><div class="ebhead"><span>What I heard</span><span>Better</span><span></span></div></div>
+ <div class="row"><button type="button" class="btn" data-add>Add a line</button></div>
+ <div class="box mt"><h3>You said it well</h3><textarea class="field" rows="2" aria-label="Great sentences from today" placeholder="Great sentences from today"></textarea></div>`,
+ init:r=>{
+  const eb=$('[data-eb]',r);
+  const add=()=>{const row=document.createElement('div');row.className='ebrow';row.innerHTML='<input class="field" type="text" aria-label="What I heard" placeholder="What I heard"><input class="field better" type="text" aria-label="Better version" placeholder="Better"><button type="button" class="btn sm" data-peek aria-pressed="false">Show</button>';eb.appendChild(row);};
+  for(let i=0;i<4;i++)add();
+  $('[data-add]',r).addEventListener('click',add);
+  eb.addEventListener('click',e=>{const b=e.target.closest('[data-peek]');if(!b)return;const row=b.closest('.ebrow'),o=row.classList.toggle('open');b.textContent=o?'Hide':'Show';b.setAttribute('aria-pressed',o);});
+ },
+ notes:`<p><b>Цель:</b> отложенная коррекция без давления.</p><p>Впиши 3-5 фраз слева: ошибки и фразы, которые можно сказать естественнее. Правая колонка размыта, пока ты печатаешь или не нажмёшь Show. <b>Say:</b> “How can we make this better?”</p><p>Внизу запиши 1-2 её удачные фразы и прочитай их вслух.</p><p><b>Переход к части 2:</b> “Now let’s find richer words for your stories.”</p>`},
+
+{part:2,title:'What makes you happy?',min:5,task:'Choose three small joys that are true for you. Then tell me about one of them in detail.',
+ body:()=>`<div class="joys">${mix(JOYS).map(j=>`<button type="button" class="joy" aria-pressed="false">${j}</button>`).join('')}</div><p class="fb mt" data-jfb aria-live="polite">0 of 3 chosen</p><p class="ask">When did it last happen? Where were you, who was with you, and why does it matter to you?</p>`,
+ init:r=>{
+  r.addEventListener('click',e=>{
+   const b=e.target.closest('.joy');if(!b)return;
+   const on=b.getAttribute('aria-pressed')==='true',count=$$('.joy[aria-pressed="true"]',r).length;
+   if(!on&&count>=3)return;
+   b.setAttribute('aria-pressed',String(!on));
+   $('[data-jfb]',r).textContent=`${$$('.joy[aria-pressed="true"]',r).length} of 3 chosen`;
+  });
+ },
+ notes:`<p><b>Цель:</b> lead-in в часть 2. Личные истории и первая встреча с новыми фразами.</p><p><b>Say:</b> “Choose three. Then tell me about one in detail: when, where, who, and why.”</p><p>Вплетай новые фразы в реакции: “So you really savour the moment.” “That sounds like your guilty pleasure.” “You’re in your element.”</p><p><b>Переход:</b> “I used some new phrases just now. Let’s look at them.”</p>`},
+
+{part:2,title:'Ten phrases for good days',min:8,task:'Read the phrase. Guess the meaning from your own experience. Then tap the card to check.',
+ body:()=>`<div class="cards">${CHUNKS.map((c,i)=>`<div class="flip" style="${tone(i)}" tabindex="0" role="button" aria-pressed="false" aria-label="${esc(c.c)}. Tap to flip"><div class="fi">
+  <div class="ff"><span class="ch">${c.c}</span><button type="button" class="hear" data-say="${esc(c.c)}">Hear it</button></div>
+  <div class="fbk"><p class="mean">${c.m}</p><p class="hy" lang="hy">${c.hy}</p><p class="ex">${c.ex}</p><button type="button" class="hear" data-say="${esc(c.ex)}">Hear it</button></div>
+ </div></div>`).join('')}</div>`,
+ init:r=>$$('.flip',r).forEach(f=>{
+  const flip=()=>{const o=f.classList.toggle('on');f.setAttribute('aria-pressed',o);};
+  f.addEventListener('click',e=>{const h=e.target.closest('.hear');if(h){e.stopPropagation();speak(h.dataset.say);return;}flip();});
+  f.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target===f){e.preventDefault();flip();}});
+ }),
+ notes:`<p><b>Цель:</b> значение, форма, произношение.</p><p><b>Say:</b> “Read the phrase. Guess the meaning. Then flip.” Нажимай “Hear it”, она повторяет пример целиком.</p><p><b>CCQ:</b> guilty pleasure: “Do you enjoy it?” (Yes.) “Do you feel a bit embarrassed?” (A little.) take for granted: “Do you notice how valuable it is?” (No.) be in your element: “Are you nervous or confident?” (Confident.) savour: “Fast or slow?” (Slow.)</p><p><b>Форма:</b> treat yourself <b>to</b> something, get into the habit <b>of</b> + -ing, have a soft spot <b>for</b>.</p><p>Армянский перевод только для проверки, не как первый шаг.</p><p><b>Переход:</b> “Let’s see what you remember.”</p>`},
+
+{part:2,title:'Match them',min:5,task:'Tap a phrase, then tap its meaning.',
+ body:()=>{const L=mix(CHUNKS.map((c,i)=>({t:c.c,i}))),R=mix(CHUNKS.map((c,i)=>({t:c.m,i})));return `<div class="match"><div class="mcol">${L.map(x=>`<button type="button" class="tile" data-side="l" data-i="${x.i}">${x.t}</button>`).join('')}</div><div class="mcol">${R.map(x=>`<button type="button" class="tile" data-side="r" data-i="${x.i}">${x.t}</button>`).join('')}</div></div><p class="fb mt" data-mfb aria-live="polite">0 of ${CHUNKS.length} matched</p>`;},
+ init:r=>{
+  let pick={l:null,r:null},done=0;
+  r.addEventListener('click',e=>{
+   const b=e.target.closest('.tile');if(!b||b.classList.contains('done'))return;
+   const side=b.dataset.side;if(pick[side])pick[side].classList.remove('sel');pick[side]=b;b.classList.add('sel');
+   if(pick.l&&pick.r){
+    const a=pick.l,c=pick.r;a.classList.remove('sel');c.classList.remove('sel');
+    if(a.dataset.i===c.dataset.i){a.classList.add('done');c.classList.add('done');done++;}
+    else{a.classList.add('no');c.classList.add('no');setTimeout(()=>{a.classList.remove('no');c.classList.remove('no');},450);}
+    pick={l:null,r:null};
+    $('[data-mfb]',r).textContent=done===CHUNKS.length?'All matched. Well done!':`${done} of ${CHUNKS.length} matched`;
+   }
+  });
+ },
+ notes:`<p><b>Цель:</b> быстрая проверка значения.</p><p><b>Say:</b> “Phrase on the left, meaning on the right.” Первые 2 минуты не помогай.</p><p><b>Переход:</b> “Nora wrote about her Sunday too. Can you complete it?”</p>`},
+
+{part:2,title:'Nora’s Sunday',min:6,task:'Complete Nora’s story. Use each phrase once. Read the whole sentence before you choose.',
+ body:()=>{const bank=mix(ANS);const opts='<option value="">choose</option>'+bank.map(a=>`<option>${a}</option>`).join('');return `<div class="wordbank">${bank.map(a=>`<span>${a}</span>`).join('')}</div><p class="story">${STORY.replace(/\{(\d)\}/g,(m,d)=>`<select class="gsel" data-a="${d}" aria-label="Gap ${+d+1}">${opts}</select>`)}</p><div class="row"><button type="button" class="btn primary" data-gcheck>Check</button><p class="fb" aria-live="polite"></p></div>`;},
+ init:r=>{
+  $('[data-gcheck]',r).addEventListener('click',()=>{
+   let ok=0;const s=$$('.gsel',r);
+   s.forEach(x=>{const g=x.value===ANS[+x.dataset.a];x.classList.toggle('good',g);x.classList.toggle('bad',!g);if(g)ok++;});
+   $('.row .fb',r).textContent=ok===s.length?'All correct! Now read it aloud.':`${ok} of ${s.length} correct.`;
+  });
+  $$('.gsel',r).forEach(x=>x.addEventListener('change',()=>x.classList.remove('good','bad')));
+ },
+ notes:`<p><b>Цель:</b> фразы в контексте плюс грамматика из части 1.</p><p><b>Say:</b> “Read the whole sentence before you choose.” После проверки она читает историю вслух целиком.</p><p>Затем: “How is your Sunday similar or different? Use two phrases from the story.”</p><p><b>Переход:</b> “Enough about Nora. I want to hear your stories.”</p>`},
+
+{part:2,title:'Tell me more',min:10,task:'Answer with a short story, not one sentence. Start with a booster and give details.',
+ body:()=>`<div class="split">
+ <div class="deck"><p class="dcount" data-dc></p><p class="dq" data-dq aria-live="polite"></p><div class="deeper" data-dd hidden></div>
+  <div class="row"><button type="button" class="btn" data-dprev>Previous</button><button type="button" class="btn" data-ddeep>Go deeper</button><button type="button" class="btn primary" data-dnext>Next question</button></div></div>
+ <aside class="box boost"><h3>Speaking boosters</h3><ul>${BOOST.map(b=>`<li>${b}</li>`).join('')}</ul><p class="hint mt">Start your answer with one of these.</p></aside>
+ </div>`,
+ init:r=>{
+  let k=0;const dd=$('[data-dd]',r);
+  const draw=()=>{$('[data-dc]',r).textContent=`Question ${k+1} of ${TALK.length}`;$('[data-dq]',r).textContent=TALK[k].q;dd.hidden=true;dd.innerHTML='<ul>'+TALK[k].f.map(f=>`<li>${f}</li>`).join('')+'</ul>';};
+  draw();
+  $('[data-dnext]',r).addEventListener('click',()=>{k=(k+1)%TALK.length;draw();});
+  $('[data-dprev]',r).addEventListener('click',()=>{k=(k-1+TALK.length)%TALK.length;draw();});
+  $('[data-ddeep]',r).addEventListener('click',()=>{dd.hidden=!dd.hidden;});
+ },
+ notes:`<p><b>Цель:</b> основная разговорная практика. Истории с новыми фразами, обеими формами и связками.</p><p><b>Say:</b> “Don’t just answer. Tell me a short story with details.” “Go deeper” даёт уточняющие вопросы.</p><p>Минимум учительской речи. Делись своим опытом в ответ. Не обязательно пройти все 9 вопросов, иди за её интересом.</p><p><b>Переход:</b> “Now imagine you’re a guest on a podcast.”</p>`},
+
+{part:2,title:'The podcast guest',min:8,task:'You’re a guest on a podcast called Small Joys. Plan for one minute, then talk for two minutes about the small joys in your life.',
+ body:()=>`<div class="split">
+ <div class="box"><h3>Plan</h3><p class="hint">Key words only, not full sentences.</p>${PLAN.map(p=>`<label class="plan"><span>${p}</span><input class="field" type="text"></label>`).join('')}</div>
+ <div class="box"><h3>Talk</h3>
+  <div class="cd"><output class="cdc" data-cd>1:00</output>
+   <div class="row"><button type="button" class="btn sm" data-set="60">Plan 1:00</button><button type="button" class="btn sm" data-set="120">Talk 2:00</button><button type="button" class="btn sm" data-set="90">Again 1:30</button></div>
+   <div class="row"><button type="button" class="btn primary" data-cgo>Start</button><button type="button" class="btn" data-creset>Reset</button></div></div>
+  <h3 class="mt">Did you…</h3><ul class="check">${CHECK.map(c=>`<li><label><input type="checkbox"> ${c}</label></li>`).join('')}</ul></div>
+ </div>`,
+ init:r=>{
+  const go=$('[data-cgo]',r),cd=countdown($('[data-cd]',r),go,60);
+  go.addEventListener('click',()=>cd.go());
+  $('[data-creset]',r).addEventListener('click',()=>cd.reset());
+  $$('[data-set]',r).forEach(b=>b.addEventListener('click',()=>cd.set(+b.dataset.set)));
+ },
+ notes:`<p><b>Цель:</b> продуктивная задача и повтор с улучшением.</p><p>Ты ведущий подкаста. Начни: “Welcome to Small Joys. Today our guest is… Tell us about the little things that make your life better.” 1 минута план, 2 минуты рассказ. Ставь галочки. Потом 2 вопроса как ведущий. Короткий фидбэк: одна похвала, одно улучшение.</p><p>Второй раунд 1:30. <b>Say:</b> “Same story, less time. Add one more phrase and one linking word.”</p><p><b>Переход:</b> “Lovely stories today. Let’s finish.”</p>`},
+
+{part:2,title:'Take it with you',min:3,task:'Rate yourself. Then look at your homework.',
+ body:()=>`<div class="split">
+ <div class="box"><h3>How do you feel?</h3>${CAN.map(c=>`<div class="can"><p>${c}</p><div class="rate" role="group" aria-label="Rate yourself">${['Not yet','Getting there','Confident'].map((t,n)=>`<button type="button" class="rl" data-n="${n+1}">${t}</button>`).join('')}</div></div>`).join('')}</div>
+ <div class="box"><h3>Homework</h3><ol class="hw">
+  <li>Record a two-minute voice message: “A perfect ordinary day”. Use at least six new phrases and two linking words.</li>
+  <li>Write your own column about your small joys, like Nora’s. Aim for 120 to 150 words.</li>
+  <li>Take a photo of one small joy this week. Be ready to tell me the story behind it.</li>
+ </ol><h3 class="mt">Words I want to remember</h3><textarea class="field" rows="3" aria-label="Words I want to remember"></textarea></div>
+ </div>`,
+ init:r=>$$('.rate',r).forEach(g=>g.addEventListener('click',e=>{const b=e.target.closest('.rl');if(!b)return;const n=+b.dataset.n;$$('.rl',g).forEach(x=>x.classList.toggle('on',+x.dataset.n===n));})),
+ notes:`<p><b>Цель:</b> рефлексия и домашнее задание.</p><p><b>Say:</b> “What was the most useful thing today?” Пусть оценит себя и запишет 3-5 фраз.</p><p>Фото из ДЗ станет разминкой следующего урока. Колонку проверь письменно до урока.</p>`}
+];
+
+/* ---------- shell ---------- */
+const main=$('#main'),nav=$('#nav'),navSel=$('#navSel');
+main.innerHTML=STAGES.map((s,i)=>`<section class="sheet" data-i="${i}" data-part="${s.part}" hidden aria-labelledby="h${i}">
+ <div class="cover" style="${tone(i,COVERS)}"><div class="cover-in">
+  <p class="tag">${s.part===1?'Part one':'Part two'}, ${s.min} minutes</p>
+  <h2 id="h${i}">${s.title}</h2>
+  <p class="task">${s.task}</p>
+ </div></div>
+ <div class="content">
+  <div class="sbody">${s.body()}</div>
+  <aside class="tnotes"><h3>Teacher notes</h3>${s.notes}</aside>
+ </div>
+</section>`).join('');
+STAGES.forEach((s,i)=>{if(s.init)s.init($(`.sheet[data-i="${i}"]`));});
+
+let navHtml='',last=0;
+STAGES.forEach((s,i)=>{
+ if(s.part!==last){navHtml+=`<p class="npart">${s.part===1?'Part one':'Part two'}</p>`;last=s.part;}
+ navHtml+=`<button type="button" class="nitem" data-i="${i}"><span class="nn">${i+1}</span><span class="nt">${s.title}</span></button>`;
+});
+nav.innerHTML=navHtml;
+navSel.innerHTML=STAGES.map((s,i)=>`<option value="${i}">${i+1}. ${s.title}</option>`).join('');
+
+const timer=countdown($('#tClock'),$('#tGo'),STAGES[0].min*60);
+$('#tGo').addEventListener('click',()=>timer.go());
+$('#tReset').addEventListener('click',()=>timer.reset());
+
+let cur=-1;
+function go(i){
+ i=Math.max(0,Math.min(STAGES.length-1,i));if(i===cur)return;cur=i;
+ $$('.sheet',main).forEach((s,j)=>s.hidden=j!==cur);
+ $('#progBar').style.width=((cur+1)/STAGES.length*100)+'%';
+ $$('.nitem',nav).forEach((b,j)=>{if(j===cur)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});
+ navSel.value=String(cur);
+ $('#pos').textContent=`${cur+1} of ${STAGES.length}`;
+ $('#prev').disabled=cur===0;$('#next').disabled=cur===STAGES.length-1;
+ timer.set(STAGES[cur].min*60);
+ window.scrollTo({top:0});
+}
+nav.addEventListener('click',e=>{const b=e.target.closest('.nitem');if(b)go(+b.dataset.i);});
+navSel.addEventListener('change',()=>go(+navSel.value));
+$('#prev').addEventListener('click',()=>go(cur-1));
+$('#next').addEventListener('click',()=>go(cur+1));
+function toggleTeacher(){const on=document.body.classList.toggle('teacher');$('#teachBtn').setAttribute('aria-pressed',on);}
+$('#teachBtn').addEventListener('click',toggleTeacher);
+document.addEventListener('keydown',e=>{
+ const t=e.target;if(t.matches&&t.matches('input,textarea,select'))return;
+ if(e.key==='ArrowRight')go(cur+1);else if(e.key==='ArrowLeft')go(cur-1);else if(e.key==='t'||e.key==='T')toggleTeacher();
+});
+go(0);
+</script>
+</body>
+</html>
