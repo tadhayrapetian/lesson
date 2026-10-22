@@ -64,8 +64,33 @@ button{font:inherit;color:inherit}
 .glinks button:disabled{text-decoration:none;cursor:default}
 .gmsg{min-height:1.4em;margin:.8rem 0 0;font-size:.85rem;color:#A4473B}
 .gmsg.ok{color:var(--forest)}
-body{-webkit-user-select:none;user-select:none}input{-webkit-user-select:text;user-select:text}
+body{-webkit-user-select:none;user-select:none}input,textarea{-webkit-user-select:text;user-select:text}
 @media print{html{display:none!important}}
+.vbar .assign{background:var(--white);color:var(--midnight);border-color:var(--white)}
+.vbar .assign:hover{background:var(--sky)}
+.modal{position:fixed;inset:0;z-index:80;background:rgba(15,30,32,.55);display:flex;align-items:flex-start;justify-content:center;padding:4vh 16px;overflow:auto}
+.mbox{width:min(100%,560px);background:var(--panel);color:var(--ink);border:1px solid var(--line);padding:clamp(1.4rem,4vw,2.2rem)}
+.mbox.wide{width:min(100%,720px)}
+.mhead{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:1.2rem}
+.mhead h2{margin:0;font-size:2.2rem;line-height:1}
+.mhead p{margin:.4rem 0 0;color:var(--muted);font-size:.9rem}
+.x{background:none;border:0;font-size:1.6rem;line-height:1;cursor:pointer;color:var(--muted);padding:0 .2rem}
+.mbox label{display:block;font-size:.72rem;letter-spacing:.14em;color:var(--muted);margin:0 0 .3rem}
+.mbox input,.mbox textarea,.mbox select{font:inherit;font-size:1rem;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--ink);padding:.45rem 0;width:100%;margin-bottom:1.1rem;border-radius:0}
+.mbox textarea{border:1px solid var(--line);padding:.6rem .7rem;min-height:6.5rem;resize:vertical}
+.mbox input:focus,.mbox textarea:focus{outline:none;border-color:var(--forest)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:0 1.2rem}
+@media (max-width:520px){.row2{grid-template-columns:1fr}}
+.seg{display:flex;border:1px solid var(--ink);border-radius:999px;overflow:hidden;margin-bottom:1.2rem}
+.seg button{flex:1;background:none;border:0;padding:.5rem;font-size:.9rem;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.mactions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:.4rem}
+.mactions .gbtn{width:auto;flex:1;min-width:9rem}
+.gbtn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.preview{width:100%;height:65vh;border:1px solid var(--line);background:#fff;margin-bottom:1rem}
+.sent{text-align:center;padding:1rem 0}
+.sent h2{font-size:2.6rem;margin:0 0 .5rem}
+.sent p{color:var(--muted);margin:0 0 1.4rem}
 @media (max-width:640px){.vname{display:none}.vtitle{font-size:1.2rem;text-align:left}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -88,6 +113,7 @@ body{-webkit-user-select:none;user-select:none}input{-webkit-user-select:text;us
   <button type="button" id="back">← All lessons</button>
   <span class="vtitle serif" id="vtitle"></span>
   <span class="vname" id="vname"></span>
+  <button type="button" id="vassign" class="assign" hidden>Send to student</button>
   <button type="button" id="vfull" hidden>Full screen</button>
  </div>
  <div class="gate" id="gate" hidden>
@@ -112,6 +138,32 @@ body{-webkit-user-select:none;user-select:none}input{-webkit-user-select:text;us
  <iframe id="frame" title="Lesson" sandbox="allow-scripts allow-forms allow-modals" allow="autoplay; fullscreen" hidden></iframe>
 </div>
 
+<div class="modal" id="assignModal" hidden>
+ <form class="mbox" id="assignForm">
+  <div class="mhead"><div><h2 class="serif">Send to student</h2><p id="assignLesson"></p></div><button type="button" class="x" data-close aria-label="Close">×</button></div>
+  <div class="seg" role="group" aria-label="Type"><button type="button" data-kind="homework" aria-pressed="true">Homework</button><button type="button" data-kind="lesson" aria-pressed="false">Lesson</button></div>
+  <div class="row2">
+   <div><label for="aEmail">STUDENT EMAIL</label><input id="aEmail" type="email" list="studentList" required autocomplete="off"></div>
+   <div><label for="aName">NAME</label><input id="aName" type="text" placeholder="Optional" autocomplete="off"></div>
+  </div>
+  <datalist id="studentList"></datalist>
+  <label for="aDue">DUE DATE</label><input id="aDue" type="date">
+  <label for="aNote">PERSONAL NOTE</label><textarea id="aNote" placeholder="Optional. For example: Great work today! Please do phase five before Friday."></textarea>
+  <div class="mactions"><button type="button" class="gbtn ghost" id="aPreview">Preview email</button><button class="gbtn" id="aSend">Send</button></div>
+  <p class="gmsg" id="aMsg" role="status"></p>
+ </form>
+ <div class="mbox wide" id="previewBox" hidden>
+  <div class="mhead"><div><h2 class="serif">Preview</h2><p id="previewSubject"></p></div><button type="button" class="x" id="previewBack" aria-label="Back">×</button></div>
+  <iframe class="preview" id="previewFrame" sandbox title="Email preview"></iframe>
+  <div class="mactions"><button type="button" class="gbtn ghost" id="previewEdit">Edit</button><button type="button" class="gbtn" id="previewSend">Send</button></div>
+  <p class="gmsg" id="pMsg" role="status"></p>
+ </div>
+ <div class="mbox sent" id="sentBox" hidden>
+  <h2 class="serif">Sent</h2><p id="sentText"></p>
+  <div class="mactions"><button type="button" class="gbtn ghost" id="sendAnother">Send to another student</button><button type="button" class="gbtn" data-close>Done</button></div>
+ </div>
+</div>
+
 <script src="lessons.js"></script>
 <script>
 const S=window.SITE||{},L=window.LESSONS||[];
@@ -134,7 +186,7 @@ $('#q').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();rende
 
 function render(){
  const list=L.filter(l=>(tag==='All'||l.tag===tag)&&(!q||(l.title+' '+(l.topic||'')+' '+(l.tag||'')).toLowerCase().includes(q)));
- $('#grid').innerHTML=list.map((l,i)=>{const c=COLORS[l.color]||COLORS[ORDER[i%ORDER.length]];return `<button type="button" class="card" data-slug="${esc(l.slug)}" style="--c:${c[0]};--f:${c[1]}">
+ $('#grid').innerHTML=list.map((l,i)=>{const c=Array.isArray(l.color)?l.color:COLORS[l.color]||COLORS[ORDER[i%ORDER.length]];return `<button type="button" class="card" data-slug="${esc(l.slug)}" style="--c:${c[0]};--f:${c[1]}">
   <span class="meta">${l.tag?`<span>${esc(l.tag)}</span>`:''}${l.minutes?`<span>${esc(l.minutes)} min</span>`:''}</span>
   <span><h2 class="serif">${esc(l.title)}</h2></span>
   <span>${l.topic?`<p>${esc(l.topic)}</p>`:''}<span class="open">Open lesson</span></span>
@@ -145,7 +197,7 @@ function render(){
 $('#grid').addEventListener('click',e=>{const c=e.target.closest('.card');if(c)location.hash=c.dataset.slug;});
 
 // The session lives only in this tab's memory: reloading or closing the tab asks for a new code.
-let token=null,current=null,cooldown=0,timer=null;
+let token=null,teacher=false,current=null,cooldown=0,timer=null;
 const MSG={bad_email:'Please check the email address.',not_allowed:'This email is not on the student list. Ask your teacher.',
  too_soon:'Please wait a moment before asking for a new code.',mail_failed:'Could not send the email. Try again in a minute.',
  expired:'This code has expired. Send a new one.',wrong_code:'Wrong code.',network:'No connection. Try again.'};
@@ -181,38 +233,83 @@ $('#codeForm').addEventListener('submit',async e=>{
  e.preventDefault();$('#openBtn').disabled=true;$('#codeMsg').className='gmsg';$('#codeMsg').textContent='Checking…';
  const r=await api('/api/verify-code',{email:$('#email').value.trim(),code:$('#code').value});
  $('#openBtn').disabled=false;
- if(r.token){token=r.token;$('#codeMsg').textContent='';if(current)loadLesson(current);return;}
+ if(r.token){token=r.token;teacher=!!r.teacher;$('#codeMsg').textContent='';if(current)loadLesson(current);return;}
  $('#codeMsg').textContent=r.error==='wrong_code'?MSG.wrong_code+(r.left>0?' Tries left: '+r.left+'.':' Send a new code.'):(MSG[r.error]||MSG.network);
 });
 async function loadLesson(l){
  if(!token)return showGate();
  let r;try{r=await fetch('/api/lesson/'+encodeURIComponent(l.slug),{headers:{authorization:'Bearer '+token}});}catch{r=null;}
  if(current!==l)return;
- if(!r||r.status===401){token=null;return showGate();}
+ if(!r||r.status===401){token=null;teacher=false;return showGate();}
  if(!r.ok){$('#gate').hidden=true;$('#frame').hidden=false;$('#frame').srcdoc='<p style="font:16px sans-serif;padding:2rem">Lesson not found.</p>';return;}
  const html=await r.text();if(current!==l)return;
  $('#gate').hidden=true;$('#frame').srcdoc=html;$('#frame').hidden=false;$('#vfull').hidden=!document.fullscreenEnabled;
+ $('#vassign').hidden=!teacher;
 }
+
+// Teacher only: email the lesson link to a student.
+let kind='homework',studentsLoaded=false;
+const aMsgs={...MSG,unauthorized:'Your session has ended. Reopen the lesson and log in again.',not_found:'This lesson is not on the site yet.'};
+function authPost(path,body){
+ return fetch(path,{method:'POST',headers:{'content-type':'application/json',authorization:'Bearer '+token},body:JSON.stringify(body)}).then(r=>r.json()).catch(()=>({error:'network'}));
+}
+function assignBody(preview){return{slug:current.slug,email:$('#aEmail').value.trim(),name:$('#aName').value.trim(),kind,due:$('#aDue').value,note:$('#aNote').value,preview};}
+function showStep(id){['assignForm','previewBox','sentBox'].forEach(x=>$('#'+x).hidden=x!==id);}
+async function loadStudents(){
+ if(studentsLoaded)return;
+ const r=await fetch('/api/students',{headers:{authorization:'Bearer '+token}}).then(r=>r.json()).catch(()=>({}));
+ if(!r.students)return;studentsLoaded=true;
+ $('#studentList').innerHTML=r.students.map(s=>`<option value="${esc(s.email)}">${esc(s.name)}</option>`).join('');
+ window.__students=r.students;
+}
+$('#aEmail').addEventListener('change',()=>{const s=(window.__students||[]).find(x=>x.email===$('#aEmail').value.trim().toLowerCase());if(s&&s.name&&!$('#aName').value)$('#aName').value=s.name;});
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{kind=b.dataset.kind;document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed',x===b));}));
+$('#vassign').addEventListener('click',()=>{
+ if(document.fullscreenElement)document.exitFullscreen();
+ $('#assignLesson').textContent=current.title;$('#aMsg').textContent='';showStep('assignForm');
+ $('#assignModal').hidden=false;loadStudents();setTimeout(()=>$('#aEmail').focus(),0);
+});
+document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>$('#assignModal').hidden=true));
+$('#assignModal').addEventListener('click',e=>{if(e.target===$('#assignModal'))$('#assignModal').hidden=true;});
+$('#aPreview').addEventListener('click',async()=>{
+ if(!$('#assignForm').reportValidity())return;
+ $('#aMsg').className='gmsg';$('#aMsg').textContent='Preparing preview…';
+ const r=await authPost('/api/assign',assignBody(true));
+ if(!r.html){$('#aMsg').textContent=aMsgs[r.error]||MSG.network;return;}
+ $('#aMsg').textContent='';$('#previewSubject').textContent='Subject: '+r.subject;$('#previewFrame').srcdoc=r.html;$('#pMsg').textContent='';showStep('previewBox');
+});
+async function send(msgEl,btn){
+ btn.disabled=true;msgEl.className='gmsg';msgEl.textContent='Sending…';
+ const r=await authPost('/api/assign',assignBody(false));btn.disabled=false;
+ if(!r.ok){msgEl.textContent=aMsgs[r.error]||MSG.network;return;}
+ msgEl.textContent='';studentsLoaded=false;
+ $('#sentText').textContent=current.title+' is on its way to '+$('#aEmail').value.trim()+'.';showStep('sentBox');
+}
+$('#assignForm').addEventListener('submit',e=>{e.preventDefault();send($('#aMsg'),$('#aSend'));});
+$('#previewSend').addEventListener('click',()=>send($('#pMsg'),$('#previewSend')));
+$('#previewEdit').addEventListener('click',()=>showStep('assignForm'));
+$('#previewBack').addEventListener('click',()=>showStep('assignForm'));
+$('#sendAnother').addEventListener('click',()=>{$('#aEmail').value='';$('#aName').value='';$('#aMsg').textContent='';showStep('assignForm');loadStudents();$('#aEmail').focus();});
 $('#vfull').addEventListener('click',()=>{document.fullscreenElement?document.exitFullscreen():$('#viewer').requestFullscreen().catch(()=>{});});
 document.addEventListener('fullscreenchange',()=>{$('#vfull').textContent=document.fullscreenElement?'Exit full screen':'Full screen';});
 function route(){
  const slug=decodeURIComponent(location.hash.slice(1)),l=L.find(x=>x.slug===slug);
  current=l||null;
  if(l){
-  $('#vtitle').textContent=l.title;$('#frame').hidden=true;$('#gate').hidden=true;
+  $('#vtitle').textContent=l.title;$('#frame').hidden=true;$('#gate').hidden=true;$('#vassign').hidden=true;$('#assignModal').hidden=true;
   $('#viewer').hidden=false;document.body.classList.add('viewing');document.title=l.title+(S.name?', '+S.name:'');
   loadLesson(l);
  }else{
   if(document.fullscreenElement)document.exitFullscreen();
-  $('#viewer').hidden=true;document.body.classList.remove('viewing');$('#frame').srcdoc='';$('#frame').hidden=true;
+  $('#assignModal').hidden=true;$('#viewer').hidden=true;document.body.classList.remove('viewing');$('#frame').srcdoc='';$('#frame').hidden=true;
   document.title=[S.name,S.tagline].filter(Boolean).join(', ')||'English lessons';
  }
 }
-['contextmenu','copy','cut','dragstart'].forEach(n=>document.addEventListener(n,e=>{if(!e.target.closest('input'))e.preventDefault();},true));
+['contextmenu','copy','cut','dragstart'].forEach(n=>document.addEventListener(n,e=>{if(!e.target.closest('input,textarea'))e.preventDefault();},true));
 document.addEventListener('keydown',e=>{const k=(e.key||'').toLowerCase(),m=e.ctrlKey||e.metaKey;
  if(k==='f12'||(m&&['s','u','p'].includes(k))||(m&&e.shiftKey&&['i','j','c'].includes(k)))e.preventDefault();},true);
 $('#back').addEventListener('click',()=>{history.pushState('',document.title,location.pathname+location.search);route();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#viewer').hidden)$('#back').click();});
+document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!$('#assignModal').hidden)$('#assignModal').hidden=true;else if(!$('#viewer').hidden)$('#back').click();});
 window.addEventListener('hashchange',route);
 render();route();
 </script>

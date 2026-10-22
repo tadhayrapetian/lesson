@@ -2,4 +2,4 @@
   publish = "public"
 
 [functions]
-  included_files = ["private/**"]
+  included_files = ["private/**", "public/lessons.js"]

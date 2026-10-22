@@ -1,6 +1,6 @@
 import type { Config } from "@netlify/functions"
 import { getStore } from "@netlify/blobs"
-import { MAX_ATTEMPTS, isStudent, json, makeToken, normEmail, sha256 } from "../lib.mts"
+import { MAX_ATTEMPTS, isStudent, isTeacher, json, makeToken, normEmail, sha256 } from "../lib.mts"
 
 export default async (req: Request) => {
   const body = await req.json().catch(() => ({}))
@@ -21,7 +21,7 @@ export default async (req: Request) => {
   }
   await store.delete(key)
   if (!(await isStudent(email))) return json({ error: "not_allowed" }, 403)
-  return json({ token: makeToken(email) })
+  return json({ token: makeToken(email), teacher: isTeacher(email) })
 }
 
 export const config: Config = { path: "/api/verify-code", method: "POST" }

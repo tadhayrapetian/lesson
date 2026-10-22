@@ -1,8 +1,7 @@
 import type { Config } from "@netlify/functions"
 import { getStore } from "@netlify/blobs"
 import { randomInt } from "node:crypto"
-import nodemailer from "nodemailer"
-import { CODE_TTL, RESEND_AFTER, isStudent, json, normEmail, sha256 } from "../lib.mts"
+import { CODE_TTL, RESEND_AFTER, isStudent, json, mailer, normEmail, sha256 } from "../lib.mts"
 
 export default async (req: Request) => {
   const { email: raw } = await req.json().catch(() => ({}))
@@ -20,11 +19,7 @@ export default async (req: Request) => {
   const code = String(randomInt(0, 1_000_000)).padStart(6, "0")
   await store.setJSON(key, { hash: sha256(`${email}:${code}`), sentAt: Date.now(), exp: Date.now() + CODE_TTL, attempts: 0 })
 
-  const user = Netlify.env.get("GMAIL_USER")
-  const transport = nodemailer.createTransport({
-    service: "gmail",
-    auth: { user, pass: Netlify.env.get("GMAIL_APP_PASSWORD") },
-  })
+  const { user, transport } = mailer()
   try {
     await transport.sendMail({
       from: `"English lessons" <${user}>`,

@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Underconsumption Core — 60-Minute Masterclass</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Armenian:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E8E1D5;
+  --sheet:#FBF8F2;
+  --sheet-deep:#F2ECE1;
+  --ink:#1A1712;
+  --ink-soft:#6A6156;
+  --rule:#CFC5B4;
+  --rule-soft:#E2DACB;
+  --clay:#B8410F;
+  --clay-soft:#EFDFCF;
+  --olive:#4C5A45;
+  --display:"Fraunces","Playfair Display",Georgia,"Times New Roman",serif;
+  --sans:"Instrument Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --arm:"Noto Sans Armenian","Arial Armenian","Sylfaen",var(--sans);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:17px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+
+.layout{
+  max-width:1280px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:224px minmax(0,1fr);
+}
+
+/* ————— Lesson clock rail ————— */
+.rail{
+  position:sticky;
+  top:0;
+  height:100vh;
+  padding:44px 30px 44px 26px;
+  display:flex;
+  flex-direction:column;
+}
+
+.rail-label{
+  font-family:var(--mono);
+  font-size:.68rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  margin:0;
+}
+
+.clock{
+  font-family:var(--mono);
+  font-size:2.1rem;
+  font-weight:500;
+  letter-spacing:-.02em;
+  margin:6px 0 0;
+  font-variant-numeric:tabular-nums;
+}
+.clock.is-over{color:var(--clay)}
+
+.controls{display:flex;gap:8px;margin-top:12px}
+.controls button{
+  font-family:var(--mono);
+  font-size:.68rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  padding:7px 12px;
+  background:transparent;
+  color:var(--ink);
+  border:1px solid var(--rule);
+  cursor:pointer;
+  transition:background .18s ease,color .18s ease,border-color .18s ease;
+}
+.controls button:hover{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.controls button:focus-visible{outline:2px solid var(--clay);outline-offset:2px}
+
+.scale{position:relative;flex:1;min-height:340px;margin:36px 0 0 4px}
+.scale::before{content:"";position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--rule)}
+
+.tick{
+  position:absolute;
+  left:0;
+  top:calc(var(--pos) * 1%);
+  transform:translateY(-50%);
+  padding-left:16px;
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+  text-decoration:none;
+  color:var(--ink-soft);
+  white-space:nowrap;
+}
+.tick::before{content:"";position:absolute;left:0;top:50%;width:9px;height:1px;background:var(--rule)}
+.tick-time{font-family:var(--mono);font-size:.68rem;font-variant-numeric:tabular-nums}
+.tick-name{font-size:.8rem;letter-spacing:.01em}
+.tick:hover .tick-name{color:var(--ink)}
+.tick.is-viewing .tick-name{color:var(--ink);font-weight:500}
+.tick.is-now .tick-name,.tick.is-now .tick-time{color:var(--clay);font-weight:500}
+.tick.is-now::before{background:var(--clay);width:14px}
+
+.marker{
+  position:absolute;
+  left:0;
+  top:calc(var(--now) * 1%);
+  width:100%;
+  opacity:0;
+  transition:opacity .3s ease;
+}
+.marker.is-live{opacity:1}
+.marker::before{
+  content:"";position:absolute;left:0;top:0;transform:translate(-50%,-50%);
+  width:9px;height:9px;border-radius:50%;background:var(--clay);
+}
+.marker::after{
+  content:"";position:absolute;left:0;top:0;width:100%;height:1px;
+  background:linear-gradient(to right,var(--clay),transparent);opacity:.4;
+}
+
+/* ————— Sheet ————— */
+.sheet{
+  background:var(--sheet);
+  border-left:1px solid var(--rule);
+  border-right:1px solid var(--rule);
+  padding:78px 68px 60px;
+  min-height:100vh;
+}
+
+.eyebrow{
+  font-family:var(--mono);
+  font-size:.7rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--clay);
+  margin:0;
+}
+
+h1{
+  font-family:var(--display);
+  font-style:italic;
+  font-weight:400;
+  font-size:clamp(3rem,7.4vw,5.6rem);
+  line-height:.92;
+  letter-spacing:-.025em;
+  margin:20px 0 0;
+  font-variation-settings:"SOFT" 30,"WONK" 1,"opsz" 144;
+}
+h1 span{display:block}
+
+.standfirst{
+  max-width:52ch;
+  margin:26px 0 0;
+  font-size:1.06rem;
+  color:var(--ink-soft);
+}
+
+.meta{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+  margin-top:46px;
+}
+.meta div{padding:16px 22px 16px 0;border-right:1px solid var(--rule-soft)}
+.meta div:last-child{border-right:0}
+.meta dt{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-soft);margin:0;
+}
+.meta dd{margin:5px 0 0;font-size:.98rem;font-weight:500}
+
+/* ————— Phases ————— */
+.phase{padding:60px 0 4px;border-top:1px solid var(--rule);scroll-margin-top:24px}
+.phase:first-of-type{border-top:0}
+
+.phase-head{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:20px}
+.phase-index{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--clay);
+}
+.phase-clock{
+  font-family:var(--mono);font-size:.75rem;color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;letter-spacing:.04em;
+}
+.phase h2{
+  grid-column:1/-1;
+  font-family:var(--display);
+  font-style:italic;
+  font-weight:400;
+  font-size:clamp(1.9rem,3.4vw,2.5rem);
+  line-height:1.05;
+  letter-spacing:-.02em;
+  margin:12px 0 0;
+  font-variation-settings:"SOFT" 30,"WONK" 1,"opsz" 90;
+}
+.phase-note{
+  grid-column:1/-1;
+  max-width:62ch;margin:14px 0 0;
+  font-size:.98rem;color:var(--ink-soft);
+}
+
+/* Discussion prompts */
+.prompts{margin-top:34px}
+.prompt{
+  display:grid;
+  grid-template-columns:2.6rem minmax(0,1fr) 2rem;
+  gap:16px;
+  padding:24px 0;
+  border-top:1px solid var(--rule-soft);
+  transition:opacity .2s ease;
+}
+.prompt-num{
+  font-family:var(--mono);font-size:.75rem;color:var(--clay);
+  padding-top:.35rem;font-variant-numeric:tabular-nums;
+}
+.prompt h3{
+  font-family:var(--display);
+  font-style:normal;
+  font-weight:600;
+  font-size:1.12rem;
+  letter-spacing:-.01em;
+  margin:0 0 6px;
+}
+.prompt p{margin:0;font-size:1rem}
+.prompt p strong{
+  font-weight:500;
+  box-shadow:inset 0 -.38em 0 var(--clay-soft);
+}
+
+.done{display:flex;justify-content:flex-end;padding-top:.3rem;cursor:pointer}
+.done input{position:absolute;opacity:0;width:0;height:0}
+.done span{
+  width:19px;height:19px;border:1px solid var(--rule);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .18s ease,border-color .18s ease;
+}
+.done span::after{
+  content:"";width:7px;height:7px;border-radius:50%;background:transparent;
+  transition:background .18s ease;
+}
+.done input:checked + span{border-color:var(--clay)}
+.done input:checked + span::after{background:var(--clay)}
+.done input:focus-visible + span{outline:2px solid var(--clay);outline-offset:3px}
+.prompt:has(input:checked){opacity:.45}
+
+/* Glossary */
+.glossary{margin-top:30px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:52px}
+.entry{
+  display:grid;grid-template-columns:2.4rem minmax(0,1fr);gap:14px;
+  padding:20px 0;border-top:1px solid var(--rule-soft);
+}
+.entry-num{font-family:var(--mono);font-size:.72rem;color:var(--clay);padding-top:.3rem}
+.term{
+  font-family:var(--display);font-style:normal;font-weight:600;
+  font-size:1.1rem;letter-spacing:-.01em;margin:0;
+  transition:color .18s ease;
+}
+.entry:hover .term{color:var(--clay)}
+.arm{font-family:var(--arm);font-size:.92rem;color:var(--olive);margin:3px 0 0;line-height:1.5}
+.def{font-size:.93rem;color:var(--ink-soft);margin:8px 0 0;line-height:1.55}
+
+/* Production task */
+.task{
+  margin-top:32px;
+  background:var(--sheet-deep);
+  border-left:2px solid var(--clay);
+  padding:38px 42px 34px;
+}
+.task h3{
+  font-family:var(--display);font-style:italic;font-weight:400;
+  font-size:1.6rem;letter-spacing:-.015em;margin:0;
+  font-variation-settings:"SOFT" 30,"WONK" 1;
+}
+.task-note{margin:10px 0 0;font-size:.96rem;color:var(--ink-soft);max-width:60ch}
+
+.gaps{list-style:none;margin:26px 0 0;padding:0}
+.gaps li{
+  display:grid;grid-template-columns:2.2rem minmax(0,1fr);gap:12px;
+  padding:18px 0;border-top:1px solid var(--rule-soft);font-size:1rem;
+}
+.gaps li:first-child{border-top:0;padding-top:0}
+.gaps b{font-family:var(--mono);font-size:.75rem;font-weight:400;color:var(--clay);padding-top:.3rem}
+.gap{
+  display:inline-block;min-width:8.5em;
+  border-bottom:1px solid var(--clay);
+  margin:0 .25em;
+}
+
+.key-toggle{
+  margin-top:26px;
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  background:transparent;border:1px solid var(--rule);color:var(--ink);
+  padding:9px 14px;cursor:pointer;
+  transition:background .18s ease,color .18s ease,border-color .18s ease;
+}
+.key-toggle:hover{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.key-toggle:focus-visible{outline:2px solid var(--clay);outline-offset:2px}
+
+.key{margin-top:20px;border-top:1px solid var(--rule);padding-top:18px}
+.key p{
+  font-family:var(--mono);font-size:.85rem;color:var(--ink-soft);
+  margin:0 0 8px;line-height:1.7;
+}
+.key p span{color:var(--clay)}
+
+footer{
+  margin-top:60px;padding:26px 0 0;border-top:1px solid var(--rule);
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-soft);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+
+/* ————— Responsive ————— */
+@media (max-width:1000px){
+  .layout{grid-template-columns:1fr}
+  .rail{
+    position:sticky;top:0;height:auto;z-index:20;
+    flex-direction:row;align-items:center;gap:18px;
+    background:var(--paper);border-bottom:1px solid var(--rule);
+    padding:10px 18px;
+  }
+  .rail-label{display:none}
+  .clock{font-size:1.15rem;margin:0}
+  .controls{margin:0}
+  .scale{flex:1;min-height:0;height:26px;margin:0}
+  .scale::before{left:0;right:0;top:50%;bottom:auto;width:auto;height:1px}
+  .tick{top:50%;left:calc(var(--pos) * 1%);transform:translate(-50%,-50%);padding:0}
+  .tick::before{display:none}
+  .tick-name{display:none}
+  .marker{top:50%;left:calc(var(--now) * 1%);width:0}
+  .marker::after{display:none}
+  .sheet{padding:44px 24px 48px;border-left:0;border-right:0}
+  .meta{grid-template-columns:1fr}
+  .meta div{border-right:0;border-bottom:1px solid var(--rule-soft);padding-right:0}
+  .meta div:last-child{border-bottom:0}
+  .glossary{grid-template-columns:1fr;column-gap:0}
+  .task{padding:28px 22px}
+  .prompt{grid-template-columns:2.2rem minmax(0,1fr) 1.6rem;gap:10px}
+}
+
+@media print{
+  body{background:#fff}
+  .rail,.key-toggle,.done{display:none}
+  .layout{display:block}
+  .sheet{border:0;padding:0;background:#fff}
+  .phase{break-inside:avoid}
+  .key{display:block!important}
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- LESSON CLOCK -->
+  <aside class="rail">
+    <p class="rail-label">Lesson clock</p>
+    <p class="clock" id="clock">00:00</p>
+    <div class="controls">
+      <button id="toggle" type="button">Start</button>
+      <button id="reset" type="button">Reset</button>
+    </div>
+    <nav class="scale" aria-label="Lesson timeline">
+      <a class="tick" href="#phase-1" data-phase="1" style="--pos:0"><span class="tick-time">00</span><span class="tick-name">Warm-up</span></a>
+      <a class="tick" href="#phase-2" data-phase="2" style="--pos:16.7"><span class="tick-time">10</span><span class="tick-name">Vocabulary</span></a>
+      <a class="tick" href="#phase-3" data-phase="3" style="--pos:41.7"><span class="tick-time">25</span><span class="tick-name">Reading</span></a>
+      <a class="tick" href="#phase-4" data-phase="4" style="--pos:66.7"><span class="tick-time">40</span><span class="tick-name">Opinion</span></a>
+      <a class="tick" href="#phase-5" data-phase="5" style="--pos:83.3"><span class="tick-time">50</span><span class="tick-name">Production</span></a>
+      <span class="tick" style="--pos:100"><span class="tick-time">60</span><span class="tick-name">End</span></span>
+      <span class="marker" id="marker" style="--now:0"></span>
+    </nav>
+  </aside>
+
+  <!-- SHEET -->
+  <main class="sheet">
+
+    <header>
+      <p class="eyebrow">Masterclass · Speaking &amp; lexis</p>
+      <h1><span>Underconsumption</span><span>Core</span></h1>
+      <p class="standfirst">A 60-minute one-to-one class on modern consumerism: what pushes us to buy, who profits from it, and what people mean when they say they are cutting back.</p>
+      <dl class="meta">
+        <div><dt>Duration</dt><dd>60 minutes · 5 phases</dd></div>
+        <div><dt>Level</dt><dd>B2 – C1</dd></div>
+        <div><dt>Target lexis</dt><dd>12 items, Armenian glossed</dd></div>
+      </dl>
+    </header>
+
+    <!-- PHASE 1 -->
+    <section class="phase" id="phase-1" data-start="0" data-end="10">
+      <div class="phase-head">
+        <span class="phase-index">Phase one</span>
+        <span class="phase-clock">00 → 10 min</span>
+        <h2>Warm-up &amp; icebreaker</h2>
+        <p class="phase-note">Set the psychological stage. Engage the student with personal reflection before introducing target concepts.</p>
+      </div>
+      <div class="prompts">
+        <div class="prompt">
+          <span class="prompt-num">01</span>
+          <div>
+            <h3>The instant impulse</h3>
+            <p>When you browse social media or walk through a shopping district, what is the most common trigger that makes you want to buy something you didn't plan on getting?</p>
+          </div>
+          <label class="done" title="Mark as covered"><input type="checkbox"><span></span></label>
+        </div>
+        <div class="prompt">
+          <span class="prompt-num">02</span>
+          <div>
+            <h3>Clutter audit</h3>
+            <p>Look around your room or desk right now. Do you notice any <strong>mounting clutter</strong> items that you bought with high enthusiasm but rarely touch today?</p>
+          </div>
+          <label class="done" title="Mark as covered"><input type="checkbox"><span></span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 2 -->
+    <section class="phase" id="phase-2" data-start="10" data-end="25">
+      <div class="phase-head">
+        <span class="phase-index">Phase two</span>
+        <span class="phase-clock">10 → 25 min</span>
+        <h2>Lexical deep-dive</h2>
+        <p class="phase-note">Master key phrases taken directly from the text, with native definitions and nuanced Armenian equivalents.</p>
+      </div>
+      <div class="glossary">
+        <div class="entry">
+          <span class="entry-num">01</span>
+          <div>
+            <p class="term">To nudge</p>
+            <p class="arm">Մղել, հորդորել</p>
+            <p class="def">To gently persuade or encourage someone toward a specific action, often subtly.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <span class="entry-num">02</span>
+          <div>
+            <p class="term">Underconsumption core</p>
+            <p class="arm">Նվազագույն սպառման միտում</p>
+            <p class="def">A cultural backlash trend rejecting excess consumerism in favour of maximising existing items.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <span class="entry-num">03</span>
+          <div>
+            <p class="term">Mounting clutter</p>
+            <p class="arm">Աճող անկարգություն / կուտակված իրեր</p>
+            <p class="def">An accumulating mass of disorganised, unneeded physical belongings.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <span class="entry-num">04</span>
+          <div>
+            <p class="term">Prone to do something</p>
+            <p class="arm">Հակված լինել ինչ-որ բան անելու</p>
+            <p class="def">Likely or inclined to behave in a particular habitual way or fall into a pattern.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <span class="entry-num">05</span>
+          <div>
+            <p class="term">Ploy</p>
+            <p class="arm">Շուկայական հնարք / մարտավարություն</p>
+            <p class="def">A cunning marketing tactic or trick designed to gain a commercial advantage.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <span class="entry-num">06</span>
+          <div>
+            <p class="term">To come under fire</p>
+            <p class="arm">Քննադատության ենթարկվել</p>
+            <p class="def">To face intense public criticism, backlash, or media scrutiny.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <span class="entry-num">07</span>
+          <div>
+            <p class="term">Obsolescence</p>
+            <p class="arm">Հնացում (կանխամտածված)</p>
+            <p class="def">The state of becoming obsolete, or intentionally designing products to fail or wear out.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <span class="entry-num">08</span>
+          <div>
+            <p class="term">To deplete</p>
+            <p class="arm">Սպառել (ռեսուրսները)</p>
+            <p class="def">To exhaust or drastically reduce the supply or availability of vital resources.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <span class="entry-num">09</span>
+          <div>
+            <p class="term">To accelerate</p>
+            <p class="arm">Արագացնել</p>
+            <p class="def">To cause a process, crisis, or development to happen much faster.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <span class="entry-num">10</span>
+          <div>
+            <p class="term">Trend-led garments</p>
+            <p class="arm">Նորաձևության կարճաժամկետ հագուստ</p>
+            <p class="def">Fast-fashion clothing manufactured solely to chase fleeting viral micro-trends.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <span class="entry-num">11</span>
+          <div>
+            <p class="term">Cognitive burden</p>
+            <p class="arm">Մտավոր / ճանաչողական ծանրաբեռնվածություն</p>
+            <p class="def">The mental exhaustion caused by processing endless decisions, choices, and stimuli.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <span class="entry-num">12</span>
+          <div>
+            <p class="term">To cut back for the sake of it</p>
+            <p class="arm">Կրճատել ուղղակի կրճատելու համար</p>
+            <p class="def">Halting consumption blindly, without genuine intentionality or purpose.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 3 -->
+    <section class="phase" id="phase-3" data-start="25" data-end="40">
+      <div class="phase-head">
+        <span class="phase-index">Phase three</span>
+        <span class="phase-clock">25 → 40 min</span>
+        <h2>Critical reading &amp; debate</h2>
+        <p class="phase-note">Move beyond surface understanding into deep analytical debate about the article's core arguments.</p>
+      </div>
+      <div class="prompts">
+        <div class="prompt">
+          <span class="prompt-num">01</span>
+          <div>
+            <h3>The psychological trap of youth</h3>
+            <p>Studies show a negative correlation between compulsive buying and age, making younger consumers far more <strong>prone to compulsive spending</strong>. Why do you think targeted digital marketing has such a powerful grip on Gen Z and Millennials?</p>
+          </div>
+          <label class="done" title="Mark as covered"><input type="checkbox"><span></span></label>
+        </div>
+        <div class="prompt">
+          <span class="prompt-num">02</span>
+          <div>
+            <h3>Planned obsolescence accountability</h3>
+            <p>When major brands <strong>come under fire</strong> for artificial obsolescence, do you think public outrage changes corporate manufacturing practices, or is it just empty noise?</p>
+          </div>
+          <label class="done" title="Mark as covered"><input type="checkbox"><span></span></label>
+        </div>
+        <div class="prompt">
+          <span class="prompt-num">03</span>
+          <div>
+            <h3>The fast fashion dilemma</h3>
+            <p>How realistic is it for the average person to abandon <strong>trend-led garments</strong> completely, when social pressure equates repeating outfits with social failure?</p>
+          </div>
+          <label class="done" title="Mark as covered"><input type="checkbox"><span></span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 4 -->
+    <section class="phase" id="phase-4" data-start="40" data-end="50">
+      <div class="phase-head">
+        <span class="phase-index">Phase four</span>
+        <span class="phase-clock">40 → 50 min</span>
+        <h2>Opinion mining</h2>
+        <p class="phase-note">Push the student to form personal stances, debate nuances, and apply the vocabulary in unscripted dialogue.</p>
+      </div>
+      <div class="prompts">
+        <div class="prompt">
+          <span class="prompt-num">01</span>
+          <div>
+            <h3>Frugality versus virtue signalling</h3>
+            <p>Is "underconsumption core" a genuine psychological shift toward sustainability, or another aesthetic internet trend where people flex how little they buy?</p>
+          </div>
+          <label class="done" title="Mark as covered"><input type="checkbox"><span></span></label>
+        </div>
+        <div class="prompt">
+          <span class="prompt-num">02</span>
+          <div>
+            <h3>Reducing cognitive burden</h3>
+            <p>Have you ever unsubscribed from marketing emails or gone on a "low-buy" month to lower your <strong>cognitive burden</strong>? Did it actually bring emotional peace?</p>
+          </div>
+          <label class="done" title="Mark as covered"><input type="checkbox"><span></span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 5 -->
+    <section class="phase" id="phase-5" data-start="50" data-end="60">
+      <div class="phase-head">
+        <span class="phase-index">Phase five</span>
+        <span class="phase-clock">50 → 60 min</span>
+        <h2>Consolidation &amp; production</h2>
+        <p class="phase-note">Active recall and creative contextual sentence generation using the target vocabulary.</p>
+      </div>
+      <div class="task">
+        <h3>The production challenge</h3>
+        <p class="task-note">Fill the gaps live during the class. Use the correct vocabulary items in their appropriate grammatical forms.</p>
+        <ol class="gaps">
+          <li><b>01</b><span>Advertisements use clever psychological <span class="gap"></span> disguised as "helpful recommendations" to <span class="gap"></span> us into buying things we don't need.</span></li>
+          <li><b>02</b><span>Fast-fashion giants continue to pump out millions of <span class="gap"></span> every week, which rapidly <span class="gap"></span> global water reserves and <span class="gap"></span> the climate crisis.</span></li>
+          <li><b>03</b><span>Scrolling through endless flash sales and notifications creates an immense <span class="gap"></span>, making people feel mentally drained before midday.</span></li>
+          <li><b>04</b><span>Instead of buying new tools out of boredom, we should make better use of what we have rather than letting <span class="gap"></span> take over our living spaces.</span></li>
+        </ol>
+        <button class="key-toggle" id="key-toggle" type="button" aria-expanded="false" aria-controls="key">Show answer key</button>
+        <div class="key" id="key" hidden>
+          <p><span>01</span> &nbsp;ploys · nudge</p>
+          <p><span>02</span> &nbsp;trend-led garments · deplete · accelerate</p>
+          <p><span>03</span> &nbsp;cognitive burden</p>
+          <p><span>04</span> &nbsp;mounting clutter</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span>Underconsumption core · B2–C1</span>
+      <span>60-minute structured masterclass</span>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+(function () {
+  var clockEl = document.getElementById('clock');
+  var toggleBtn = document.getElementById('toggle');
+  var resetBtn = document.getElementById('reset');
+  var marker = document.getElementById('marker');
+  var ticks = Array.prototype.slice.call(document.querySelectorAll('.tick[data-phase]'));
+  var phases = Array.prototype.slice.call(document.querySelectorAll('.phase'));
+  var seconds = 0;
+  var timer = null;
+
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+  function render() {
+    var m = Math.floor(seconds / 60);
+    var s = seconds % 60;
+    clockEl.textContent = pad(m) + ':' + pad(s);
+    clockEl.classList.toggle('is-over', m >= 60);
+
+    var pct = Math.min((seconds / 3600) * 100, 100);
+    marker.style.setProperty('--now', pct);
+    marker.classList.toggle('is-live', seconds > 0);
+
+    ticks.forEach(function (tick) {
+      var phase = document.getElementById('phase-' + tick.dataset.phase);
+      if (!phase) return;
+      var start = Number(phase.dataset.start) * 60;
+      var end = Number(phase.dataset.end) * 60;
+      tick.classList.toggle('is-now', seconds >= start && seconds < end);
+    });
+  }
+
+  function start() {
+    if (timer) return;
+    timer = setInterval(function () { seconds += 1; render(); }, 1000);
+    toggleBtn.textContent = 'Pause';
+  }
+
+  function pause() {
+    clearInterval(timer);
+    timer = null;
+    toggleBtn.textContent = 'Start';
+  }
+
+  toggleBtn.addEventListener('click', function () { timer ? pause() : start(); });
+
+  resetBtn.addEventListener('click', function () {
+    pause();
+    seconds = 0;
+    render();
+  });
+
+  // Highlight the phase currently on screen
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var tick = document.querySelector('.tick[href="#' + entry.target.id + '"]');
+        if (tick) tick.classList.toggle('is-viewing', entry.isIntersecting);
+      });
+    }, { rootMargin: '-25% 0px -60% 0px' });
+    phases.forEach(function (phase) { observer.observe(phase); });
+  }
+
+  var keyToggle = document.getElementById('key-toggle');
+  var key = document.getElementById('key');
+  keyToggle.addEventListener('click', function () {
+    var open = key.hasAttribute('hidden');
+    if (open) { key.removeAttribute('hidden'); } else { key.setAttribute('hidden', ''); }
+    keyToggle.textContent = open ? 'Hide answer key' : 'Show answer key';
+    keyToggle.setAttribute('aria-expanded', String(open));
+  });
+
+  render();
+})();
+</script>
+
+</body>
+</html>

@@ -2,6 +2,9 @@ import { createHash, createHmac, timingSafeEqual } from "node:crypto"
 import { readFile } from "node:fs/promises"
 import { join, dirname } from "node:path"
 import { fileURLToPath } from "node:url"
+import { runInNewContext } from "node:vm"
+import { getStore } from "@netlify/blobs"
+import nodemailer from "nodemailer"
 
 export const CODE_TTL = 10 * 60 * 1000
 export const RESEND_AFTER = 60 * 1000
@@ -12,21 +15,72 @@ export const SESSION_TTL = 4 * 60 * 60 * 1000
 // The working directory differs between netlify dev and production, so try both.
 const roots = [process.cwd(), join(dirname(fileURLToPath(import.meta.url)), "..", "..")]
 
-export async function readPrivate(path: string) {
+async function readBundled(path: string) {
   for (const root of roots) {
     try {
-      return await readFile(join(root, "private", path), "utf8")
+      return await readFile(join(root, path), "utf8")
     } catch {}
   }
   return null
 }
 
+export const readPrivate = (path: string) => readBundled(join("private", path))
+
+export type Lesson = {
+  slug: string
+  title: string
+  topic?: string
+  tag?: string
+  minutes?: number
+  theme?: Partial<Record<"bg" | "card" | "ink" | "muted" | "accent" | "onAccent" | "soft", string>>
+}
+
+// public/lessons.js is the single list of lessons; the functions read the same file the page loads.
+export async function siteData(): Promise<{ site: { name?: string; tagline?: string }; lessons: Lesson[] }> {
+  const src = (await readBundled("public/lessons.js")) ?? ""
+  const window: any = {}
+  runInNewContext(src, { window })
+  return { site: window.SITE ?? {}, lessons: window.LESSONS ?? [] }
+}
+
+export const teacherEmail = () => normEmail(Netlify.env.get("TEACHER_EMAIL") || Netlify.env.get("GMAIL_USER"))
+export const isTeacher = (email: string) => !!email && email === teacherEmail()
+
+// Students the teacher assigned a lesson to are added here, so they can log in without editing students.txt.
+export const studentStore = () => getStore({ name: "students", consistency: "strong" })
+
 export async function isStudent(email: string) {
+  if (isTeacher(email)) return true
   const list = (await readPrivate("students.txt")) ?? ""
-  return list
+  const inFile = list
     .split("\n")
     .map((l) => l.trim().toLowerCase())
     .some((l) => l && !l.startsWith("#") && l === email)
+  return inFile || (await studentStore().get(email)) !== null
+}
+
+export async function listStudents() {
+  const list = (await readPrivate("students.txt")) ?? ""
+  const fromFile = list.split("\n").map((l) => l.trim().toLowerCase()).filter((l) => l && !l.startsWith("#"))
+  const { blobs } = await studentStore().list()
+  const names: Record<string, string> = {}
+  for (const b of blobs) {
+    const v = await studentStore().get(b.key, { type: "json" })
+    if (v?.name) names[b.key] = v.name
+  }
+  const all = [...new Set([...fromFile, ...blobs.map((b) => b.key)])].filter((e) => !isTeacher(e)).sort()
+  return all.map((email) => ({ email, name: names[email] ?? "" }))
+}
+
+export function sessionFrom(req: Request) {
+  const auth = req.headers.get("authorization") ?? ""
+  return readToken(auth.replace(/^Bearer\s+/i, ""))
+}
+
+export function mailer() {
+  const user = Netlify.env.get("GMAIL_USER")
+  const transport = nodemailer.createTransport({ service: "gmail", auth: { user, pass: Netlify.env.get("GMAIL_APP_PASSWORD") } })
+  return { user, transport }
 }
 
 export const normEmail = (v: unknown) => String(v ?? "").trim().toLowerCase()
