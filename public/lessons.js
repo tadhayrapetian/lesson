@@ -31,5 +31,14 @@ window.LESSONS = [
     minutes: 60,
     color: ['#B8410F', '#FBF8F2'],
     theme: { bg: '#E8E1D5', card: '#FBF8F2', ink: '#1A1712', muted: '#6A6156', accent: '#B8410F', onAccent: '#FBF8F2', soft: '#EFDFCF' }
+  },
+  {
+    slug: 'people-who-shaped-us',
+    title: 'The people who shaped us',
+    topic: 'A grandmother, a teacher, a stranger at a train station: who changed the way you see the world?',
+    tag: 'Speaking',
+    minutes: 60,
+    color: ['#2B211C', '#F3EDE2'],
+    theme: { bg: '#F6EFE4', card: '#FFFBF4', ink: '#1F2433', muted: '#646A78', accent: '#2B211C', onAccent: '#F2C572', soft: '#F4DCCF' }
   }
 ];

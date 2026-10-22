@@ -36,7 +36,9 @@ button{font:inherit;color:inherit}
 .card{display:flex;flex-direction:column;justify-content:space-between;gap:2rem;min-height:340px;padding:1.8rem;border:0;background:var(--c);color:var(--f);text-align:left;cursor:pointer;transition:filter .2s}
 .card:hover{filter:brightness(1.06)}
 .meta{display:flex;gap:1.2rem;font-size:.75rem;letter-spacing:.14em;opacity:.85}
-.card h2{margin:0;font-size:clamp(2.4rem,4vw,3.2rem);line-height:1}
+.card{container-type:inline-size}
+/* --n is the longest word in the title, so it always fits on one line of the block */
+.card h2{margin:0;font-size:min(clamp(2.4rem,4vw,3.2rem),calc(100cqw / (var(--n) * .5)));line-height:1;overflow-wrap:break-word}
 .card p{margin:0;font-size:.9rem;opacity:.9;max-width:30ch}
 .open{font-size:.8rem;letter-spacing:.1em;border-bottom:1px solid currentColor;align-self:flex-start}
 .empty{padding:3rem 1rem;text-align:center;font-size:2rem}
@@ -188,7 +190,7 @@ function render(){
  const list=L.filter(l=>(tag==='All'||l.tag===tag)&&(!q||(l.title+' '+(l.topic||'')+' '+(l.tag||'')).toLowerCase().includes(q)));
  $('#grid').innerHTML=list.map((l,i)=>{const c=Array.isArray(l.color)?l.color:COLORS[l.color]||COLORS[ORDER[i%ORDER.length]];return `<button type="button" class="card" data-slug="${esc(l.slug)}" style="--c:${c[0]};--f:${c[1]}">
   <span class="meta">${l.tag?`<span>${esc(l.tag)}</span>`:''}${l.minutes?`<span>${esc(l.minutes)} min</span>`:''}</span>
-  <span><h2 class="serif">${esc(l.title)}</h2></span>
+  <span><h2 class="serif" style="--n:${Math.max(6,...l.title.split(/\s+/).map(w=>w.length))}">${esc(l.title)}</h2></span>
   <span>${l.topic?`<p>${esc(l.topic)}</p>`:''}<span class="open">Open lesson</span></span>
  </button>`;}).join('');
  $('#grid').hidden=!list.length;$('#empty').hidden=!!list.length;

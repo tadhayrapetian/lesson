@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The People Who Shaped Us</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&family=Noto+Sans+Armenian:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F6EFE4; --card:#FFFBF4; --ink:#1F2433; --muted:#646A78; --line:#E3D8C6;
+  --dusk:#2B211C; --dusk2:#43302A; --glow:#F2C572; --accent:#C2603A; --accent-soft:#F4DCCF;
+  --ok:#2F7D5B; --ok-soft:#DCEFE5; --bad:#B23A3A; --bad-soft:#F6DADA;
+  --serif:"DM Serif Display",Georgia,"Times New Roman",serif;
+  --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --arm:"Noto Sans Armenian","DejaVu Sans",sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#171B28; --card:#1F2536; --ink:#EDE6DA; --muted:#A3A8B6; --line:#343B50;
+    --dusk:#15100D; --dusk2:#261B17; --accent:#E48A63; --accent-soft:#3A2A26;
+    --ok:#6FC39C; --ok-soft:#1E3A2F; --bad:#EC8A8A; --bad-soft:#402426;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#171B28; --card:#1F2536; --ink:#EDE6DA; --muted:#A3A8B6; --line:#343B50;
+  --dusk:#15100D; --dusk2:#261B17; --accent:#E48A63; --accent-soft:#3A2A26;
+  --ok:#6FC39C; --ok-soft:#1E3A2F; --bad:#EC8A8A; --bad-soft:#402426;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6}
+img{max-width:100%}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+
+/* HERO */
+.hero{background:linear-gradient(180deg,var(--dusk) 0%,var(--dusk2) 100%);color:#F3EDE2;padding:48px 20px 40px;overflow:hidden}
+.hero-inner{max-width:880px;margin:0 auto}
+.level{display:inline-block;font-size:14px;font-weight:600;color:var(--glow);margin-bottom:10px}
+.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(40px,8vw,76px);line-height:1.02;margin:0 0 16px;letter-spacing:-.01em}
+.hero p{max-width:34em;margin:0;color:#CFD3DE;font-size:18px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.meta span{font-size:14px;border:1px solid rgba(255,255,255,.22);padding:4px 12px;border-radius:999px;color:#E2E5EC}
+
+/* STAGE NAV */
+.stages{position:sticky;top:0;z-index:10;background:var(--paper);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.stages ol{list-style:none;margin:0 auto;padding:10px 16px;display:flex;gap:6px;overflow-x:auto;max-width:880px;scrollbar-width:none}
+.stages ol::-webkit-scrollbar{display:none}
+.stages a{display:block;white-space:nowrap;text-decoration:none;color:var(--muted);font-size:14px;font-weight:500;padding:6px 12px;border-radius:999px}
+.stages a:hover{color:var(--ink);background:var(--card)}
+.stages a.on{background:var(--ink);color:var(--paper)}
+
+/* SECTIONS */
+main{max-width:880px;margin:0 auto;padding:12px 20px 80px}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+.sh{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+.num{font-family:var(--serif);font-size:44px;color:var(--accent);line-height:1}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(28px,5vw,38px);line-height:1.1;margin:0}
+.time{margin-left:auto;font-size:14px;color:var(--muted);font-weight:500}
+.task{font-weight:600;margin:14px 0 18px;max-width:40em}
+h3{font-family:var(--serif);font-weight:400;font-size:24px;margin:30px 0 10px}
+
+.qs{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.qs li{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:14px 18px;font-size:18px}
+.qs small{display:block;color:var(--muted);font-size:15px;margin-top:4px}
+
+.box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:640px){.two{grid-template-columns:1fr}}
+
+/* VOCAB MATCH */
+.defs{list-style:none;padding:0;margin:0 0 20px;display:grid;gap:8px}
+.defs li{display:flex;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.defs b{font-family:var(--serif);font-weight:400;font-size:20px;color:var(--accent);min-width:22px}
+.match{display:grid;gap:10px}
+.mrow{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 14px}
+.mrow .w{font-weight:600;font-size:18px}
+.mrow .arm{grid-column:1/-1;font-family:var(--arm);color:var(--accent);font-size:16px;font-weight:600;margin-top:-4px}
+select,input[type=text]{background:var(--paper);border:1.5px solid var(--line);border-radius:6px;padding:6px 10px;min-height:40px}
+.mrow.good{border-color:var(--ok);background:var(--ok-soft)}
+.mrow.wrong{border-color:var(--bad);background:var(--bad-soft)}
+
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.btn{border:0;border-radius:999px;padding:10px 20px;font-weight:600;cursor:pointer;background:var(--ink);color:var(--paper)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.score{font-weight:600;align-self:center;color:var(--accent)}
+
+/* READING */
+.article{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:28px clamp(18px,5vw,48px)}
+.article h4{font-family:var(--serif);font-weight:400;font-size:32px;margin:0 0 4px}
+.article .by{color:var(--muted);font-size:15px;margin:0 0 20px}
+.article p{font-size:18px;line-height:1.75;max-width:36em}
+.kw{background:linear-gradient(transparent 62%,var(--accent-soft) 62%);font-weight:600}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:12px 16px;cursor:pointer}
+.opt.good{border-color:var(--ok);background:var(--ok-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.tf{display:grid;gap:10px}
+.tfrow{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 16px}
+.tfb{display:flex;gap:6px}
+.tfb button{border:1.5px solid var(--line);background:var(--paper);border-radius:6px;padding:6px 14px;font-weight:600;cursor:pointer}
+.tfb button.sel{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.tfrow.good{border-color:var(--ok);background:var(--ok-soft)}
+.tfrow.wrong{border-color:var(--bad);background:var(--bad-soft)}
+
+/* GAP FILL */
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.bank span{background:var(--accent-soft);color:var(--ink);border-radius:999px;padding:5px 14px;font-weight:500}
+.gaps{list-style:none;padding:0;margin:0;display:grid;gap:12px;counter-reset:g}
+.gaps li{counter-increment:g;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 16px;line-height:2.2}
+.gaps li::before{content:counter(g) ".";font-weight:700;color:var(--accent);margin-right:8px}
+.gaps input{width:12em;max-width:100%}
+.gaps input.good{border-color:var(--ok);background:var(--ok-soft)}
+.gaps input.wrong{border-color:var(--bad);background:var(--bad-soft)}
+
+/* LANGUAGE FOCUS */
+.rule{font-family:var(--serif);font-size:clamp(22px,4vw,30px);line-height:1.3;margin:0 0 10px}
+.rule em{color:var(--accent);font-style:normal}
+.trans{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.trans li{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.trans .ans{display:none;margin-top:8px;color:var(--ok);font-weight:600}
+.trans li.show .ans{display:block}
+.reveal{margin-top:10px;background:none;border:0;padding:0;color:var(--accent);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+/* SPEAKING */
+.phrases{display:flex;flex-wrap:wrap;gap:8px}
+.phrases span{border:1.5px solid var(--line);border-radius:6px;padding:6px 12px;background:var(--card);font-size:16px}
+.ideas{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.idea{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.idea strong{display:block;margin-bottom:2px}
+
+/* ERRORS */
+.errs{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.err{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px;cursor:pointer;text-align:left;width:100%}
+.err .x{text-decoration:line-through;text-decoration-color:var(--bad);text-decoration-thickness:2px}
+.err .fix{display:none;margin-top:6px;color:var(--ok);font-weight:600}
+.err.show .fix{display:block}
+.err .hint{display:block;color:var(--muted);font-size:14px;margin-top:4px}
+.err.show .hint{display:none}
+
+/* COOL DOWN */
+.final{background:var(--dusk);color:#F3EDE2;border-radius:12px;padding:28px clamp(20px,5vw,40px)}
+.final h3{margin-top:0;color:var(--glow)}
+.final p{color:#D6D9E2;margin:0 0 12px}
+.final .big{font-family:var(--serif);font-size:clamp(24px,4vw,32px);color:#F3EDE2;line-height:1.25}
+.hw{margin-top:20px}
+footer{text-align:center;color:var(--muted);font-size:14px;padding:30px 20px 40px}
+
+.web{display:block;width:100%;max-width:560px;height:auto;margin:0 0 28px}
+.web line{stroke:rgba(242,197,114,.55);stroke-width:1.4;stroke-dasharray:300;stroke-dashoffset:300;animation:draw 1.4s ease forwards}
+.web circle{fill:#5A463C;animation:pop .5s ease forwards;opacity:0}
+.web circle.me{fill:#FFE7B0}
+.web circle.lit{fill:var(--glow)}
+.web text{fill:#CFC6B8;font:500 11px var(--sans)}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.web line{animation:none;stroke-dashoffset:0}.web circle{animation:none;opacity:1}}
+.hero p{color:#D9D0C3}
+.pick{display:flex;gap:6px;flex-wrap:wrap}
+.pick button{border:1.5px solid var(--line);background:var(--paper);border-radius:6px;padding:6px 12px;font-weight:600;cursor:pointer;font-size:15px}
+.pick button.sel{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.people{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 18px}
+@media (max-width:640px){.people{grid-template-columns:1fr}}
+.person{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.person b{font-family:var(--serif);font-weight:400;font-size:20px;color:var(--accent)}
+.story h5{font-family:var(--serif);font-weight:400;font-size:22px;margin:22px 0 2px}
+.story .who{color:var(--muted);font-size:15px;margin:0 0 6px}
+.prompts{counter-reset:p;list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.prompts li{counter-increment:p;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 14px}
+.prompts li::before{content:counter(p);display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:13px;margin-right:10px}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <svg class="web" viewBox="0 0 560 190" aria-hidden="true" id="web"></svg>
+    <span class="level">Speaking and Vocabulary</span>
+    <h1>The people who shaped us</h1>
+    <p>Who changed the way you see the world? A grandmother, a teacher, a stranger at a train station? Let's talk about them.</p>
+    <div class="meta"><span>60 minutes</span><span>One-to-one</span><span>Reading and discussion</span></div>
+  </div>
+</header>
+
+<nav class="stages" aria-label="Lesson stages">
+  <ol>
+    <li><a href="#s1">1 Warm-up</a></li><li><a href="#s2">2 Lead-in</a></li><li><a href="#s3">3 Vocabulary</a></li>
+    <li><a href="#s4">4 Reading</a></li><li><a href="#s5">5 Practice</a></li><li><a href="#s6">6 Grammar</a></li>
+    <li><a href="#s7">7 Speaking</a></li><li><a href="#s8">8 Say it right</a></li><li><a href="#s9">9 Cool-down</a></li>
+  </ol>
+</nav>
+
+<main>
+<section id="s1">
+  <div class="sh"><span class="num">1</span><h2>Warm-up</h2><span class="time">5 min</span></div>
+  <p class="task">Discuss with your teacher.</p>
+  <ul class="qs">
+    <li>Who was your hero when you were a child? Why?</li>
+    <li>Is there a famous person whose ideas changed the way you think?<small>A writer, a scientist, an artist, anyone.</small></li>
+    <li>Do we learn more from people we agree with or from people we disagree with?</li>
+  </ul>
+</section>
+
+<section id="s2">
+  <div class="sh"><span class="num">2</span><h2>Lead-in</h2><span class="time">5 min</span></div>
+  <p class="task">Think of three people who influenced you. Write a name and one word that describes what they gave you.</p>
+  <div class="two">
+    <div class="box"><h3 style="margin-top:0">Family</h3><input type="text" aria-label="Family person" placeholder="Name" style="width:100%;margin-bottom:8px"><input type="text" aria-label="Family word" placeholder="One word" style="width:100%"></div>
+    <div class="box"><h3 style="margin-top:0">School or work</h3><input type="text" aria-label="School person" placeholder="Name" style="width:100%;margin-bottom:8px"><input type="text" aria-label="School word" placeholder="One word" style="width:100%"></div>
+  </div>
+  <div class="box" style="margin-top:16px"><h3 style="margin-top:0">Someone unexpected</h3><input type="text" aria-label="Unexpected person" placeholder="Name or description" style="width:100%;margin-bottom:8px"><input type="text" aria-label="Unexpected word" placeholder="One word" style="width:100%"></div>
+  <h3>Predict</h3>
+  <p class="task" style="margin-top:0">You will read about three people. Guess what lesson each one learned.</p>
+  <div class="people">
+    <div class="person"><b>Anna</b><br>and her grandmother</div>
+    <div class="person"><b>David</b><br>and his history teacher</div>
+    <div class="person"><b>Lilit</b><br>and a stranger</div>
+  </div>
+</section>
+
+<section id="s3">
+  <div class="sh"><span class="num">3</span><h2>Vocabulary</h2><span class="time">10 min</span></div>
+  <p class="task">Read the words and their Armenian equivalents. Match each word to its English definition.</p>
+  <ol class="defs" id="defs"></ol>
+  <div class="match" id="match"></div>
+  <div class="btns"><button class="btn" id="checkMatch">Check answers</button><span class="score" id="matchScore" aria-live="polite"></span></div>
+  <h3>Talk about it</h3>
+  <ul class="qs">
+    <li>Who did you look up to as a teenager?</li>
+    <li>What values did your family instil in you?</li>
+    <li>What is something you took for granted as a child?</li>
+  </ul>
+</section>
+
+<section id="s4">
+  <div class="sh"><span class="num">4</span><h2>Reading</h2><span class="time">12 min</span></div>
+  <p class="task">Read quickly. Were your predictions correct?</p>
+  <article class="article story">
+    <h4>The People Who Made Us</h4>
+    <p class="by">Three short stories about influence</p>
+    <p>Ask anyone who <span class="kw">shaped</span> the way they see the world, and the answer is rarely a celebrity. More often it is a grandmother, a teacher or a stranger who said the right thing at the right moment. We asked three people to tell their stories.</p>
+    <h5>Anna</h5><p class="who">34, architect</p>
+    <p>"My grandmother lived in a tiny village, but she was the most <span class="kw">open-minded</span> person I knew. She would read three newspapers every morning and then argue with all of them. She used to say, 'Don't believe something just because it's printed.' She <span class="kw">instilled</span> a love of questions in me. When I travel now, I still hear her voice. She <span class="kw">broadened my horizons</span> without ever leaving her village."</p>
+    <h5>David</h5><p class="who">41, nurse</p>
+    <p>"At school I was the boy at the back who never tried. Then Mr Petrosyan, our history teacher, gave me an essay back with one line on it: 'You clearly think for yourself. Now think harder.' Nobody had expected anything from me before. That was a <span class="kw">turning point</span>. I still <span class="kw">look up to</span> him, and I try to do the same for the young nurses I train."</p>
+    <h5>Lilit</h5><p class="who">27, software developer</p>
+    <p>"The person who had the biggest <span class="kw">impact</span> on me was a stranger. I was 19 and stuck at a train station in Italy with no money and a dead phone. An old woman bought me a coffee and a ticket and refused to take my number. She said, 'Just do the same for someone else one day.' That moment <span class="kw">challenged my assumptions</span> about strangers. I used to think people only helped when it was easy for them. Now I don't <span class="kw">take kindness for granted</span>, and I try to pass it on."</p>
+    <p>None of these people planned to be a <span class="kw">role model</span>. They were honest, patient or kind at the right time. That is the encouraging part. Each of us may already be shaping someone's view of the world without knowing it.</p>
+  </article>
+
+  <h3>Main idea</h3>
+  <p class="task" style="margin-top:0">Choose the best summary.</p>
+  <div class="opts" id="gist">
+    <button class="opt" data-ok="0">Famous people have the biggest influence on how we think.</button>
+    <button class="opt" data-ok="1">Ordinary people can change our lives through small, honest or kind actions.</button>
+    <button class="opt" data-ok="0">Teachers are more important than family in shaping our views.</button>
+  </div>
+
+  <h3>Who is it?</h3>
+  <p class="task" style="margin-top:0">Read again. Choose Anna, David or Lilit.</p>
+  <div class="tf" id="who"></div>
+  <div class="btns"><button class="btn" id="checkWho">Check answers</button><span class="score" id="whoScore" aria-live="polite"></span></div>
+</section>
+
+<section id="s5">
+  <div class="sh"><span class="num">5</span><h2>Practice</h2><span class="time">7 min</span></div>
+  <p class="task">Complete the sentences with words from the box. Change the form if you need to.</p>
+  <div class="bank" id="bank"></div>
+  <ol class="gaps" id="gaps"></ol>
+  <div class="btns"><button class="btn" id="checkGaps">Check answers</button><button class="btn ghost" id="showGaps">Show answers</button><span class="score" id="gapScore" aria-live="polite"></span></div>
+</section>
+
+<section id="s6">
+  <div class="sh"><span class="num">6</span><h2>Grammar: used to and would</h2><span class="time">8 min</span></div>
+  <div class="box">
+    <p style="margin:0 0 8px;color:var(--muted)">From the text</p>
+    <p class="rule">She <em>would read</em> three newspapers every morning.</p>
+    <p class="rule">I <em>used to think</em> people only helped when it was easy.</p>
+    <p style="margin:0">Both talk about the past that is not true now.</p>
+    <p style="margin:8px 0 0"><strong>used to</strong> works for repeated actions and for states: <em>I used to live in Yerevan. I used to be shy.</em><br><strong>would</strong> works only for repeated actions: <em>We would go fishing every summer.</em><br>Not: <s>I would be shy.</s></p>
+  </div>
+  <h3>Choose</h3>
+  <p class="task" style="margin-top:0">Which form is correct? Choose <em>used to</em>, <em>would</em> or <em>both</em>.</p>
+  <div class="tf" id="uw"></div>
+  <div class="btns"><button class="btn" id="checkUW">Check answers</button><span class="score" id="uwScore" aria-live="polite"></span></div>
+  <h3>Your turn</h3>
+  <p class="task" style="margin-top:0">Think of a person from your childhood. Tell your teacher.</p>
+  <ul class="qs">
+    <li>What did this person use to look like?</li>
+    <li>What would you do together?</li>
+    <li>What did you use to believe because of them?</li>
+  </ul>
+</section>
+
+<section id="s7">
+  <div class="sh"><span class="num">7</span><h2>Speaking</h2><span class="time">12 min</span></div>
+  <h3 style="margin-top:14px">Part A. Discuss</h3>
+  <ul class="qs">
+    <li>Can a person you have never met be your role model?</li>
+    <li>Do parents shape us more than friends? Why or why not?</li>
+    <li>What belief did you have as a child that someone later challenged?</li>
+    <li>Who in your life do you take for granted? How could you show them you value them?</li>
+  </ul>
+  <h3>Part B. Tell the story</h3>
+  <p class="task" style="margin-top:0">Choose one person who shaped the way you see the world. Prepare for one minute, then talk for two minutes. Use the prompts.</p>
+  <ol class="prompts">
+    <li>Who is this person, and how do you know them?</li>
+    <li>What did they use to do or say?</li>
+    <li>Describe one moment you remember clearly.</li>
+    <li>How did they change the way you think or act?</li>
+    <li>What would you say to them today?</li>
+  </ol>
+  <h3>Useful language</h3>
+  <div class="phrases">
+    <span>The person who had the biggest impact on me is ...</span><span>I've always looked up to ...</span><span>What I admire most is ...</span><span>It was a real turning point because ...</span><span>Thanks to them, I ...</span><span>Looking back, I realise ...</span><span>If I could tell them one thing, it would be ...</span>
+  </div>
+</section>
+
+<section id="s8">
+  <div class="sh"><span class="num">8</span><h2>Say it right</h2><span class="time">5 min</span></div>
+  <p class="task">Each sentence has one mistake. Correct it out loud, then tap to check.</p>
+  <ul class="errs" id="errs"></ul>
+</section>
+
+<section id="s9">
+  <div class="sh"><span class="num">9</span><h2>Cool-down</h2><span class="time">3 min</span></div>
+  <div class="final">
+    <h3>Pass it on</h3>
+    <p class="big">Who might you be shaping right now?</p>
+    <p>Name one person and one thing you could teach or give them.</p>
+    <p style="margin:0">Example: My little cousin looks up to me, so I want to show him that making mistakes is fine.</p>
+  </div>
+  <div class="box hw">
+    <h3 style="margin-top:0">Homework</h3>
+    <p style="margin:0">Write a thank-you letter of 150 to 180 words to someone who shaped the way you see the world. Use at least five words from the vocabulary and both <em>used to</em> and <em>would</em>.</p>
+  </div>
+</section>
+</main>
+<footer>Tad Hayrapetian · English lessons</footer>
+
+<script>
+/* HERO WEB */
+(function(){
+  const svg=document.getElementById('web');const ns='http://www.w3.org/2000/svg';
+  const me=[280,100];
+  const pts=[[80,50,'family'],[150,150,'teachers'],[220,30,'friends'],[360,40,'books'],[420,150,'strangers'],[490,70,'travel'],[40,130,''],[520,160,''],[300,175,'']];
+  pts.forEach((p,i)=>{const l=document.createElementNS(ns,'line');l.setAttribute('x1',me[0]);l.setAttribute('y1',me[1]);l.setAttribute('x2',p[0]);l.setAttribute('y2',p[1]);l.style.animationDelay=(i*0.12)+'s';svg.appendChild(l)});
+  pts.forEach((p,i)=>{const c=document.createElementNS(ns,'circle');c.setAttribute('cx',p[0]);c.setAttribute('cy',p[1]);c.setAttribute('r',p[2]?7:4);if(p[2])c.classList.add('lit');c.style.animationDelay=(0.3+i*0.12)+'s';svg.appendChild(c);
+    if(p[2]){const t=document.createElementNS(ns,'text');t.setAttribute('x',p[0]+11);t.setAttribute('y',p[1]+4);t.textContent=p[2];svg.appendChild(t)}});
+  const c=document.createElementNS(ns,'circle');c.setAttribute('cx',me[0]);c.setAttribute('cy',me[1]);c.setAttribute('r',13);c.classList.add('me');svg.appendChild(c);
+  const t=document.createElementNS(ns,'text');t.setAttribute('x',me[0]-8);t.setAttribute('y',me[1]+32);t.textContent='you';svg.appendChild(t);
+})();
+
+/* NAV */
+(function(){
+  const links=[...document.querySelectorAll('.stages a')];
+  const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id));const a=links.find(l=>l.classList.contains('on'));if(a)a.scrollIntoView({block:'nearest',inline:'center'})}})},{rootMargin:'-40% 0px -55% 0px'});
+  document.querySelectorAll('main section').forEach(s=>obs.observe(s));
+})();
+
+/* VOCAB */
+const defs={A:'to be influenced to question what you believed before',B:'a person you admire and want to copy',C:'to form or strongly influence someone or something',D:'to not value something because you always have it',E:'ready to listen to new ideas and opinions',F:'to have an effect on someone or something',G:'to help someone learn about new things and experiences',H:'to respect and admire someone',I:'to slowly make someone have a value or a feeling',J:'a moment when an important change happens'};
+const words=[['to shape','C','ձևավորել'],['open-minded','E','լայնախոհ'],['to instil','I','սերմանել (արժեքներ, սեր)'],['to broaden your horizons','G','լայնացնել մտահորիզոնը'],['a turning point','J','շրջադարձային պահ'],['to look up to','H','հարգել, օրինակ համարել'],['to have an impact on','F','ազդեցություն ունենալ'],['to challenge your assumptions','A','կասկածի տակ դնել պատկերացումները'],['to take for granted','D','չգնահատել, ինքնին հասկանալի համարել'],['a role model','B','օրինակելի անձնավորություն']];
+const dl=document.getElementById('defs');
+Object.entries(defs).forEach(([k,v])=>dl.insertAdjacentHTML('beforeend',`<li><b>${k}</b><span>${v}</span></li>`));
+const m=document.getElementById('match');
+words.forEach(w=>{const opts=Object.keys(defs).map(k=>`<option>${k}</option>`).join('');
+  m.insertAdjacentHTML('beforeend',`<div class="mrow" data-a="${w[1]}"><span class="w">${w[0]}</span><select aria-label="Definition for ${w[0]}"><option value="">?</option>${opts}</select><span class="arm" lang="hy">${w[2]}</span></div>`)});
+document.getElementById('checkMatch').onclick=()=>{let s=0;m.querySelectorAll('.mrow').forEach(r=>{const ok=r.querySelector('select').value===r.dataset.a;r.classList.toggle('good',ok);r.classList.toggle('wrong',!ok);if(ok)s++});document.getElementById('matchScore').textContent=`${s} / ${words.length}`};
+
+/* GIST */
+document.querySelectorAll('#gist .opt').forEach(b=>b.onclick=()=>{document.querySelectorAll('#gist .opt').forEach(x=>x.classList.remove('good','wrong'));b.classList.add(b.dataset.ok==='1'?'good':'wrong')});
+
+/* PICK ROWS */
+function pickRows(el,items,opts,btn,score){
+  items.forEach((t,i)=>el.insertAdjacentHTML('beforeend',`<div class="tfrow" data-a="${t[1]}"><span>${i+1}. ${t[0]}</span><div class="pick" role="group">${opts.map(o=>`<button data-v="${o}">${o}</button>`).join('')}</div></div>`));
+  el.querySelectorAll('.pick button').forEach(b=>b.onclick=()=>{b.parentNode.querySelectorAll('button').forEach(x=>x.classList.remove('sel'));b.classList.add('sel')});
+  document.getElementById(btn).onclick=()=>{let s=0;el.querySelectorAll('.tfrow').forEach(r=>{const sel=r.querySelector('.sel');const ok=sel&&sel.dataset.v===r.dataset.a;r.classList.toggle('good',!!ok);r.classList.toggle('wrong',!ok);if(ok)s++});document.getElementById(score).textContent=`${s} / ${items.length}`};
+}
+pickRows(document.getElementById('who'),[
+ ['was helped by someone they never saw again.','Lilit'],
+ ['learned not to believe everything they read.','Anna'],
+ ['changed after reading one short comment.','David'],
+ ['was influenced by someone who never travelled far.','Anna'],
+ ['now helps people at work because of this person.','David'],
+ ['used to have a negative view of strangers.','Lilit']],['Anna','David','Lilit'],'checkWho','whoScore');
+pickRows(document.getElementById('uw'),[
+ ['My grandfather ___ live next to the sea.','used to'],
+ ['Every summer we ___ go fishing together.','both'],
+ ['I ___ be very shy at school.','used to'],
+ ['My teacher ___ stay after class to help us.','both'],
+ ['She ___ have long curly hair.','used to'],
+ ['On Sundays my mum ___ cook a huge lunch for everyone.','both']],['used to','would','both'],'checkUW','uwScore');
+
+/* GAP FILL */
+const gaps=[['My older sister was my ',' when I was growing up. I wanted to be exactly like her.',['role model','a role model']],['Travelling ',' your horizons more than any book.',['broadens']],['My parents ',' the value of hard work in me from an early age.',['instilled']],['Losing that job was a ',' in my life. I finally started my own business.',['turning point']],['We often take our health ',' until we get ill.',['for granted']],['A good teacher can ',' your assumptions and make you think again.',['challenge']],['She is very ','. She listens to every opinion before she decides.',['open-minded','open minded']],['I have always ',' my grandfather. He is honest and brave.',['looked up to']]];
+const bank=[['challenge','կասկածի տակ դնել'],['turning point','շրջադարձային պահ'],['look up to','օրինակ համարել'],['open-minded','լայնախոհ'],['role model','օրինակելի անձ'],['instil','սերմանել'],['take for granted','չգնահատել'],['broaden','լայնացնել']];
+document.getElementById('bank').innerHTML=bank.map(w=>`<span>${w[0]} <em lang="hy" style="font-style:normal;font-family:var(--arm);color:var(--muted);font-size:14px">${w[1]}</em></span>`).join('');
+const gl=document.getElementById('gaps');
+gaps.forEach((g,i)=>gl.insertAdjacentHTML('beforeend',`<li>${g[0]}<input type="text" aria-label="Gap ${i+1}" data-i="${i}" autocomplete="off" autocapitalize="off">${g[1]}</li>`));
+const norm=s=>s.trim().toLowerCase().replace(/\s+/g,' ').replace(/[.!]$/,'');
+document.getElementById('checkGaps').onclick=()=>{let s=0;gl.querySelectorAll('input').forEach(inp=>{const ok=gaps[inp.dataset.i][2].includes(norm(inp.value));inp.classList.toggle('good',ok);inp.classList.toggle('wrong',!ok);if(ok)s++});document.getElementById('gapScore').textContent=`${s} / ${gaps.length}`};
+document.getElementById('showGaps').onclick=()=>gl.querySelectorAll('input').forEach(inp=>{inp.value=gaps[inp.dataset.i][2][0];inp.classList.remove('wrong');inp.classList.add('good')});
+
+/* ERRORS */
+const errs=[['I am used to live with my grandmother when I was a child.','I used to live with my grandmother when I was a child.','Past habit or being familiar with something?'],['She had a big influence to me.','She had a big influence on me.','Check the preposition.'],['He is the person which changed my life.','He is the person who changed my life.','We are talking about a person.'],['My teacher learned me to think for myself.','My teacher taught me to think for myself.','Learn or teach?'],['I have always looked up at my father.','I have always looked up to my father.','Check the particle.'],['She explained me the rules of chess.','She explained the rules of chess to me.','Explain something to someone.']];
+const eEl=document.getElementById('errs');
+errs.forEach(e=>eEl.insertAdjacentHTML('beforeend',`<li><button class="err"><span class="x">${e[0]}</span><span class="hint">${e[2]}</span><span class="fix">${e[1]}</span></button></li>`));
+eEl.querySelectorAll('.err .x').forEach(x=>x.style.textDecoration='none');
+eEl.querySelectorAll('.err').forEach(b=>b.onclick=()=>{b.classList.toggle('show');b.querySelector('.x').style.textDecoration=b.classList.contains('show')?'':'none'});
+</script>
+</body>
+</html>
