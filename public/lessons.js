@@ -1,13 +1,49 @@
-/* Название сайта. name также стоит подписью учителя в письмах ученикам */
+/* Всё, что написано на сайте. Меняй текст между кавычками.
+   Если в тексте нужен апостроф ('), ставь перед ним \ : 'I\'m Tad' */
+
 window.SITE = {
+  // Имя стоит на главной и подписью учителя в письмах ученикам
   name: 'Tad Hayrapetian',
-  tagline: 'English lessons'
+  tagline: 'English lessons',
+  // Короткая фраза под именем на главной
+  intro: 'One-to-one English lessons for adults who want to speak with confidence: at work, when travelling and in everyday conversations.',
+
+  about: {
+    title: 'About me',
+    // Каждая строка — отдельный абзац
+    text: [
+      'ЗАМЕНИ: Hi, I\'m Tad. I teach English to adults, one to one and online.',
+      'ЗАМЕНИ: My lessons are built around real topics and real conversations. You speak most of the time, learn the words you actually need, and leave every lesson with something you can use the same day.'
+    ],
+    // Короткие факты рядом с текстом
+    facts: [
+      'ЗАМЕНИ: 5 years of teaching',
+      'Levels B1 to C1',
+      'One-to-one, online'
+    ]
+  },
+
+  // Соцсети. Пустой url — кнопка не показывается
+  socials: [
+    { label: 'Instagram', url: '' },
+    { label: 'Telegram', url: '' },
+    { label: 'WhatsApp', url: '' },
+    { label: 'YouTube', url: '' }
+  ],
+
+  // Абонементы. featured: true — выделенный тариф посередине
+  plans: [
+    { name: 'Trial lesson', price: 'ЗАМЕНИ', period: '30 minutes', features: ['Meet your teacher', 'Level check', 'A plan for your goals'] },
+    { name: 'Monthly', price: 'ЗАМЕНИ', period: '4 lessons a month', features: ['One lesson a week', 'Homework and feedback', 'All lessons on this site'], featured: true },
+    { name: 'Intensive', price: 'ЗАМЕНИ', period: '8 lessons a month', features: ['Two lessons a week', 'Homework and feedback', 'All lessons on this site'] }
+  ]
 };
 
 /* Список уроков. Чтобы добавить урок:
    1. Положи HTML-файл в папку private/lessons. Имя файла = slug + .html
       (например, small-joys.html для slug 'small-joys')
    2. Скопируй блок ниже, поставь запятую и заполни поля
+   level: уровень для фильтра, 'B1' или несколько ['B2', 'C1']
    color: цвет блока на главной. forest, midnight, sky, storm, cream
           или свои цвета ['фон', 'текст'], например ['#B8410F', '#FBF8F2']
    theme: цвета письма, которое получает ученик (можно не указывать)
@@ -19,6 +55,7 @@ window.LESSONS = [
     title: 'Small joys',
     topic: 'Rituals, habits and the little things that make life better',
     tag: 'Speaking',
+    level: 'B1',
     minutes: 90,
     color: 'forest',
     theme: { bg: '#F4EFE6', card: '#FEFCF6', ink: '#162A2C', muted: '#686867', accent: '#5E6C5B', onAccent: '#FEFCF6', soft: '#ECE6DA' }
@@ -28,6 +65,7 @@ window.LESSONS = [
     title: 'Underconsumption Core',
     topic: 'What pushes us to buy, who profits from it, and why people are cutting back',
     tag: 'Speaking',
+    level: ['B2', 'C1'],
     minutes: 60,
     color: ['#B8410F', '#FBF8F2'],
     theme: { bg: '#E8E1D5', card: '#FBF8F2', ink: '#1A1712', muted: '#6A6156', accent: '#B8410F', onAccent: '#FBF8F2', soft: '#EFDFCF' }
@@ -37,8 +75,19 @@ window.LESSONS = [
     title: 'The people who shaped us',
     topic: 'A grandmother, a teacher, a stranger at a train station: who changed the way you see the world?',
     tag: 'Speaking',
+    level: 'B2',
     minutes: 60,
     color: ['#2B211C', '#F3EDE2'],
     theme: { bg: '#F6EFE4', card: '#FFFBF4', ink: '#1F2433', muted: '#646A78', accent: '#2B211C', onAccent: '#F2C572', soft: '#F4DCCF' }
+  },
+  {
+    slug: 'alone-among-millions',
+    title: 'Alone among millions',
+    topic: 'Why do people feel lonely in a city full of people, and what small steps help them feel at home?',
+    tag: 'Speaking',
+    level: 'B2',
+    minutes: 60,
+    color: ['#252D48', '#F3EDE2'],
+    theme: { bg: '#F6EFE4', card: '#FFFBF4', ink: '#1F2433', muted: '#646A78', accent: '#252D48', onAccent: '#F2C572', soft: '#F4DCCF' }
   }
 ];

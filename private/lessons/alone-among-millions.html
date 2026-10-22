@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Alone Among Millions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&family=Noto+Sans+Armenian:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F6EFE4; --card:#FFFBF4; --ink:#1F2433; --muted:#646A78; --line:#E3D8C6;
+  --dusk:#252D48; --dusk2:#343E62; --glow:#F2C572; --accent:#C2603A; --accent-soft:#F4DCCF;
+  --ok:#2F7D5B; --ok-soft:#DCEFE5; --bad:#B23A3A; --bad-soft:#F6DADA;
+  --serif:"DM Serif Display",Georgia,"Times New Roman",serif;
+  --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --arm:"Noto Sans Armenian","DejaVu Sans",sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#171B28; --card:#1F2536; --ink:#EDE6DA; --muted:#A3A8B6; --line:#343B50;
+    --dusk:#10131E; --dusk2:#1C2236; --accent:#E48A63; --accent-soft:#3A2A26;
+    --ok:#6FC39C; --ok-soft:#1E3A2F; --bad:#EC8A8A; --bad-soft:#402426;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#171B28; --card:#1F2536; --ink:#EDE6DA; --muted:#A3A8B6; --line:#343B50;
+  --dusk:#10131E; --dusk2:#1C2236; --accent:#E48A63; --accent-soft:#3A2A26;
+  --ok:#6FC39C; --ok-soft:#1E3A2F; --bad:#EC8A8A; --bad-soft:#402426;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6}
+img{max-width:100%}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+
+/* HERO */
+.hero{background:linear-gradient(180deg,var(--dusk) 0%,var(--dusk2) 100%);color:#F3EDE2;padding:48px 20px 40px;overflow:hidden}
+.hero-inner{max-width:880px;margin:0 auto}
+.skyline{display:flex;align-items:flex-end;gap:10px;height:190px;margin-bottom:32px}
+.bld{display:grid;gap:5px;padding:8px;background:#0E1220;border-radius:3px 3px 0 0;align-content:start}
+.win{width:10px;height:13px;background:#1A2034;border-radius:1px;transition:background .5s,box-shadow .5s}
+.win.lit{background:var(--glow);box-shadow:0 0 8px rgba(242,197,114,.55)}
+.win.her{background:#FFE7B0;box-shadow:0 0 14px 3px rgba(255,220,150,.8)}
+.level{display:inline-block;font-size:14px;font-weight:600;color:var(--glow);margin-bottom:10px}
+.hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(40px,8vw,76px);line-height:1.02;margin:0 0 16px;letter-spacing:-.01em}
+.hero p{max-width:34em;margin:0;color:#CFD3DE;font-size:18px}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.meta span{font-size:14px;border:1px solid rgba(255,255,255,.22);padding:4px 12px;border-radius:999px;color:#E2E5EC}
+
+/* STAGE NAV */
+.stages{position:sticky;top:0;z-index:10;background:var(--paper);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.stages ol{list-style:none;margin:0 auto;padding:10px 16px;display:flex;gap:6px;overflow-x:auto;max-width:880px;scrollbar-width:none}
+.stages ol::-webkit-scrollbar{display:none}
+.stages a{display:block;white-space:nowrap;text-decoration:none;color:var(--muted);font-size:14px;font-weight:500;padding:6px 12px;border-radius:999px}
+.stages a:hover{color:var(--ink);background:var(--card)}
+.stages a.on{background:var(--ink);color:var(--paper)}
+
+/* SECTIONS */
+main{max-width:880px;margin:0 auto;padding:12px 20px 80px}
+section{padding:44px 0 8px;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+.sh{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+.num{font-family:var(--serif);font-size:44px;color:var(--accent);line-height:1}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(28px,5vw,38px);line-height:1.1;margin:0}
+.time{margin-left:auto;font-size:14px;color:var(--muted);font-weight:500}
+.task{font-weight:600;margin:14px 0 18px;max-width:40em}
+h3{font-family:var(--serif);font-weight:400;font-size:24px;margin:30px 0 10px}
+
+.qs{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.qs li{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:14px 18px;font-size:18px}
+.qs small{display:block;color:var(--muted);font-size:15px;margin-top:4px}
+
+.box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:640px){.two{grid-template-columns:1fr}}
+
+/* VOCAB MATCH */
+.defs{list-style:none;padding:0;margin:0 0 20px;display:grid;gap:8px}
+.defs li{display:flex;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.defs b{font-family:var(--serif);font-weight:400;font-size:20px;color:var(--accent);min-width:22px}
+.match{display:grid;gap:10px}
+.mrow{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 14px}
+.mrow .w{font-weight:600;font-size:18px}
+.mrow .arm{grid-column:1/-1;font-family:var(--arm);color:var(--accent);font-size:16px;font-weight:600;margin-top:-4px}
+select,input[type=text]{background:var(--paper);border:1.5px solid var(--line);border-radius:6px;padding:6px 10px;min-height:40px}
+.mrow.good{border-color:var(--ok);background:var(--ok-soft)}
+.mrow.wrong{border-color:var(--bad);background:var(--bad-soft)}
+
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.btn{border:0;border-radius:999px;padding:10px 20px;font-weight:600;cursor:pointer;background:var(--ink);color:var(--paper)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.score{font-weight:600;align-self:center;color:var(--accent)}
+
+/* READING */
+.article{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:28px clamp(18px,5vw,48px)}
+.article h4{font-family:var(--serif);font-weight:400;font-size:32px;margin:0 0 4px}
+.article .by{color:var(--muted);font-size:15px;margin:0 0 20px}
+.article p{font-size:18px;line-height:1.75;max-width:36em}
+.kw{background:linear-gradient(transparent 62%,var(--accent-soft) 62%);font-weight:600}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:12px 16px;cursor:pointer}
+.opt.good{border-color:var(--ok);background:var(--ok-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.tf{display:grid;gap:10px}
+.tfrow{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 16px}
+.tfb{display:flex;gap:6px}
+.tfb button{border:1.5px solid var(--line);background:var(--paper);border-radius:6px;padding:6px 14px;font-weight:600;cursor:pointer}
+.tfb button.sel{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.tfrow.good{border-color:var(--ok);background:var(--ok-soft)}
+.tfrow.wrong{border-color:var(--bad);background:var(--bad-soft)}
+
+/* GAP FILL */
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.bank span{background:var(--accent-soft);color:var(--ink);border-radius:999px;padding:5px 14px;font-weight:500}
+.gaps{list-style:none;padding:0;margin:0;display:grid;gap:12px;counter-reset:g}
+.gaps li{counter-increment:g;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 16px;line-height:2.2}
+.gaps li::before{content:counter(g) ".";font-weight:700;color:var(--accent);margin-right:8px}
+.gaps input{width:12em;max-width:100%}
+.gaps input.good{border-color:var(--ok);background:var(--ok-soft)}
+.gaps input.wrong{border-color:var(--bad);background:var(--bad-soft)}
+
+/* LANGUAGE FOCUS */
+.rule{font-family:var(--serif);font-size:clamp(22px,4vw,30px);line-height:1.3;margin:0 0 10px}
+.rule em{color:var(--accent);font-style:normal}
+.trans{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.trans li{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.trans .ans{display:none;margin-top:8px;color:var(--ok);font-weight:600}
+.trans li.show .ans{display:block}
+.reveal{margin-top:10px;background:none;border:0;padding:0;color:var(--accent);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+/* SPEAKING */
+.phrases{display:flex;flex-wrap:wrap;gap:8px}
+.phrases span{border:1.5px solid var(--line);border-radius:6px;padding:6px 12px;background:var(--card);font-size:16px}
+.ideas{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.idea{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.idea strong{display:block;margin-bottom:2px}
+
+/* ERRORS */
+.errs{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.err{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px;cursor:pointer;text-align:left;width:100%}
+.err .x{text-decoration:line-through;text-decoration-color:var(--bad);text-decoration-thickness:2px}
+.err .fix{display:none;margin-top:6px;color:var(--ok);font-weight:600}
+.err.show .fix{display:block}
+.err .hint{display:block;color:var(--muted);font-size:14px;margin-top:4px}
+.err.show .hint{display:none}
+
+/* COOL DOWN */
+.final{background:var(--dusk);color:#F3EDE2;border-radius:12px;padding:28px clamp(20px,5vw,40px)}
+.final h3{margin-top:0;color:var(--glow)}
+.final p{color:#D6D9E2;margin:0 0 12px}
+.final .big{font-family:var(--serif);font-size:clamp(24px,4vw,32px);color:#F3EDE2;line-height:1.25}
+.hw{margin-top:20px}
+footer{text-align:center;color:var(--muted);font-size:14px;padding:30px 20px 40px}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="skyline" id="skyline" aria-hidden="true"></div>
+    <span class="level">Speaking and Vocabulary</span>
+    <h1>Alone among millions</h1>
+    <p>Why do people feel lonely in a city full of people? And what small steps help them feel at home?</p>
+    <div class="meta"><span>60 minutes</span><span>One-to-one</span><span>Reading and discussion</span></div>
+  </div>
+</header>
+
+<nav class="stages" aria-label="Lesson stages">
+  <ol>
+    <li><a href="#s1">1 Warm-up</a></li>
+    <li><a href="#s2">2 Lead-in</a></li>
+    <li><a href="#s3">3 Vocabulary</a></li>
+    <li><a href="#s4">4 Reading</a></li>
+    <li><a href="#s5">5 Practice</a></li>
+    <li><a href="#s6">6 Grammar</a></li>
+    <li><a href="#s7">7 Speaking</a></li>
+    <li><a href="#s8">8 Say it right</a></li>
+    <li><a href="#s9">9 Cool-down</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- 1 WARM-UP -->
+<section id="s1">
+  <div class="sh"><span class="num">1</span><h2>Warm-up</h2><span class="time">5 min</span></div>
+  <p class="task">Discuss with your teacher.</p>
+  <ul class="qs">
+    <li>Would you rather live in a huge city or a small town where everyone knows your name?<small>Give two reasons.</small></li>
+    <li>When did you last have a real conversation with a stranger? How did it start?</li>
+    <li>Is being alone the same as feeling lonely?<small>Think of an example for each.</small></li>
+  </ul>
+</section>
+
+<!-- 2 LEAD-IN -->
+<section id="s2">
+  <div class="sh"><span class="num">2</span><h2>Lead-in</h2><span class="time">5 min</span></div>
+  <p class="task">Look at the windows at the top of the page. One window is brighter than the others.</p>
+  <div class="two">
+    <div class="box">
+      <h3 style="margin-top:0">Imagine</h3>
+      <p style="margin:0">Who lives behind the bright window? How old are they? What are they doing tonight? How do they feel?</p>
+    </div>
+    <div class="box">
+      <h3 style="margin-top:0">Predict</h3>
+      <p style="margin:0 0 10px">Why can someone feel lonely in a city of millions? Write three reasons.</p>
+      <input type="text" aria-label="Reason 1" placeholder="Reason 1" style="width:100%;margin-bottom:8px">
+      <input type="text" aria-label="Reason 2" placeholder="Reason 2" style="width:100%;margin-bottom:8px">
+      <input type="text" aria-label="Reason 3" placeholder="Reason 3" style="width:100%">
+    </div>
+  </div>
+</section>
+
+<!-- 3 VOCABULARY -->
+<section id="s3">
+  <div class="sh"><span class="num">3</span><h2>Vocabulary</h2><span class="time">10 min</span></div>
+  <p class="task">Read the words and their Armenian equivalents. Match each word to its English definition.</p>
+  <ol class="defs" id="defs"></ol>
+  <div class="match" id="match"></div>
+  <div class="btns">
+    <button class="btn" id="checkMatch">Check answers</button>
+    <span class="score" id="matchScore" aria-live="polite"></span>
+  </div>
+  <h3>Talk about it</h3>
+  <ul class="qs">
+    <li>Where do you find a sense of belonging?</li>
+    <li>Do you enjoy the anonymity of a big city, or do you prefer a close-knit community?</li>
+    <li>Have you ever drifted apart from a good friend? Why?</li>
+  </ul>
+</section>
+
+<!-- 4 READING -->
+<section id="s4">
+  <div class="sh"><span class="num">4</span><h2>Reading</h2><span class="time">12 min</span></div>
+  <p class="task">Read quickly. Were your three reasons from the lead-in in the text?</p>
+
+  <article class="article">
+    <h4>Alone Among Millions</h4>
+    <p class="by">A story about a big city and a small pottery class</p>
+    <p>Maya moved to the city for a job she had wanted for years. Her flat was small but bright, and from her window she could see hundreds of other windows. At night, every one of them glowed. Behind each one, someone was cooking, arguing or laughing. Maya had never lived so close to so many people. She had also never felt so alone.</p>
+    <p>Her experience is more common than you might think. Psychologists often describe loneliness as the gap between the relationships we have and the relationships we want. It has little to do with the number of people around us. You can sit in a packed metro carriage and feel completely invisible.</p>
+    <p>Big cities make that gap wider. People are busy and always on the move. In such a <span class="kw">transient</span> population, neighbours change every year, and few people learn each other's names. The <span class="kw">anonymity</span> that feels like freedom at first can slowly turn into <span class="kw">isolation</span>. Many conversations stay at the level of small talk, polite but <span class="kw">superficial</span>. We <span class="kw">crave</span> a <span class="kw">sense of belonging</span>, yet we rarely stay in one place long enough to build it. Old friends <span class="kw">drift apart</span>, and new ones take time. The busier the city, the easier it is to hide.</p>
+    <p>Technology adds another layer. We follow hundreds of people online and still eat dinner alone. Scrolling through other people's best moments can make our own lives look emptier.</p>
+    <p>The good news is that small, repeated contact makes a real difference. Seeing the same barista every morning, joining a weekly running club or volunteering at a local library gives people a chance to move from strangers to familiar faces, and from familiar faces to friends.</p>
+    <p>After six months, Maya signed up for a Tuesday evening pottery class. At first she found it hard to <span class="kw">open up</span> and barely spoke. Then one evening a classmate asked for help with a broken bowl. They laughed at the mess, went for tea and kept meeting. Today the class is a <span class="kw">close-knit</span> group with a shared chat, a birthday list and Friday dinners.</p>
+    <p>The city did not get any smaller. Maya found her own place in it. Loneliness is common, and it can change. The first step is usually to <span class="kw">reach out</span>, and very often someone nearby wants the same thing.</p>
+  </article>
+
+  <h3>Main idea</h3>
+  <p class="task" style="margin-top:0">Choose the best summary.</p>
+  <div class="opts" id="gist">
+    <button class="opt" data-ok="0">Big cities are dangerous places for young people.</button>
+    <button class="opt" data-ok="1">City life can feel lonely, but small regular contact helps people connect.</button>
+    <button class="opt" data-ok="0">Technology is the main reason people feel lonely today.</button>
+  </div>
+
+  <h3>True or false?</h3>
+  <p class="task" style="margin-top:0">Read again carefully. Correct the false sentences.</p>
+  <div class="tf" id="tf"></div>
+  <div class="btns"><button class="btn" id="checkTF">Check answers</button><span class="score" id="tfScore" aria-live="polite"></span></div>
+</section>
+
+<!-- 5 PRACTICE -->
+<section id="s5">
+  <div class="sh"><span class="num">5</span><h2>Practice</h2><span class="time">7 min</span></div>
+  <p class="task">Complete the sentences with words from the box. Change the form if you need to.</p>
+  <div class="bank" id="bank"></div>
+  <ol class="gaps" id="gaps"></ol>
+  <div class="btns"><button class="btn" id="checkGaps">Check answers</button><button class="btn ghost" id="showGaps">Show answers</button><span class="score" id="gapScore" aria-live="polite"></span></div>
+</section>
+
+<!-- 6 GRAMMAR -->
+<section id="s6">
+  <div class="sh"><span class="num">6</span><h2>Grammar: the more, the more</h2><span class="time">8 min</span></div>
+  <div class="box">
+    <p style="margin:0 0 8px;color:var(--muted)">From the text</p>
+    <p class="rule"><em>The busier</em> the city, <em>the easier</em> it is to hide.</p>
+    <p style="margin:0">We use <strong>the + comparative, the + comparative</strong> to show that two things change together.</p>
+    <p style="margin:8px 0 0">The more you practise, the better you speak.<br>The older I get, the more I value my friends.</p>
+  </div>
+  <h3>Rewrite the sentences</h3>
+  <p class="task" style="margin-top:0">Start each sentence with <em>The</em>.</p>
+  <ul class="trans" id="trans"></ul>
+  <h3>Your turn</h3>
+  <p class="task" style="margin-top:0">Finish the sentences about you. Say them out loud.</p>
+  <ul class="qs">
+    <li>The more time I spend online, the ...</li>
+    <li>The better I know someone, the ...</li>
+    <li>The bigger the city, the ...</li>
+  </ul>
+</section>
+
+<!-- 7 SPEAKING -->
+<section id="s7">
+  <div class="sh"><span class="num">7</span><h2>Speaking</h2><span class="time">12 min</span></div>
+  <h3 style="margin-top:14px">Part A. Discuss</h3>
+  <ul class="qs">
+    <li>Why do you think people find it easier to talk to strangers when they travel?</li>
+    <li>Does social media bring people closer or push them apart? Give a real example.</li>
+    <li>What places in your city help people meet each other?</li>
+    <li>What advice would you give Maya in her first month in the city?</li>
+  </ul>
+
+  <h3>Part B. Design a friendlier neighbourhood</h3>
+  <p class="task" style="margin-top:0">Choose three ideas or invent your own. Discuss them with your teacher. Decide which one will help the most and explain why.</p>
+  <div class="ideas">
+    <div class="idea"><strong>Shared kitchen</strong>A free community kitchen where neighbours cook together on Sundays.</div>
+    <div class="idea"><strong>Skill swap board</strong>Teach guitar, learn Spanish. Everyone offers one skill.</div>
+    <div class="idea"><strong>Welcome box</strong>New residents get a box with local tips and an invitation to coffee.</div>
+    <div class="idea"><strong>Walking club</strong>An evening walk every Wednesday. Anyone can join.</div>
+    <div class="idea"><strong>Rooftop garden</strong>Neighbours grow vegetables and share the harvest.</div>
+    <div class="idea"><strong>Your idea</strong>What does your neighbourhood need?</div>
+  </div>
+  <h3>Useful language</h3>
+  <div class="phrases">
+    <span>One idea could be ...</span><span>What if we ...?</span><span>That would help people who ...</span><span>I'm not sure that would work because ...</span><span>Fair point, but ...</span><span>Let's go with ...</span><span>The main benefit is ...</span>
+  </div>
+</section>
+
+<!-- 8 SAY IT RIGHT -->
+<section id="s8">
+  <div class="sh"><span class="num">8</span><h2>Say it right</h2><span class="time">5 min</span></div>
+  <p class="task">Each sentence has one mistake. Correct it out loud, then tap to check.</p>
+  <ul class="errs" id="errs"></ul>
+</section>
+
+<!-- 9 COOL-DOWN -->
+<section id="s9">
+  <div class="sh"><span class="num">9</span><h2>Cool-down</h2><span class="time">3 min</span></div>
+  <div class="final">
+    <h3>One small step</h3>
+    <p class="big">What is one thing you will do this week to connect with someone?</p>
+    <p>Say it in one sentence. Use a word from today.</p>
+    <p style="margin:0">Example: This week I'll reach out to an old friend I drifted apart from.</p>
+  </div>
+  <div class="box hw">
+    <h3 style="margin-top:0">Homework</h3>
+    <p style="margin:0">Write 150 to 180 words: <strong>A place where I feel I belong.</strong> Use at least five words from the vocabulary and one sentence with <em>the more ..., the more ...</em></p>
+  </div>
+</section>
+
+</main>
+<footer>Tad Hayrapetian · English lessons</footer>
+
+<script>
+/* SKYLINE */
+(function(){
+  const sky=document.getElementById('skyline');
+  const w=sky.clientWidth||340;
+  const n=Math.max(4,Math.min(9,Math.floor(w/95)));
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const all=[];let herIdx=null;
+  for(let b=0;b<n;b++){
+    const cols=2+(b%3),rows=4+((b*5)%6);
+    const d=document.createElement('div');d.className='bld';
+    d.style.gridTemplateColumns=`repeat(${cols},10px)`;
+    for(let i=0;i<cols*rows;i++){const x=document.createElement('div');x.className='win';d.appendChild(x);all.push(x)}
+    sky.appendChild(d);
+  }
+  herIdx=Math.floor(all.length*0.55);
+  const toLight=all.map((x,i)=>i).filter(i=>i!==herIdx&&Math.random()<.45);
+  if(reduce){toLight.forEach(i=>all[i].classList.add('lit'));all[herIdx].classList.add('her');return}
+  toLight.sort(()=>Math.random()-.5).forEach((i,k)=>setTimeout(()=>all[i].classList.add('lit'),200+k*22));
+  setTimeout(()=>all[herIdx].classList.add('her'),400+toLight.length*22);
+})();
+
+/* STAGE NAV HIGHLIGHT */
+(function(){
+  const links=[...document.querySelectorAll('.stages a')];
+  const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id));const a=links.find(l=>l.classList.contains('on'));if(a)a.scrollIntoView({block:'nearest',inline:'center'})}})},{rootMargin:'-40% 0px -55% 0px'});
+  document.querySelectorAll('main section').forEach(s=>obs.observe(s));
+})();
+
+/* VOCAB MATCH */
+const defs={A:'staying in a place only for a short time',B:'to start talking honestly about your feelings',C:'the state of not being known or recognised by others',D:'with members who are very friendly and support each other',E:'to want something very strongly',F:'to slowly become less close to someone',G:'the state of being separated from other people',H:'to try to contact or connect with someone',I:'only on the surface; not deep or serious',J:'the feeling that you are an accepted part of a group'};
+const words=[['anonymity','C','անանունություն'],['isolation','G','մեկուսացում'],['superficial','I','մակերեսային'],['to crave','E','ուժեղ ցանկանալ, տենչալ'],['a sense of belonging','J','պատկանելության զգացում'],['transient','A','անցողիկ, ժամանակավոր'],['to drift apart','F','աստիճանաբար հեռանալ միմյանցից'],['to open up','B','բացվել, անկեղծանալ'],['close-knit','D','սերտ, համախմբված'],['to reach out','H','կապ հաստատել, դիմել մեկին']];
+const dl=document.getElementById('defs');
+Object.entries(defs).forEach(([k,v])=>{dl.insertAdjacentHTML('beforeend',`<li><b>${k}</b><span>${v}</span></li>`)});
+const m=document.getElementById('match');
+words.forEach((w,i)=>{
+  const opts=Object.keys(defs).map(k=>`<option>${k}</option>`).join('');
+  m.insertAdjacentHTML('beforeend',`<div class="mrow" data-a="${w[1]}"><span class="w">${w[0]}</span><select aria-label="Definition for ${w[0]}"><option value="">?</option>${opts}</select><span class="arm" lang="hy">${w[2]}</span></div>`);
+});
+document.getElementById('checkMatch').onclick=()=>{
+  let s=0;m.querySelectorAll('.mrow').forEach(r=>{const v=r.querySelector('select').value;const ok=v===r.dataset.a;r.classList.toggle('good',ok);r.classList.toggle('wrong',!ok);if(ok)s++});
+  document.getElementById('matchScore').textContent=`${s} / ${words.length}`;
+};
+
+
+/* GIST */
+document.querySelectorAll('#gist .opt').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#gist .opt').forEach(x=>x.classList.remove('good','wrong'));
+  b.classList.add(b.dataset.ok==='1'?'good':'wrong');
+});
+
+/* TRUE / FALSE */
+const tfs=[['Maya felt lonely because there were very few people in her area.','F'],['The article says loneliness depends on how many people are around you.','F'],['In big cities, many neighbours do not know each other\u2019s names.','T'],['Following many people online always makes us feel less alone.','F'],['Seeing the same people regularly can help strangers become friends.','T'],['Maya made friends on her first evening at the pottery class.','F']];
+const tfEl=document.getElementById('tf');
+tfs.forEach((t,i)=>{tfEl.insertAdjacentHTML('beforeend',`<div class="tfrow" data-a="${t[1]}"><span>${i+1}. ${t[0]}</span><div class="tfb" role="group" aria-label="True or false"><button data-v="T">T</button><button data-v="F">F</button></div></div>`)});
+tfEl.querySelectorAll('.tfb button').forEach(b=>b.onclick=()=>{b.parentNode.querySelectorAll('button').forEach(x=>x.classList.remove('sel'));b.classList.add('sel')});
+document.getElementById('checkTF').onclick=()=>{
+  let s=0;tfEl.querySelectorAll('.tfrow').forEach(r=>{const sel=r.querySelector('.sel');const ok=sel&&sel.dataset.v===r.dataset.a;r.classList.toggle('good',!!ok);r.classList.toggle('wrong',!ok);if(ok)s++});
+  document.getElementById('tfScore').textContent=`${s} / ${tfs.length}`;
+};
+
+/* GAP FILL */
+const gaps=[['After university, my school friends and I slowly ',' .',['drifted apart']],['I love the ',' of a big city. Nobody knows who I am.',['anonymity']],['Our conversations at work are friendly but ',' . We never talk about anything real.',['superficial']],['If you feel down, don\u2019t hide. ',' to someone you trust.',['reach out']],['She grew up in a ',' village where everyone helped each other.',['close-knit','close knit']],['It took him months to ',' to his new colleagues.',['open up']],['Joining the choir gave me a real ',' .',['sense of belonging']],['Students and tourists make this area very ',' . People come and go all the time.',['transient']]];
+const bankWords=['superficial','sense of belonging','drift apart','transient','reach out','anonymity','open up','close-knit'];
+const armMap={'superficial':'մակերեսային','sense of belonging':'պատկանելության զգացում','drift apart':'հեռանալ միմյանցից','transient':'անցողիկ','reach out':'կապ հաստատել','anonymity':'անանունություն','open up':'բացվել','close-knit':'սերտ, համախմբված'};
+document.getElementById('bank').innerHTML=bankWords.map(w=>`<span>${w} <em lang="hy" style="font-style:normal;font-family:var(--arm);color:var(--muted);font-size:14px">${armMap[w]}</em></span>`).join('');
+const gl=document.getElementById('gaps');
+gaps.forEach((g,i)=>{gl.insertAdjacentHTML('beforeend',`<li>${g[0]}<input type="text" aria-label="Gap ${i+1}" data-i="${i}" autocomplete="off" autocapitalize="off">${g[1].replace(/^ /,'')}</li>`)});
+const norm=s=>s.trim().toLowerCase().replace(/\s+/g,' ').replace(/[.!]$/,'');
+document.getElementById('checkGaps').onclick=()=>{
+  let s=0;gl.querySelectorAll('input').forEach(inp=>{const ok=gaps[inp.dataset.i][2].includes(norm(inp.value));inp.classList.toggle('good',ok);inp.classList.toggle('wrong',!ok);if(ok)s++});
+  document.getElementById('gapScore').textContent=`${s} / ${gaps.length}`;
+};
+document.getElementById('showGaps').onclick=()=>gl.querySelectorAll('input').forEach(inp=>{inp.value=gaps[inp.dataset.i][2][0];inp.classList.remove('wrong');inp.classList.add('good')});
+
+/* TRANSFORMATIONS */
+const tr=[['When a city grows bigger, people feel more anonymous.','The bigger the city, the more anonymous people feel.'],['If you spend more time online, you may feel lonelier.','The more time you spend online, the lonelier you may feel.'],['If you see someone more often, it is easier to talk to them.','The more often you see someone, the easier it is to talk to them.'],['When you open up more, people trust you more.','The more you open up, the more people trust you.']];
+const trEl=document.getElementById('trans');
+tr.forEach((t,i)=>{trEl.insertAdjacentHTML('beforeend',`<li><span>${i+1}. ${t[0]}</span><div class="ans">${t[1]}</div><button class="reveal">Show answer</button></li>`)});
+trEl.querySelectorAll('.reveal').forEach(b=>b.onclick=()=>{const li=b.parentNode;li.classList.toggle('show');b.textContent=li.classList.contains('show')?'Hide answer':'Show answer'});
+
+/* ERRORS */
+const errs=[['I feel myself lonely in this city.','I feel lonely in this city.','Look at the verb feel.'],['She is very alone person.','She is a very lonely person.','Alone or lonely? And one more word is missing.'],['It depends from the person.','It depends on the person.','Check the preposition.'],['I miss for my family.','I miss my family.','One word is extra.'],['We discussed about loneliness in our lesson.','We discussed loneliness in our lesson.','One word is extra.'],['The more I travel, the more better I understand people.','The more I travel, the better I understand people.','Check the comparative.']];
+const eEl=document.getElementById('errs');
+errs.forEach(e=>{eEl.insertAdjacentHTML('beforeend',`<li><button class="err"><span class="x">${e[0]}</span><span class="hint">${e[2]}</span><span class="fix">${e[1]}</span></button></li>`)});
+eEl.querySelectorAll('.err').forEach(b=>b.onclick=()=>{b.classList.toggle('show');b.querySelector('.x').style.textDecoration=b.classList.contains('show')?'':'none'});
+eEl.querySelectorAll('.err .x').forEach(x=>x.style.textDecoration='none');
+</script>
+</body>
+</html>

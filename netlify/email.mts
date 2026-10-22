@@ -122,3 +122,86 @@ export function assignmentText(a: Assignment) {
     a.teacher,
   ].join("\n")
 }
+
+export type Request_ = {
+  teacher: string
+  name: string
+  email: string
+  what: string
+  level?: string
+  times?: string
+  message?: string
+  siteUrl: string
+}
+
+const T = DEFAULT_THEME
+const SERIF = `Georgia,'Times New Roman',serif`
+const SANS = `'Helvetica Neue',Helvetica,Arial,sans-serif`
+
+function rows(r: Request_) {
+  const items: [string, string | undefined][] = [
+    ["Request", r.what],
+    ["Level", r.level],
+    ["Free time", r.times],
+    ["Message", r.message],
+  ]
+  return items
+    .filter(([, v]) => v && v.trim())
+    .map(
+      ([k, v]) => `<tr><td style="padding:14px 0;border-top:1px solid ${T.soft};vertical-align:top;width:120px;font:400 11px/1.6 ${SANS};letter-spacing:2px;text-transform:uppercase;color:${T.muted};">${esc(k)}</td>
+<td style="padding:14px 0;border-top:1px solid ${T.soft};font:300 15px/1.6 ${SANS};color:${T.ink};">${esc(v).replace(/\n/g, "<br>")}</td></tr>`,
+    )
+    .join("")
+}
+
+function shell(r: Request_, eyebrow: string, title: string, body: string) {
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light"><style>@media (max-width:620px){.wrap{width:100%!important}.px{padding-left:24px!important;padding-right:24px!important}}</style></head>
+<body style="margin:0;padding:0;background:${T.bg};">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${T.bg};"><tr><td align="center" style="padding:32px 12px 40px;">
+<table role="presentation" class="wrap" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:600px;">
+<tr><td class="px" style="padding:0 8px 18px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+ <td style="font:500 11px/1 ${SANS};letter-spacing:3px;text-transform:uppercase;color:${T.ink};">${esc(r.teacher)}</td>
+ <td align="right" style="font:400 11px/1 ${SANS};letter-spacing:3px;text-transform:uppercase;color:${T.muted};">English lessons</td></tr></table></td></tr>
+<tr><td class="px" style="background:${T.accent};padding:44px 48px 40px;">
+ <p style="margin:0 0 18px;font:500 11px/1 ${SANS};letter-spacing:3px;text-transform:uppercase;color:${T.onAccent};opacity:.8;">${esc(eyebrow)}</p>
+ <h1 style="margin:0;font:italic 400 44px/1.05 ${SERIF};color:${T.onAccent};">${esc(title)}</h1></td></tr>
+<tr><td class="px" style="background:${T.card};padding:40px 48px 44px;">${body}</td></tr>
+<tr><td class="px" style="padding:24px 8px 0;font:300 12px/1.6 ${SANS};color:${T.muted};" align="center"><a href="${esc(r.siteUrl)}" style="color:${T.muted};">${esc(r.siteUrl.replace(/^https?:\/\//, ""))}</a></td></tr>
+</table></td></tr></table></body></html>`
+}
+
+// To the teacher: a new request, reply goes straight to the student.
+export function requestTeacherHtml(r: Request_) {
+  return shell(
+    r,
+    "New request",
+    r.name,
+    `<p style="margin:0 0 24px;font:300 16px/1.6 ${SANS};color:${T.ink};"><a href="mailto:${esc(r.email)}" style="color:${T.accent};">${esc(r.email)}</a></p>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${rows(r)}</table>
+<p style="margin:26px 0 0;font:300 13px/1.6 ${SANS};color:${T.muted};">Press Reply to answer ${esc(r.name)} directly.</p>`,
+  )
+}
+
+// To the student: a confirmation with a copy of what they sent.
+export function requestStudentHtml(r: Request_) {
+  const first = r.name.trim().split(/\s+/)[0]
+  return shell(
+    r,
+    "Request received",
+    `Thank you, ${first}!`,
+    `<p style="margin:0;font:300 16px/1.7 ${SANS};color:${T.ink};">I have your message and will reply within a day to find a time that works for you.</p>
+<p style="margin:26px 0 8px;font:400 11px/1 ${SANS};letter-spacing:2px;text-transform:uppercase;color:${T.muted};">What you sent</p>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${rows(r)}</table>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:30px;"><tr><td style="border-top:1px solid ${T.soft};padding-top:26px;">
+ <p style="margin:0;font:300 14px/1.5 ${SANS};color:${T.muted};">Talk soon,</p>
+ <p style="margin:6px 0 0;font:italic 400 26px/1.2 ${SERIF};color:${T.ink};">${esc(r.teacher)}</p>
+ <p style="margin:4px 0 0;font:400 11px/1.4 ${SANS};letter-spacing:2px;text-transform:uppercase;color:${T.muted};">English teacher</p></td></tr></table>`,
+  )
+}
+
+export function requestText(r: Request_) {
+  return [`${r.name} <${r.email}>`, "", `Request: ${r.what}`, r.level && `Level: ${r.level}`, r.times && `Free time: ${r.times}`, r.message && `\n${r.message}`]
+    .filter(Boolean)
+    .join("\n")
+}

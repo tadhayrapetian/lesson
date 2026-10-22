@@ -20,14 +20,41 @@ body.viewing{overflow:hidden}
 button{font:inherit;color:inherit}
 .serif{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-weight:400}
 
-.page{max-width:1280px;margin:0 auto;padding:clamp(1.5rem,5vw,4rem) clamp(1rem,4vw,3rem) 3rem}
-.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1.5rem 3rem;padding-bottom:2rem;border-bottom:1px solid var(--line)}
-.head h1{margin:0;font-size:clamp(3rem,8vw,6rem);line-height:.95}
-.head p{margin:.6rem 0 0;color:var(--muted);letter-spacing:.14em;font-size:.82rem}
+.wrap{max-width:1280px;margin:0 auto;padding:0 clamp(1rem,4vw,3rem)}
+html{scroll-behavior:smooth;scroll-padding-top:5rem}
+.nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:2rem;height:4.2rem}
+.brand{font-size:1.5rem;color:var(--ink);text-decoration:none;white-space:nowrap}
+.links{display:flex;gap:1.8rem;margin-left:auto}
+.links a{color:var(--muted);text-decoration:none;font-size:.88rem;letter-spacing:.04em}
+.links a:hover{color:var(--ink)}
+.cta{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;background:var(--forest);color:var(--white);border:1px solid var(--forest);border-radius:999px;padding:.6rem 1.4rem;font-size:.9rem;text-decoration:none;white-space:nowrap;cursor:pointer;transition:filter .2s}
+.cta:hover{filter:brightness(1.1)}
+.cta.ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+.nav .cta{padding:.45rem 1.2rem;font-size:.85rem}
+@media (max-width:820px){.links{display:none}.nav .cta{margin-left:auto}}
+
+.hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(2rem,5vw,5rem);align-items:end;padding:clamp(3rem,8vw,6.5rem) 0 clamp(3rem,6vw,5rem);border-bottom:1px solid var(--line)}
+.hero h1{margin:0;font-size:clamp(3.4rem,9vw,7.5rem);line-height:.9}
+.kicker{margin:0 0 1.2rem;color:var(--muted);letter-spacing:.18em;font-size:.78rem;text-transform:uppercase}
+.lede{margin:1.6rem 0 2.2rem;font-size:clamp(1.05rem,1.6vw,1.25rem);max-width:34ch;line-height:1.55}
+.actions{display:flex;flex-wrap:wrap;gap:.8rem}
+.mosaic{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(2,minmax(120px,1fr));min-height:300px}
+.tile{padding:1.4rem;display:flex;flex-direction:column;justify-content:space-between;background:var(--c);color:var(--f)}
+.tile.big{grid-row:span 2}
+.tile b{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-weight:400;font-size:clamp(2.4rem,4.5vw,3.6rem);line-height:1}
+.tile span{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;opacity:.85}
+@media (max-width:820px){.hero{grid-template-columns:1fr}.mosaic{min-height:240px}}
+
+.sec{padding:clamp(3.5rem,8vw,6rem) 0;border-bottom:1px solid var(--line)}
+.sechead{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1.5rem 3rem;margin-bottom:2rem}
+.eyebrow{margin:0 0 .6rem;color:var(--muted);font-size:.75rem;letter-spacing:.18em;text-transform:uppercase}
+.sechead h2,.sec h2.t{margin:0;font-size:clamp(2.6rem,6vw,4.4rem);line-height:.95}
 .search{min-width:min(100%,320px)}
 .search input{font:inherit;font-size:1rem;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--ink);padding:.5rem 0;width:100%}
 .search input:focus{outline:none;border-bottom-color:var(--forest)}
-.filters{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.6rem 0 2rem}
+.filters{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin:0 0 1.4rem}
+.filters .lbl{font-size:.72rem;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-right:.4rem}
 .chip{background:transparent;border:1px solid var(--line);border-radius:999px;padding:.35rem 1.1rem;font-size:.85rem;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
 .count{color:var(--muted);font-size:.8rem;letter-spacing:.12em;margin:0 0 1rem}
@@ -42,7 +69,53 @@ button{font:inherit;color:inherit}
 .card p{margin:0;font-size:.9rem;opacity:.9;max-width:30ch}
 .open{font-size:.8rem;letter-spacing:.1em;border-bottom:1px solid currentColor;align-self:flex-start}
 .empty{padding:3rem 1rem;text-align:center;font-size:2rem}
-.foot{margin-top:3rem;color:var(--muted);font-size:.8rem;letter-spacing:.1em}
+.about{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,5vw,5rem);align-items:stretch}
+.portrait{background:var(--midnight);color:var(--white);padding:clamp(1.6rem,3vw,2.4rem);display:flex;flex-direction:column;justify-content:space-between;gap:3rem;min-height:420px}
+.mono{font-size:clamp(6rem,14vw,10rem);line-height:.8;color:var(--sky)}
+.facts{list-style:none;margin:0;padding:0}
+.facts li{padding:.8rem 0;border-top:1px solid rgba(254,252,246,.2);font-size:.95rem}
+.bio h2{margin:0 0 1.6rem}
+.bio p{margin:0 0 1.1rem;font-size:clamp(1.02rem,1.4vw,1.15rem);max-width:56ch}
+.socials{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem}
+.socials a{color:var(--ink);text-decoration:none;border:1px solid var(--ink);border-radius:999px;padding:.45rem 1.2rem;font-size:.88rem;transition:background .2s,color .2s}
+.socials a:hover{background:var(--ink);color:var(--bg)}
+@media (max-width:820px){.about{grid-template-columns:1fr}.portrait{min-height:300px}}
+
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));border:1px solid var(--line)}
+.plan{display:flex;flex-direction:column;gap:1.4rem;padding:clamp(1.6rem,3vw,2.4rem);background:var(--panel);border-right:1px solid var(--line)}
+.plan:last-child{border-right:0}
+.plan.featured{background:var(--forest);color:var(--white)}
+.plan h3{margin:0;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;font-weight:500}
+.badge{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;border:1px solid currentColor;border-radius:999px;padding:.15rem .7rem;margin-left:.6rem;vertical-align:middle;opacity:.9}
+.price{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:clamp(2.8rem,5vw,3.8rem);line-height:1;margin:0}
+.period{margin:-.8rem 0 0;font-size:.9rem;opacity:.8}
+.plan ul{list-style:none;margin:0;padding:0;flex:1}
+.plan li{padding:.6rem 0;border-top:1px solid var(--line);font-size:.93rem}
+.plan.featured li{border-color:rgba(254,252,246,.25)}
+.plan .cta{align-self:flex-start}
+.plan.featured .cta{background:var(--white);color:var(--midnight);border-color:var(--white)}
+.note{margin:1.2rem 0 0;color:var(--muted);font-size:.85rem}
+@media (max-width:560px){.plan{border-right:0;border-bottom:1px solid var(--line)}.plan:last-child{border-bottom:0}}
+
+.contact{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,5vw,5rem)}
+.contact .intro p{font-size:1.05rem;max-width:38ch;margin:1.4rem 0 0}
+.cform{background:var(--panel);border:1px solid var(--line);padding:clamp(1.4rem,3.5vw,2.4rem)}
+.cform label{display:block;font-size:.72rem;letter-spacing:.14em;color:var(--muted);margin:0 0 .3rem;text-transform:uppercase}
+.cform input,.cform select,.cform textarea{font:inherit;font-size:1rem;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--ink);border-radius:0;padding:.5rem 0;width:100%;margin-bottom:1.3rem}
+.cform select{appearance:none;-webkit-appearance:none;background:linear-gradient(45deg,transparent 50%,var(--ink) 50%) right .4rem center/6px 6px no-repeat,linear-gradient(-45deg,transparent 50%,var(--ink) 50%) right 0 center/6px 6px no-repeat}
+.cform select option{color:#162A2C}
+.cform textarea{border:1px solid var(--line);padding:.7rem .8rem;min-height:7rem;resize:vertical}
+.cform input:focus,.cform select:focus,.cform textarea:focus{outline:none;border-color:var(--forest)}
+.cform .cta{width:100%;padding:.8rem;font-size:1rem}
+.cform .cta:disabled{opacity:.6;cursor:default}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.done{text-align:center;padding:2rem 0}
+.done h3{font-size:3rem;margin:0 0 .6rem;line-height:1}
+.done p{color:var(--muted);margin:0 auto 1.6rem;max-width:34ch}
+@media (max-width:820px){.contact{grid-template-columns:1fr}}
+
+.foot{padding:2.4rem 0 3rem;color:var(--muted);font-size:.8rem;letter-spacing:.1em;display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
+.foot a{color:inherit}
 
 .viewer{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;background:var(--bg)}
 .vbar{display:flex;align-items:center;gap:1rem;padding:.6rem clamp(.8rem,3vw,1.6rem);background:var(--midnight);color:var(--white)}
@@ -65,8 +138,9 @@ button{font:inherit;color:inherit}
 .glinks button{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;cursor:pointer}
 .glinks button:disabled{text-decoration:none;cursor:default}
 .gmsg{min-height:1.4em;margin:.8rem 0 0;font-size:.85rem;color:#A4473B}
+.cform .gmsg{text-align:center}
 .gmsg.ok{color:var(--forest)}
-body{-webkit-user-select:none;user-select:none}input,textarea{-webkit-user-select:text;user-select:text}
+body.viewing{-webkit-user-select:none;user-select:none}input,textarea{-webkit-user-select:text;user-select:text}
 @media print{html{display:none!important}}
 .vbar .assign{background:var(--white);color:var(--midnight);border-color:var(--white)}
 .vbar .assign:hover{background:var(--sky)}
@@ -82,6 +156,7 @@ body{-webkit-user-select:none;user-select:none}input,textarea{-webkit-user-selec
 .mbox textarea{border:1px solid var(--line);padding:.6rem .7rem;min-height:6.5rem;resize:vertical}
 .mbox input:focus,.mbox textarea:focus{outline:none;border-color:var(--forest)}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:0 1.2rem}
+.cform .row2{gap:0 1.6rem}
 @media (max-width:520px){.row2{grid-template-columns:1fr}}
 .seg{display:flex;border:1px solid var(--ink);border-radius:999px;overflow:hidden;margin-bottom:1.2rem}
 .seg button{flex:1;background:none;border:0;padding:.5rem;font-size:.9rem;cursor:pointer}
@@ -98,16 +173,76 @@ body{-webkit-user-select:none;user-select:none}input,textarea{-webkit-user-selec
 </style>
 </head>
 <body>
-<div class="page">
- <header class="head">
-  <div><h1 class="serif" id="siteName"></h1><p id="tagline"></p></div>
-  <label class="search"><input id="q" type="search" placeholder="Search lessons" aria-label="Search lessons"></label>
+<nav class="nav" aria-label="Main">
+ <div class="wrap">
+  <a class="brand serif" href="#top" id="brand"></a>
+  <div class="links"><a href="#lessons">Lessons</a><a href="#about">About</a><a href="#membership" data-plans>Membership</a><a href="#contact">Contact</a></div>
+  <a class="cta" href="#contact" data-book>Book a lesson</a>
+ </div>
+</nav>
+
+<div class="wrap" id="top">
+ <header class="hero">
+  <div>
+   <p class="kicker" id="tagline"></p>
+   <h1 class="serif" id="siteName"></h1>
+   <p class="lede" id="intro"></p>
+   <div class="actions"><a class="cta" href="#contact" data-book>Book a lesson</a><a class="cta ghost" href="#lessons">Explore lessons</a></div>
+  </div>
+  <div class="mosaic" id="mosaic" aria-hidden="true"></div>
  </header>
- <div class="filters" id="filters" role="group" aria-label="Filter lessons"></div>
- <p class="count" id="count"></p>
- <main class="grid" id="grid"></main>
- <p class="empty serif" id="empty" hidden>No lessons found</p>
- <footer class="foot" id="foot"></footer>
+
+ <section class="sec" id="lessons" aria-labelledby="lessonsTitle">
+  <div class="sechead">
+   <div><p class="eyebrow">Library</p><h2 class="serif" id="lessonsTitle">Lessons</h2></div>
+   <label class="search"><input id="q" type="search" placeholder="Search lessons" aria-label="Search lessons"></label>
+  </div>
+  <div class="filters" id="filters" role="group" aria-label="Filter by level"></div>
+  <p class="count" id="count"></p>
+  <div class="grid" id="grid"></div>
+  <p class="empty serif" id="empty" hidden>No lessons found</p>
+ </section>
+
+ <section class="sec" id="about" aria-labelledby="aboutTitle">
+  <div class="about">
+   <div class="portrait"><span class="mono serif" id="mono"></span><ul class="facts" id="facts"></ul></div>
+   <div class="bio"><p class="eyebrow">Your teacher</p><h2 class="serif t" id="aboutTitle"></h2><div id="bio"></div><div class="socials" id="aboutSocials"></div></div>
+  </div>
+ </section>
+
+ <section class="sec" id="membership" aria-labelledby="planTitle">
+  <div class="sechead"><div><p class="eyebrow">Membership</p><h2 class="serif" id="planTitle">Choose your plan</h2></div></div>
+  <div class="plans" id="plans"></div>
+  <p class="note">Choose a plan and send a request. I will reply with the details and how to pay.</p>
+ </section>
+
+ <section class="sec" id="contact" aria-labelledby="contactTitle">
+  <div class="contact">
+   <div class="intro"><p class="eyebrow">Contact</p><h2 class="serif t" id="contactTitle">Book a lesson</h2>
+    <p>Tell me a little about yourself and your goals. I will reply within a day to find a time that works for you.</p>
+    <div class="socials" id="contactSocials"></div></div>
+   <div class="cform">
+    <form id="cForm" novalidate>
+     <div class="row2">
+      <div><label for="cName">Name</label><input id="cName" autocomplete="name" required maxlength="80"></div>
+      <div><label for="cEmail">Email</label><input id="cEmail" type="email" autocomplete="email" required maxlength="120"></div>
+     </div>
+     <div class="row2">
+      <div><label for="cKind">I would like to</label><select id="cKind"></select></div>
+      <div><label for="cLevel">My level</label><select id="cLevel"><option>Not sure</option><option>A1</option><option>A2</option><option>B1</option><option>B2</option><option>C1</option><option>C2</option></select></div>
+     </div>
+     <label for="cTimes">When are you free?</label><input id="cTimes" placeholder="For example: weekday evenings, Saturday morning" maxlength="200">
+     <label for="cMsg">Message</label><textarea id="cMsg" placeholder="Your goals, questions, anything you want me to know" maxlength="2000"></textarea>
+     <div class="hp" aria-hidden="true"><label for="cSite">Website</label><input id="cSite" tabindex="-1" autocomplete="off"></div>
+     <button class="cta" id="cSend">Send request</button>
+     <p class="gmsg" id="cMsgOut" role="status"></p>
+    </form>
+    <div class="done" id="cDone" hidden><h3 class="serif">Thank you!</h3><p id="cDoneText"></p><button type="button" class="cta ghost" id="cAgain">Send another message</button></div>
+   </div>
+  </div>
+ </section>
+
+ <footer class="foot"><span id="foot"></span><span class="socials" id="footSocials" style="margin:0"></span></footer>
 </div>
 
 <div class="viewer" id="viewer" hidden>
@@ -176,20 +311,71 @@ const ORDER=['forest','midnight','sky','storm','cream'];
 
 document.title=[S.name,S.tagline].filter(Boolean).join(', ')||'English lessons';
 $('#siteName').textContent=S.name||'English lessons';
+$('#brand').textContent=S.name||'English lessons';
 $('#tagline').textContent=S.tagline||'';
+$('#intro').textContent=S.intro||'';
 $('#vname').textContent=S.name||'';
 $('#foot').textContent='© '+new Date().getFullYear()+' '+(S.name||'');
 
-let tag='All',q='';
-const tags=['All',...new Set(L.map(l=>l.tag).filter(Boolean))];
-$('#filters').innerHTML=tags.length>2?tags.map(t=>`<button type="button" class="chip" aria-pressed="${t===tag}">${esc(t)}</button>`).join(''):'';
-$('#filters').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;tag=b.textContent;document.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c===b));render();});
+const LEVELS=['A1','A2','B1','B2','C1','C2'];
+const levelsOf=l=>[].concat(l.level||[]);
+const levelLabel=l=>{const v=levelsOf(l);return v.length>1?v[0]+'–'+v[v.length-1]:v[0]||'';};
+const allLevels=LEVELS.filter(x=>L.some(l=>levelsOf(l).includes(x)));
+
+// Hero mosaic: lesson count, level range, format
+(()=>{
+ const range=allLevels.length?allLevels[0]+(allLevels.length>1?'–'+allLevels[allLevels.length-1]:''):'';
+ const tiles=[[L.length,L.length===1?'lesson':'lessons','forest',1],[range,'levels','sky'],['1:1','online','midnight']].filter(t=>t[0]!=='');
+ $('#mosaic').innerHTML=tiles.map((t,i)=>{const c=COLORS[t[2]];return `<div class="tile${i===0?' big':''}" style="--c:${c[0]};--f:${c[1]}"><span>${esc(t[1])}</span><b>${esc(t[0])}</b></div>`;}).join('');
+})();
+
+// About, socials, plans
+const A=S.about||{};
+$('#aboutTitle').textContent=A.title||'About me';
+$('#bio').innerHTML=(A.text||[]).map(p=>`<p>${esc(p)}</p>`).join('');
+$('#facts').innerHTML=(A.facts||[]).map(f=>`<li>${esc(f)}</li>`).join('');
+$('#mono').textContent=(S.name||'').split(/\s+/).map(w=>w[0]).join('').slice(0,2);
+if(!A.text||!A.text.length){$('#about').hidden=true;document.querySelector('.links a[href="#about"]').hidden=true;}
+const socials=(S.socials||[]).filter(x=>x.url);
+const socialHtml=socials.map(x=>`<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a>`).join('');
+['#aboutSocials','#contactSocials','#footSocials'].forEach(id=>{$(id).innerHTML=socialHtml;$(id).hidden=!socials.length;});
+const P=S.plans||[];
+$('#plans').innerHTML=P.map((p,i)=>`<div class="plan${p.featured?' featured':''}">
+ <h3>${esc(p.name)}${p.featured?'<span class="badge">Popular</span>':''}</h3>
+ <p class="price">${esc(p.price)}</p>${p.period?`<p class="period">${esc(p.period)}</p>`:''}
+ <ul>${(p.features||[]).map(f=>`<li>${esc(f)}</li>`).join('')}</ul>
+ <button type="button" class="cta${p.featured?'':' ghost'}" data-plan="${i}">Choose ${esc(p.name)}</button>
+</div>`).join('');
+if(!P.length){$('#membership').hidden=true;document.querySelectorAll('[data-plans]').forEach(a=>a.hidden=true);}
+
+// Contact / booking form
+const KINDS=[['trial','Book a trial lesson'],...P.map((p,i)=>['plan:'+i,'Get '+p.name+(p.period?' ('+p.period+')':'')]),['question','Ask a question']];
+$('#cKind').innerHTML=KINDS.map(k=>`<option value="${esc(k[0])}">${esc(k[1])}</option>`).join('');
+$('#plans').addEventListener('click',e=>{const b=e.target.closest('[data-plan]');if(!b)return;$('#cKind').value='plan:'+b.dataset.plan;$('#contact').scrollIntoView({behavior:'smooth'});setTimeout(()=>$('#cName').focus({preventScroll:true}),400);});
+const CMSG={bad_name:'Please write your name.',bad_email:'Please check your email address.',too_many:'Too many messages. Please try again later.',mail_failed:'Could not send your message. Please try again in a minute.',network:'No connection. Please try again.'};
+$('#cForm').addEventListener('submit',async e=>{
+ e.preventDefault();const out=$('#cMsgOut');
+ if(!$('#cName').value.trim())return out.textContent=CMSG.bad_name;
+ if(!$('#cEmail').checkValidity()||!$('#cEmail').value.trim())return out.textContent=CMSG.bad_email;
+ $('#cSend').disabled=true;out.className='gmsg';out.textContent='Sending…';
+ const kind=$('#cKind').value;
+ const r=await api('/api/contact',{name:$('#cName').value,email:$('#cEmail').value,kind:kind.startsWith('plan:')?'plan':kind,plan:kind.startsWith('plan:')?+kind.slice(5):null,level:$('#cLevel').value,times:$('#cTimes').value,message:$('#cMsg').value,website:$('#cSite').value});
+ $('#cSend').disabled=false;
+ if(!r.ok){out.textContent=CMSG[r.error]||CMSG.network;return;}
+ out.textContent='';$('#cDoneText').textContent='Your message is on its way. I will reply to '+$('#cEmail').value.trim()+' soon. Check your inbox for a confirmation.';
+ $('#cForm').hidden=true;$('#cDone').hidden=false;
+});
+$('#cAgain').addEventListener('click',()=>{$('#cForm').reset();$('#cDone').hidden=true;$('#cForm').hidden=false;});
+
+let level='All',q='';
+$('#filters').innerHTML=allLevels.length>1?'<span class="lbl">Level</span>'+['All',...allLevels].map(t=>`<button type="button" class="chip" data-level="${t}" aria-pressed="${t===level}">${t==='All'?'All levels':t}</button>`).join(''):'';
+$('#filters').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;level=b.dataset.level;document.querySelectorAll('#filters .chip').forEach(c=>c.setAttribute('aria-pressed',c===b));render();});
 $('#q').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();render();});
 
 function render(){
- const list=L.filter(l=>(tag==='All'||l.tag===tag)&&(!q||(l.title+' '+(l.topic||'')+' '+(l.tag||'')).toLowerCase().includes(q)));
+ const list=L.filter(l=>(level==='All'||levelsOf(l).includes(level))&&(!q||(l.title+' '+(l.topic||'')+' '+(l.tag||'')+' '+levelsOf(l).join(' ')).toLowerCase().includes(q)));
  $('#grid').innerHTML=list.map((l,i)=>{const c=Array.isArray(l.color)?l.color:COLORS[l.color]||COLORS[ORDER[i%ORDER.length]];return `<button type="button" class="card" data-slug="${esc(l.slug)}" style="--c:${c[0]};--f:${c[1]}">
-  <span class="meta">${l.tag?`<span>${esc(l.tag)}</span>`:''}${l.minutes?`<span>${esc(l.minutes)} min</span>`:''}</span>
+  <span class="meta">${levelLabel(l)?`<span>${esc(levelLabel(l))}</span>`:''}${l.tag?`<span>${esc(l.tag)}</span>`:''}${l.minutes?`<span>${esc(l.minutes)} min</span>`:''}</span>
   <span><h2 class="serif" style="--n:${Math.max(6,...l.title.split(/\s+/).map(w=>w.length))}">${esc(l.title)}</h2></span>
   <span>${l.topic?`<p>${esc(l.topic)}</p>`:''}<span class="open">Open lesson</span></span>
  </button>`;}).join('');
@@ -307,8 +493,9 @@ function route(){
   document.title=[S.name,S.tagline].filter(Boolean).join(', ')||'English lessons';
  }
 }
-['contextmenu','copy','cut','dragstart'].forEach(n=>document.addEventListener(n,e=>{if(!e.target.closest('input,textarea'))e.preventDefault();},true));
-document.addEventListener('keydown',e=>{const k=(e.key||'').toLowerCase(),m=e.ctrlKey||e.metaKey;
+// While a lesson is open: no right click, copying, saving or view-source shortcuts.
+['contextmenu','copy','cut','dragstart'].forEach(n=>document.addEventListener(n,e=>{if(document.body.classList.contains('viewing')&&!e.target.closest('input,textarea'))e.preventDefault();},true));
+document.addEventListener('keydown',e=>{if(!document.body.classList.contains('viewing'))return;const k=(e.key||'').toLowerCase(),m=e.ctrlKey||e.metaKey;
  if(k==='f12'||(m&&['s','u','p'].includes(k))||(m&&e.shiftKey&&['i','j','c'].includes(k)))e.preventDefault();},true);
 $('#back').addEventListener('click',()=>{history.pushState('',document.title,location.pathname+location.search);route();});
 document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!$('#assignModal').hidden)$('#assignModal').hidden=true;else if(!$('#viewer').hidden)$('#back').click();});

@@ -36,7 +36,9 @@ export type Lesson = {
 }
 
 // public/lessons.js is the single list of lessons; the functions read the same file the page loads.
-export async function siteData(): Promise<{ site: { name?: string; tagline?: string }; lessons: Lesson[] }> {
+export type Plan = { name: string; price?: string; period?: string; features?: string[]; featured?: boolean }
+
+export async function siteData(): Promise<{ site: { name?: string; tagline?: string; plans?: Plan[] }; lessons: Lesson[] }> {
   const src = (await readBundled("public/lessons.js")) ?? ""
   const window: any = {}
   runInNewContext(src, { window })
