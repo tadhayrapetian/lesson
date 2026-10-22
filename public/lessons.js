@@ -32,7 +32,7 @@ window.SITE = {
 
   // Соцсети. Пустой url — кнопка не показывается
   socials: [
-    { label: 'Instagram', url: '' },
+    { label: 'Instagram', url: 'https://www.instagram.com/tadhayrapetian' },
     { label: 'Telegram', url: '' },
     { label: 'WhatsApp', url: '' },
     { label: 'YouTube', url: '' }
