@@ -77,6 +77,9 @@ export function sessionFrom(req: Request) {
   return readToken(auth.replace(/^Bearer\s+/i, ""))
 }
 
+// Short, non-secret reason (e.g. "EAUTH 535") so a failed send can be diagnosed from the browser.
+export const mailError = (e: any) => [e?.code, e?.responseCode].filter(Boolean).join(" ") || "unknown"
+
 export function mailer() {
   const user = Netlify.env.get("GMAIL_USER")
   const transport = nodemailer.createTransport({ service: "gmail", auth: { user, pass: Netlify.env.get("GMAIL_APP_PASSWORD") } })

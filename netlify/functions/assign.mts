@@ -1,6 +1,6 @@
 import type { Config } from "@netlify/functions"
 import { assignmentHtml, assignmentSubject, assignmentText, type Assignment } from "../email.mts"
-import { isTeacher, json, mailer, normEmail, readPrivate, sessionFrom, siteData, studentStore } from "../lib.mts"
+import { isTeacher, json, mailError, mailer, normEmail, readPrivate, sessionFrom, siteData, studentStore } from "../lib.mts"
 
 export default async (req: Request) => {
   const session = sessionFrom(req)
@@ -33,7 +33,7 @@ export default async (req: Request) => {
     await transport.sendMail({ from: `"${a.teacher}" <${user}>`, to: studentEmail, subject, html, text: assignmentText(a) })
   } catch (e) {
     console.error("sendMail failed", e)
-    return json({ error: "mail_failed" }, 502)
+    return json({ error: "mail_failed", detail: mailError(e) }, 502)
   }
   // Getting an assignment gives the student access to the site.
   const prev = await studentStore().get(studentEmail, { type: "json" })

@@ -1,7 +1,7 @@
 import type { Config } from "@netlify/functions"
 import { getStore } from "@netlify/blobs"
 import { randomInt } from "node:crypto"
-import { CODE_TTL, RESEND_AFTER, isStudent, json, mailer, normEmail, sha256 } from "../lib.mts"
+import { CODE_TTL, RESEND_AFTER, isStudent, json, mailError, mailer, normEmail, sha256 } from "../lib.mts"
 
 export default async (req: Request) => {
   const { email: raw } = await req.json().catch(() => ({}))
@@ -31,7 +31,7 @@ export default async (req: Request) => {
   } catch (e) {
     console.error("sendMail failed", e)
     await store.delete(key)
-    return json({ error: "mail_failed" }, 502)
+    return json({ error: "mail_failed", detail: mailError(e) }, 502)
   }
   return json({ ok: true })
 }
