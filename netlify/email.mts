@@ -16,6 +16,7 @@ export type Assignment = {
   kind: "lesson" | "homework"
   due?: string
   note?: string
+  files?: string[]
   url: string
 }
 
@@ -82,6 +83,10 @@ a{color:${t.accent}}
    <p style="margin:12px 0 0;font:400 12px/1 ${sans};letter-spacing:2px;text-transform:uppercase;color:${t.muted};">— ${esc(a.teacher)}</p>
   </td></tr></table>` : ""}
  ${due ? `<p style="margin:28px 0 0;font:300 16px/1.6 ${sans};color:${t.ink};">Please finish it by <b style="font-weight:600;">${esc(due)}</b>.</p>` : ""}
+ ${a.files?.length ? `<p style="margin:28px 0 8px;font:400 11px/1 ${sans};letter-spacing:2px;text-transform:uppercase;color:${t.muted};">Attached to this email</p>
+ <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${a.files
+   .map((f) => `<tr><td style="padding:10px 0;border-top:1px solid ${t.soft};font:400 15px/1.4 ${sans};color:${t.ink};"><span style="color:${t.accent};">&#9632;</span>&nbsp;&nbsp;${esc(f)}</td></tr>`)
+   .join("")}</table>` : ""}
  <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:34px 0 0;"><tr>
   <td style="background:${t.accent};border-radius:999px;">
    <a href="${esc(a.url)}" target="_blank" style="display:inline-block;padding:16px 34px;font:500 15px/1 ${sans};letter-spacing:.5px;color:${t.onAccent};text-decoration:none;border-radius:999px;">Open the lesson &rarr;</a>
@@ -115,6 +120,7 @@ export function assignmentText(a: Assignment) {
     `${a.lesson.title}${a.lesson.topic ? ` — ${a.lesson.topic}` : ""}`,
     ...(a.note?.trim() ? ["", a.note.trim()] : []),
     ...(due ? ["", `Please finish it by ${due}.`] : []),
+    ...(a.files?.length ? ["", `Attached: ${a.files.join(", ")}`] : []),
     "",
     `Open the lesson: ${a.url}`,
     `On the site, enter ${a.studentEmail} and we will send you a code.`,

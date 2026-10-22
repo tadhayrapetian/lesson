@@ -176,6 +176,18 @@ body.viewing{-webkit-user-select:none;user-select:none}input,textarea{-webkit-us
 .seg button{flex:1;background:none;border:0;padding:.5rem;font-size:.9rem;cursor:pointer}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 .mactions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:.4rem}
+.attach{margin:0 0 1.2rem}
+.attach input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.attach label.pick{display:inline-flex;align-items:center;gap:.5rem;border:1px dashed var(--ink);border-radius:999px;padding:.45rem 1.1rem;font-size:.88rem;letter-spacing:0;color:var(--ink);cursor:pointer;margin:0}
+.attach label.pick:hover{background:var(--bg)}
+.attach input:focus-visible+label.pick{outline:2px solid var(--forest);outline-offset:3px}
+.flist{list-style:none;margin:.7rem 0 0;padding:0}
+.flist li{display:flex;align-items:center;gap:.8rem;padding:.5rem 0;border-top:1px solid var(--line);font-size:.9rem}
+.flist .fn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.flist .fs{color:var(--muted);font-size:.8rem;white-space:nowrap}
+.flist button{background:none;border:0;color:var(--muted);font-size:1.2rem;line-height:1;cursor:pointer;padding:0 .2rem}
+.ftotal{margin:.4rem 0 0;font-size:.78rem;color:var(--muted)}
+.ftotal.over{color:#A4473B}
 .mactions .gbtn{width:auto;flex:1;min-width:9rem}
 .gbtn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
 .preview{width:100%;height:65vh;border:1px solid var(--line);background:#fff;margin-bottom:1rem}
@@ -312,6 +324,7 @@ body.viewing{-webkit-user-select:none;user-select:none}input,textarea{-webkit-us
   <datalist id="studentList"></datalist>
   <label for="aDue">DUE DATE</label><input id="aDue" type="date">
   <label for="aNote">PERSONAL NOTE</label><textarea id="aNote" placeholder="Optional. For example: Great work today! Please do phase five before Friday."></textarea>
+  <div class="attach"><label style="margin-bottom:.5rem">FILES</label><input type="file" id="aFiles" multiple><label class="pick" for="aFiles">+ Attach files</label><ul class="flist" id="aList"></ul><p class="ftotal" id="aTotal" hidden></p></div>
   <div class="mactions"><button type="button" class="gbtn ghost" id="aPreview">Preview email</button><button class="gbtn" id="aSend">Send</button></div>
   <p class="gmsg" id="aMsg" role="status"></p>
  </form>
@@ -485,11 +498,38 @@ async function loadLesson(l){
 
 // Teacher only: email the lesson link to a student.
 let kind='homework',studentsLoaded=false;
-const aMsgs={...MSG,unauthorized:'Your session has ended. Reopen the lesson and log in again.',not_found:'This lesson is not on the site yet.'};
+const aMsgs={...MSG,unauthorized:'Your session has ended. Reopen the lesson and log in again.',not_found:'This lesson is not on the site yet.',files_too_large:'The files are too big for one email (up to 18 MB).',too_large:'One of the files is too big to upload.',upload_missing:'A file did not upload. Please try again.'};
 function authPost(path,body){
  return fetch(path,{method:'POST',headers:{'content-type':'application/json',authorization:'Bearer '+token},body:JSON.stringify(body)}).then(r=>r.json()).catch(()=>({error:'network'}));
 }
-function assignBody(preview){return{slug:current.slug,email:$('#aEmail').value.trim(),name:$('#aName').value.trim(),kind,due:$('#aDue').value,note:$('#aNote').value,preview};}
+function assignBody(preview,files){return{slug:current.slug,email:$('#aEmail').value.trim(),name:$('#aName').value.trim(),kind,due:$('#aDue').value,note:$('#aNote').value,files,preview};}
+
+// Attachments: kept in the page until Send, then uploaded in 3 MB parts and attached to the email.
+const PART=3*1024*1024,MAX_FILES=18*1024*1024;
+let attached=[];
+const fmtSize=n=>n<1024*1024?Math.max(1,Math.round(n/1024))+' KB':(n/1024/1024).toFixed(1)+' MB';
+const totalSize=()=>attached.reduce((n,f)=>n+f.size,0);
+function drawFiles(){
+ $('#aList').innerHTML=attached.map((f,i)=>`<li><span class="fn">${esc(f.name)}</span><span class="fs">${fmtSize(f.size)}</span><button type="button" data-rm="${i}" aria-label="Remove ${esc(f.name)}">×</button></li>`).join('');
+ const t=totalSize();$('#aTotal').hidden=!attached.length;
+ $('#aTotal').className='ftotal'+(t>MAX_FILES?' over':'');
+ $('#aTotal').textContent=t>MAX_FILES?'Total '+fmtSize(t)+'. Email attachments can be up to 18 MB, please remove something.':'Total '+fmtSize(t)+' of 18 MB';
+}
+$('#aFiles').addEventListener('change',e=>{attached=attached.concat([...e.target.files]).slice(0,10);e.target.value='';drawFiles();});
+$('#aList').addEventListener('click',e=>{const b=e.target.closest('[data-rm]');if(!b)return;attached.splice(+b.dataset.rm,1);drawFiles();});
+const newId=()=>(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2,12));
+const fileRefs=()=>attached.map(f=>({id:newId(),name:f.name,type:f.type,size:f.size,parts:Math.max(1,Math.ceil(f.size/PART))}));
+async function uploadFiles(refs,msgEl){
+ for(let i=0;i<refs.length;i++){
+  const f=attached[i],ref=refs[i];
+  for(let p=0;p<ref.parts;p++){
+   msgEl.textContent='Uploading '+(refs.length>1?(i+1)+' of '+refs.length+': ':'')+f.name+(ref.parts>1?' ('+Math.round(p/ref.parts*100)+'%)':'')+'…';
+   let r;try{r=await fetch('/api/upload?id='+ref.id+'&part='+p,{method:'POST',headers:{authorization:'Bearer '+token,'content-type':'application/octet-stream'},body:f.slice(p*PART,(p+1)*PART)});}catch{return 'network';}
+   if(!r.ok)return(await r.json().catch(()=>({}))).error||'network';
+  }
+ }
+ return null;
+}
 function showStep(id){['assignForm','previewBox','sentBox'].forEach(x=>$('#'+x).hidden=x!==id);}
 async function loadStudents(){
  if(studentsLoaded)return;
@@ -510,16 +550,20 @@ $('#assignModal').addEventListener('click',e=>{if(e.target===$('#assignModal'))$
 $('#aPreview').addEventListener('click',async()=>{
  if(!$('#assignForm').reportValidity())return;
  $('#aMsg').className='gmsg';$('#aMsg').textContent='Preparing preview…';
- const r=await authPost('/api/assign',assignBody(true));
+ const r=await authPost('/api/assign',assignBody(true,fileRefs()));
  if(!r.html){$('#aMsg').textContent=aMsgs[r.error]||MSG.network;return;}
  $('#aMsg').textContent='';$('#previewSubject').textContent='Subject: '+r.subject;$('#previewFrame').srcdoc=r.html;$('#pMsg').textContent='';showStep('previewBox');
 });
 async function send(msgEl,btn){
- btn.disabled=true;msgEl.className='gmsg';msgEl.textContent='Sending…';
- const r=await authPost('/api/assign',assignBody(false));btn.disabled=false;
+ if(totalSize()>MAX_FILES){msgEl.className='gmsg';msgEl.textContent=aMsgs.files_too_large;return;}
+ btn.disabled=true;msgEl.className='gmsg';
+ const refs=fileRefs(),err=await uploadFiles(refs,msgEl);
+ if(err){btn.disabled=false;msgEl.textContent=aMsgs[err]||MSG.network;return;}
+ msgEl.textContent='Sending…';
+ const r=await authPost('/api/assign',assignBody(false,refs));btn.disabled=false;
  if(!r.ok){msgEl.textContent=aMsgs[r.error]||MSG.network;return;}
  msgEl.textContent='';studentsLoaded=false;
- $('#sentText').textContent=current.title+' is on its way to '+$('#aEmail').value.trim()+'.';showStep('sentBox');
+ $('#sentText').textContent=current.title+(attached.length?' and '+attached.length+(attached.length===1?' file are':' files are')+' on their way to ':' is on its way to ')+$('#aEmail').value.trim()+'.';showStep('sentBox');
 }
 $('#assignForm').addEventListener('submit',e=>{e.preventDefault();send($('#aMsg'),$('#aSend'));});
 $('#previewSend').addEventListener('click',()=>send($('#pMsg'),$('#previewSend')));

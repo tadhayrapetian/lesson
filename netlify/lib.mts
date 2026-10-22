@@ -51,6 +51,9 @@ export const isTeacher = (email: string) => !!email && email === teacherEmail()
 // Students the teacher assigned a lesson to are added here, so they can log in without editing students.txt.
 export const studentStore = () => getStore({ name: "students", consistency: "strong" })
 
+// Files the teacher attaches to an assignment, kept only until the email is sent.
+export const uploadStore = () => getStore({ name: "uploads", consistency: "strong" })
+
 export async function isStudent(email: string) {
   if (isTeacher(email)) return true
   const list = (await readPrivate("students.txt")) ?? ""
