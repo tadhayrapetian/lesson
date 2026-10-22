@@ -41,8 +41,8 @@ window.SITE = {
   // Абонементы. featured: true — выделенный тариф посередине
   plans: [
     { name: 'Trial lesson', price: 'Free', period: '30 minutes', features: ['Meet your teacher', 'Level check', 'A plan for your goals'] },
-    { name: 'Monthly', price: 'On request', period: '4 lessons a month', features: ['One lesson a week', 'Homework and feedback', 'All lessons on this site'], featured: true },
-    { name: 'Intensive', price: 'On request', period: '8 lessons a month', features: ['Two lessons a week', 'Homework and feedback', 'All lessons on this site'] }
+    { name: 'Monthly', price: '55,000 AMD', period: '4 lessons a month', features: ['One lesson a week', 'Homework and feedback', 'All lessons on this site'], featured: true },
+    { name: 'Intensive', price: '75,000 AMD', period: '8 lessons a month', features: ['Two lessons a week', 'Homework and feedback', 'All lessons on this site'] }
   ]
 };
 
