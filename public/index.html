@@ -49,6 +49,23 @@ button{font:inherit;color:inherit}
 .vtitle{flex:1;text-align:center;font-size:1.5rem;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .vname{font-size:.75rem;letter-spacing:.14em;opacity:.7;white-space:nowrap}
 .viewer iframe{flex:1;width:100%;border:0;background:var(--panel)}
+.gate{flex:1;display:flex;align-items:center;justify-content:center;padding:2rem 1rem;overflow:auto}
+.gbox{width:min(100%,420px);background:var(--panel);border:1px solid var(--line);padding:clamp(1.5rem,5vw,2.5rem)}
+.gbox h2{margin:0 0 .4rem;font-size:2.4rem;line-height:1}
+.gbox p{margin:0 0 1.4rem;color:var(--muted);font-size:.92rem}
+.gbox label{display:block;font-size:.75rem;letter-spacing:.14em;color:var(--muted);margin-bottom:.3rem}
+.gbox input{font:inherit;font-size:1.05rem;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--ink);padding:.5rem 0;width:100%;margin-bottom:1.2rem}
+.gbox input:focus{outline:none;border-bottom-color:var(--forest)}
+.gbox input.code{font-size:1.8rem;letter-spacing:.5em;text-align:center}
+.gbtn{display:block;width:100%;background:var(--forest);color:var(--white);border:0;border-radius:999px;padding:.7rem 1rem;font-size:.95rem;cursor:pointer}
+.gbtn:disabled{opacity:.6;cursor:default}
+.glinks{display:flex;justify-content:space-between;gap:1rem;margin-top:1rem;font-size:.82rem}
+.glinks button{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;cursor:pointer}
+.glinks button:disabled{text-decoration:none;cursor:default}
+.gmsg{min-height:1.4em;margin:.8rem 0 0;font-size:.85rem;color:#A4473B}
+.gmsg.ok{color:var(--forest)}
+body{-webkit-user-select:none;user-select:none}input{-webkit-user-select:text;user-select:text}
+@media print{html{display:none!important}}
 @media (max-width:640px){.vname{display:none}.vtitle{font-size:1.2rem;text-align:left}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -71,9 +88,28 @@ button{font:inherit;color:inherit}
   <button type="button" id="back">← All lessons</button>
   <span class="vtitle serif" id="vtitle"></span>
   <span class="vname" id="vname"></span>
-  <a id="vfull" target="_blank" rel="noopener">Full screen</a>
+  <button type="button" id="vfull" hidden>Full screen</button>
  </div>
- <iframe id="frame" title="Lesson" allow="autoplay; fullscreen"></iframe>
+ <div class="gate" id="gate" hidden>
+  <form class="gbox" id="emailForm">
+   <h2 class="serif">Get your code</h2>
+   <p>Enter your email. We will send you a code to open the lesson.</p>
+   <label for="email">EMAIL</label>
+   <input id="email" type="email" autocomplete="email" required>
+   <button class="gbtn" id="sendBtn">Send code</button>
+   <p class="gmsg" id="emailMsg" role="status"></p>
+  </form>
+  <form class="gbox" id="codeForm" hidden>
+   <h2 class="serif">Check your email</h2>
+   <p>We sent a 6-digit code to <b id="sentTo"></b>. It works for 10 minutes.</p>
+   <label for="code">CODE</label>
+   <input id="code" class="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required>
+   <button class="gbtn" id="openBtn">Open lesson</button>
+   <div class="glinks"><button type="button" id="resend">Send a new code</button><button type="button" id="changeEmail">Change email</button></div>
+   <p class="gmsg" id="codeMsg" role="status"></p>
+  </form>
+ </div>
+ <iframe id="frame" title="Lesson" sandbox="allow-scripts allow-forms allow-modals" allow="autoplay; fullscreen" hidden></iframe>
 </div>
 
 <script src="lessons.js"></script>
@@ -108,16 +144,73 @@ function render(){
 }
 $('#grid').addEventListener('click',e=>{const c=e.target.closest('.card');if(c)location.hash=c.dataset.slug;});
 
+// The session lives only in this tab's memory: reloading or closing the tab asks for a new code.
+let token=null,current=null,cooldown=0,timer=null;
+const MSG={bad_email:'Please check the email address.',not_allowed:'This email is not on the student list. Ask your teacher.',
+ too_soon:'Please wait a moment before asking for a new code.',mail_failed:'Could not send the email. Try again in a minute.',
+ expired:'This code has expired. Send a new one.',wrong_code:'Wrong code.',network:'No connection. Try again.'};
+async function api(path,body){
+ try{const r=await fetch(path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});return await r.json();}
+ catch{return{error:'network'};}
+}
+function showGate(){
+ $('#frame').hidden=true;$('#frame').srcdoc='';$('#vfull').hidden=true;$('#gate').hidden=false;
+ $('#emailForm').hidden=false;$('#codeForm').hidden=true;$('#emailMsg').textContent='';
+ setTimeout(()=>$('#email').focus(),0);
+}
+function tick(){
+ const b=$('#resend');cooldown--;
+ if(cooldown>0){b.disabled=true;b.textContent='New code in '+cooldown+'s';}
+ else{clearInterval(timer);b.disabled=false;b.textContent='Send a new code';}
+}
+function startCooldown(s){cooldown=s+1;clearInterval(timer);tick();timer=setInterval(tick,1000);}
+async function sendCode(msgEl){
+ const email=$('#email').value.trim();
+ msgEl.className='gmsg';msgEl.textContent='Sending…';
+ const r=await api('/api/request-code',{email});
+ if(r.ok){$('#sentTo').textContent=email;$('#emailForm').hidden=true;$('#codeForm').hidden=false;
+  $('#codeMsg').className='gmsg ok';$('#codeMsg').textContent=msgEl===$('#codeMsg')?'A new code is on its way.':'';
+  $('#code').value='';$('#code').focus();startCooldown(60);return;}
+ if(r.error==='too_soon'&&r.wait){startCooldown(r.wait);}
+ msgEl.className='gmsg';msgEl.textContent=MSG[r.error]||MSG.network;
+}
+$('#emailForm').addEventListener('submit',async e=>{e.preventDefault();$('#sendBtn').disabled=true;await sendCode($('#emailMsg'));$('#sendBtn').disabled=false;});
+$('#resend').addEventListener('click',()=>sendCode($('#codeMsg')));
+$('#changeEmail').addEventListener('click',showGate);
+$('#codeForm').addEventListener('submit',async e=>{
+ e.preventDefault();$('#openBtn').disabled=true;$('#codeMsg').className='gmsg';$('#codeMsg').textContent='Checking…';
+ const r=await api('/api/verify-code',{email:$('#email').value.trim(),code:$('#code').value});
+ $('#openBtn').disabled=false;
+ if(r.token){token=r.token;$('#codeMsg').textContent='';if(current)loadLesson(current);return;}
+ $('#codeMsg').textContent=r.error==='wrong_code'?MSG.wrong_code+(r.left>0?' Tries left: '+r.left+'.':' Send a new code.'):(MSG[r.error]||MSG.network);
+});
+async function loadLesson(l){
+ if(!token)return showGate();
+ let r;try{r=await fetch('/api/lesson/'+encodeURIComponent(l.slug),{headers:{authorization:'Bearer '+token}});}catch{r=null;}
+ if(current!==l)return;
+ if(!r||r.status===401){token=null;return showGate();}
+ if(!r.ok){$('#gate').hidden=true;$('#frame').hidden=false;$('#frame').srcdoc='<p style="font:16px sans-serif;padding:2rem">Lesson not found.</p>';return;}
+ const html=await r.text();if(current!==l)return;
+ $('#gate').hidden=true;$('#frame').srcdoc=html;$('#frame').hidden=false;$('#vfull').hidden=!document.fullscreenEnabled;
+}
+$('#vfull').addEventListener('click',()=>{document.fullscreenElement?document.exitFullscreen():$('#viewer').requestFullscreen().catch(()=>{});});
+document.addEventListener('fullscreenchange',()=>{$('#vfull').textContent=document.fullscreenElement?'Exit full screen':'Full screen';});
 function route(){
  const slug=decodeURIComponent(location.hash.slice(1)),l=L.find(x=>x.slug===slug);
+ current=l||null;
  if(l){
-  $('#frame').src=l.file;$('#vtitle').textContent=l.title;$('#vfull').href=l.file;
+  $('#vtitle').textContent=l.title;$('#frame').hidden=true;$('#gate').hidden=true;
   $('#viewer').hidden=false;document.body.classList.add('viewing');document.title=l.title+(S.name?', '+S.name:'');
+  loadLesson(l);
  }else{
-  $('#viewer').hidden=true;document.body.classList.remove('viewing');$('#frame').src='about:blank';
+  if(document.fullscreenElement)document.exitFullscreen();
+  $('#viewer').hidden=true;document.body.classList.remove('viewing');$('#frame').srcdoc='';$('#frame').hidden=true;
   document.title=[S.name,S.tagline].filter(Boolean).join(', ')||'English lessons';
  }
 }
+['contextmenu','copy','cut','dragstart'].forEach(n=>document.addEventListener(n,e=>{if(!e.target.closest('input'))e.preventDefault();},true));
+document.addEventListener('keydown',e=>{const k=(e.key||'').toLowerCase(),m=e.ctrlKey||e.metaKey;
+ if(k==='f12'||(m&&['s','u','p'].includes(k))||(m&&e.shiftKey&&['i','j','c'].includes(k)))e.preventDefault();},true);
 $('#back').addEventListener('click',()=>{history.pushState('',document.title,location.pathname+location.search);route();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#viewer').hidden)$('#back').click();});
 window.addEventListener('hashchange',route);
