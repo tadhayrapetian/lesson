@@ -32,7 +32,8 @@ html{scroll-behavior:smooth;scroll-padding-top:5rem}
 .cta:hover{filter:brightness(1.1)}
 .cta.ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
 .nav .cta{padding:.45rem 1.2rem;font-size:.85rem}
-@media (max-width:820px){.links{display:none}.nav .cta{margin-left:auto}}
+@media (max-width:820px){.links a:not([href="#lessons"]){display:none}.nav .wrap{gap:1.2rem}}
+@media (max-width:480px){.brand{font-size:1.2rem}.nav .wrap{gap:.9rem}.links a{font-size:.82rem}.nav .cta{padding:.4rem .9rem;font-size:.8rem}}
 
 .hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(2rem,5vw,5rem);align-items:end;padding:clamp(3rem,8vw,6.5rem) 0 clamp(3rem,6vw,5rem);border-bottom:1px solid var(--line)}
 .hero h1{margin:0;font-size:clamp(3.4rem,9vw,7.5rem);line-height:.9}
@@ -47,6 +48,13 @@ html{scroll-behavior:smooth;scroll-padding-top:5rem}
 @media (max-width:820px){.hero{grid-template-columns:1fr}.mosaic{min-height:240px}}
 
 .sec{padding:clamp(3.5rem,8vw,6rem) 0;border-bottom:1px solid var(--line)}
+/* Two pages on one URL: the landing (default) and the lessons library (#lessons) */
+#lessons{display:none}
+body.library #lessons{display:block}
+body.library .landing{display:none}
+.links a[aria-current="page"]{color:var(--ink);text-decoration:underline;text-underline-offset:.4em}
+.home{display:inline-block;margin-bottom:1.4rem;color:var(--muted);text-decoration:none;font-size:.85rem;letter-spacing:.04em}
+.home:hover{color:var(--ink)}
 .sechead{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:1.5rem 3rem;margin-bottom:2rem}
 .eyebrow{margin:0 0 .6rem;color:var(--muted);font-size:.75rem;letter-spacing:.18em;text-transform:uppercase}
 .sechead h2,.sec h2.t{margin:0;font-size:clamp(2.6rem,6vw,4.4rem);line-height:.95}
@@ -188,7 +196,7 @@ body.viewing{-webkit-user-select:none;user-select:none}input,textarea{-webkit-us
 </nav>
 
 <div class="wrap" id="top">
- <header class="hero">
+ <header class="hero landing">
   <div>
    <p class="kicker" id="tagline"></p>
    <h1 class="serif" id="siteName"></h1>
@@ -200,7 +208,7 @@ body.viewing{-webkit-user-select:none;user-select:none}input,textarea{-webkit-us
 
  <section class="sec" id="lessons" aria-labelledby="lessonsTitle">
   <div class="sechead">
-   <div><p class="eyebrow">Library</p><h2 class="serif" id="lessonsTitle">Lessons</h2></div>
+   <div><a class="home" href="#top">← Home</a><p class="eyebrow">Library</p><h2 class="serif" id="lessonsTitle">Lessons</h2></div>
    <label class="search"><input id="q" type="search" placeholder="Search lessons" aria-label="Search lessons"></label>
   </div>
   <div class="filters" id="filters" role="group" aria-label="Filter by level"></div>
@@ -209,20 +217,20 @@ body.viewing{-webkit-user-select:none;user-select:none}input,textarea{-webkit-us
   <p class="empty serif" id="empty" hidden>No lessons found</p>
  </section>
 
- <section class="sec" id="about" aria-labelledby="aboutTitle">
+ <section class="sec landing" id="about" aria-labelledby="aboutTitle">
   <div class="about">
    <div class="portrait"><span class="mono serif" id="mono"></span><ul class="facts" id="facts"></ul></div>
    <div class="bio" id="bioBox"><div class="biohead"><p class="eyebrow" id="bioEyebrow">Your teacher</p><div class="lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="hy" aria-pressed="false">ՀԱՅ</button></div></div><h2 class="serif t" id="aboutTitle"></h2><div id="bio"></div><div class="socials" id="aboutSocials"></div></div>
   </div>
  </section>
 
- <section class="sec" id="membership" aria-labelledby="planTitle">
+ <section class="sec landing" id="membership" aria-labelledby="planTitle">
   <div class="sechead"><div><p class="eyebrow">Membership</p><h2 class="serif" id="planTitle">Choose your plan</h2></div></div>
   <div class="plans" id="plans"></div>
   <p class="note">Choose a plan and send a request. I will reply with the details and how to pay.</p>
  </section>
 
- <section class="sec" id="contact" aria-labelledby="contactTitle">
+ <section class="sec landing" id="contact" aria-labelledby="contactTitle">
   <div class="contact">
    <div class="intro"><p class="eyebrow">Contact</p><h2 class="serif t" id="contactTitle">Book a lesson</h2>
     <p>Tell me a little about yourself and your goals. I will reply within a day to find a time that works for you.</p>
@@ -522,6 +530,15 @@ document.addEventListener('fullscreenchange',()=>{$('#vfull').textContent=docume
 function route(){
  const slug=decodeURIComponent(location.hash.slice(1)),l=L.find(x=>x.slug===slug);
  current=l||null;
+ // #lessons and lesson links show the library; any other hash is a part of the landing page.
+ const library=slug==='lessons'||!!l,wasLibrary=document.body.classList.contains('library');
+ document.body.classList.toggle('library',library);
+ document.querySelectorAll('.links a').forEach(a=>a.toggleAttribute('aria-current',library&&a.getAttribute('href')==='#lessons'));
+ if(library!==wasLibrary||slug==='lessons'){
+  const target=!library&&slug&&document.getElementById(slug);
+  if(target)target.scrollIntoView();else if(!l)scrollTo(0,0);
+ }
+ document.querySelectorAll('.links a[aria-current]').forEach(a=>a.setAttribute('aria-current','page'));
  if(l){
   $('#vtitle').textContent=l.title;$('#frame').hidden=true;$('#gate').hidden=true;$('#vassign').hidden=true;$('#assignModal').hidden=true;
   $('#viewer').hidden=false;document.body.classList.add('viewing');document.title=l.title+(S.name?', '+S.name:'');
@@ -536,7 +553,7 @@ function route(){
 ['contextmenu','copy','cut','dragstart'].forEach(n=>document.addEventListener(n,e=>{if(document.body.classList.contains('viewing')&&!e.target.closest('input,textarea'))e.preventDefault();},true));
 document.addEventListener('keydown',e=>{if(!document.body.classList.contains('viewing'))return;const k=(e.key||'').toLowerCase(),m=e.ctrlKey||e.metaKey;
  if(k==='f12'||(m&&['s','u','p'].includes(k))||(m&&e.shiftKey&&['i','j','c'].includes(k)))e.preventDefault();},true);
-$('#back').addEventListener('click',()=>{history.pushState('',document.title,location.pathname+location.search);route();});
+$('#back').addEventListener('click',()=>{location.hash='lessons';});
 document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!$('#assignModal').hidden)$('#assignModal').hidden=true;else if(!$('#viewer').hidden)$('#back').click();});
 window.addEventListener('hashchange',route);
 render();route();
