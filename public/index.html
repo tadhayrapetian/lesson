@@ -6,7 +6,7 @@
 <title>English lessons</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Poppins:wght@300;400;500&family=Noto+Sans+Armenian:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{--forest:#5E6C5B;--cream:#F4EFE6;--white:#FEFCF6;--sky:#D6E0E2;--storm:#686867;--midnight:#162A2C;
 --bg:var(--cream);--panel:var(--white);--ink:var(--midnight);--muted:var(--storm);--line:#E4DED3;color-scheme:light}
@@ -14,7 +14,7 @@
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html,body{height:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:300 16px/1.6 Poppins,"Segoe UI",system-ui,sans-serif}
+body{margin:0;background:var(--bg);color:var(--ink);font:300 16px/1.6 Poppins,"Noto Sans Armenian","Segoe UI",system-ui,sans-serif}
 body.viewing{overflow:hidden}
 :focus-visible{outline:2px solid var(--forest);outline-offset:3px}
 button{font:inherit;color:inherit}
@@ -74,7 +74,12 @@ html{scroll-behavior:smooth;scroll-padding-top:5rem}
 .mono{font-size:clamp(6rem,14vw,10rem);line-height:.8;color:var(--sky)}
 .facts{list-style:none;margin:0;padding:0}
 .facts li{padding:.8rem 0;border-top:1px solid rgba(254,252,246,.2);font-size:.95rem}
-.bio h2{margin:0 0 1.6rem}
+.bio h2.t{margin:0 0 1.6rem}
+.biohead{display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.lang{display:inline-flex;border:1px solid var(--ink);border-radius:999px;overflow:hidden;flex:none}
+.lang button{background:none;border:0;padding:.35rem .9rem;font-size:.8rem;letter-spacing:.08em;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+[lang="hy"] h2.t{font-family:"Noto Sans Armenian",sans-serif;font-style:normal;font-weight:300;font-size:clamp(2.2rem,5vw,3.6rem)}
 .bio p{margin:0 0 1.1rem;font-size:clamp(1.02rem,1.4vw,1.15rem);max-width:56ch}
 .socials{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem}
 .socials a{color:var(--ink);text-decoration:none;border:1px solid var(--ink);border-radius:999px;padding:.45rem 1.2rem;font-size:.88rem;transition:background .2s,color .2s}
@@ -206,7 +211,7 @@ body.viewing{-webkit-user-select:none;user-select:none}input,textarea{-webkit-us
  <section class="sec" id="about" aria-labelledby="aboutTitle">
   <div class="about">
    <div class="portrait"><span class="mono serif" id="mono"></span><ul class="facts" id="facts"></ul></div>
-   <div class="bio"><p class="eyebrow">Your teacher</p><h2 class="serif t" id="aboutTitle"></h2><div id="bio"></div><div class="socials" id="aboutSocials"></div></div>
+   <div class="bio" id="bioBox"><div class="biohead"><p class="eyebrow" id="bioEyebrow">Your teacher</p><div class="lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="hy" aria-pressed="false">ՀԱՅ</button></div></div><h2 class="serif t" id="aboutTitle"></h2><div id="bio"></div><div class="socials" id="aboutSocials"></div></div>
   </div>
  </section>
 
@@ -342,12 +347,24 @@ const allLevels=LEVELS.filter(x=>L.some(l=>levelsOf(l).includes(x)));
 })();
 
 // About, socials, plans
-const A=S.about||{};
-$('#aboutTitle').textContent=A.title||'About me';
-$('#bio').innerHTML=(A.text||[]).map(p=>`<p>${esc(p)}</p>`).join('');
-$('#facts').innerHTML=(A.facts||[]).map(f=>`<li>${esc(f)}</li>`).join('');
+// About me in English or Armenian; the choice is remembered on this device.
+const ABOUT=S.about||{},EYEBROW={en:'Your teacher',hy:'Ձեր ուսուցիչը'};
+function showAbout(lang){
+ const A=ABOUT[lang]||ABOUT.en||{};
+ $('#bioBox').lang=lang;$('#facts').lang=lang;
+ $('#bioEyebrow').textContent=EYEBROW[lang]||EYEBROW.en;
+ $('#aboutTitle').textContent=A.title||'About me';
+ $('#bio').innerHTML=(A.text||[]).map(p=>`<p>${esc(p)}</p>`).join('');
+ $('#facts').innerHTML=(A.facts||[]).map(f=>`<li>${esc(f)}</li>`).join('');
+ document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang));
+ try{localStorage.setItem('aboutLang',lang);}catch{}
+}
+let aboutLang='en';try{aboutLang=localStorage.getItem('aboutLang')||'en';}catch{}
+document.querySelector('.lang').hidden=!ABOUT.hy;
+showAbout(ABOUT[aboutLang]?aboutLang:'en');
+document.querySelectorAll('.lang button').forEach(b=>b.addEventListener('click',()=>showAbout(b.dataset.lang)));
 $('#mono').textContent=(S.name||'').split(/\s+/).map(w=>w[0]).join('').slice(0,2);
-if(!A.text||!A.text.length){$('#about').hidden=true;document.querySelector('.links a[href="#about"]').hidden=true;}
+if(!(ABOUT.en&&ABOUT.en.text&&ABOUT.en.text.length)){$('#about').hidden=true;document.querySelector('.links a[href="#about"]').hidden=true;}
 const socials=(S.socials||[]).filter(x=>x.url);
 const socialHtml=socials.map(x=>`<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a>`).join('');
 ['#aboutSocials','#contactSocials','#footSocials'].forEach(id=>{$(id).innerHTML=socialHtml;$(id).hidden=!socials.length;});

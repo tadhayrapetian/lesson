@@ -8,19 +8,26 @@ window.SITE = {
   // Короткая фраза под именем на главной
   intro: 'One-to-one English lessons for adults who want to speak with confidence: at work, when travelling and in everyday conversations.',
 
+  // О себе на двух языках. На сайте есть переключатель EN / ՀԱՅ
   about: {
-    title: 'About me',
-    // Каждая строка — отдельный абзац
-    text: [
-      'Hi, I\'m Tad. I teach English to adults, one to one and online.',
-      'My lessons are built around real topics and real conversations. You speak most of the time, learn the words you actually need, and leave every lesson with something you can use the same day.'
-    ],
-    // Короткие факты рядом с текстом
-    facts: [
-      'Levels B1 to C1',
-      'One-to-one, online',
-      'Lessons built around real conversations'
-    ]
+    en: {
+      title: 'About me',
+      // Каждая строка — отдельный абзац
+      text: [
+        'I\'m Tadevos, an English language tutor with 10 years of teaching experience. I hold a Bachelor\'s degree in Fundamental and Applied Linguistics and a Master\'s degree from Volgograd State University.',
+        'I teach general and conversational English, Business English, and exam preparation, tailoring my lessons to each student\'s goals and needs.'
+      ],
+      // Короткие факты рядом с текстом
+      facts: ['10 years of teaching', 'BA and MA in Linguistics', 'General, Business English and exams']
+    },
+    hy: {
+      title: 'Իմ մասին',
+      text: [
+        'Ես Թադն եմ՝ անգլերենի մասնագետ՝ 10 տարվա փորձով։ Ավարտել եմ Վոլգոգրադի պետական համալսարանի հիմնարար և կիրառական լեզվաբանության բակալավրիատն ու մագիստրատուրան։',
+        'Դասավանդում եմ ընդհանուր, խոսակցական ու բիզնես անգլերեն, ինչպես նաև պատրաստում եմ քննությունների՝ ծրագիրը հարմարեցնելով յուրաքանչյուր ուսանողի նպատակներին ու կարիքներին։'
+      ],
+      facts: ['10 տարվա փորձ', 'Լեզվաբանության բակալավր և մագիստրոս', 'Ընդհանուր, բիզնես անգլերեն և քննություններ']
+    }
   },
 
   // Соцсети. Пустой url — кнопка не показывается
