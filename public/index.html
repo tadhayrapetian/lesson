@@ -92,7 +92,8 @@ html{scroll-behavior:smooth;scroll-padding-top:5rem}
 .plan.featured{background:var(--forest);color:var(--white)}
 .plan h3{margin:0;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;font-weight:500}
 .badge{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;border:1px solid currentColor;border-radius:999px;padding:.15rem .7rem;margin-left:.6rem;vertical-align:middle;opacity:.9}
-.price{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:clamp(2.8rem,5vw,3.8rem);line-height:1;margin:0}
+.price{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-size:clamp(2.6rem,4vw,3.4rem);line-height:1;margin:0;white-space:nowrap}
+.price .cur{font-family:Poppins,sans-serif;font-style:normal;font-size:.8rem;letter-spacing:.14em;margin-left:.5rem;vertical-align:.35em}
 .period{margin:-.8rem 0 0;font-size:.9rem;opacity:.8}
 .plan ul{list-style:none;margin:0;padding:0;flex:1}
 .plan li{padding:.6rem 0;border-top:1px solid var(--line);font-size:.93rem}
@@ -371,16 +372,16 @@ const socialHtml=socials.map(x=>`<a href="${esc(x.url)}" target="_blank" rel="no
 const P=S.plans||[];
 $('#plans').innerHTML=P.map((p,i)=>`<div class="plan${p.featured?' featured':''}">
  <h3>${esc(p.name)}${p.featured?'<span class="badge">Popular</span>':''}</h3>
- <p class="price">${esc(p.price)}</p>${p.period?`<p class="period">${esc(p.period)}</p>`:''}
+ <p class="price">${esc(p.price).replace(/\s+([A-Za-z]{3})$/,'<span class="cur">$1</span>')}</p>${p.period?`<p class="period">${esc(p.period)}</p>`:''}
  <ul>${(p.features||[]).map(f=>`<li>${esc(f)}</li>`).join('')}</ul>
  <button type="button" class="cta${p.featured?'':' ghost'}" data-plan="${i}">Choose ${esc(p.name)}</button>
 </div>`).join('');
 if(!P.length){$('#membership').hidden=true;document.querySelectorAll('[data-plans]').forEach(a=>a.hidden=true);}
 
 // Contact / booking form
-const KINDS=[['trial','Book a trial lesson'],...P.map((p,i)=>['plan:'+i,'Get '+p.name+(p.period?' ('+p.period+')':'')]),['question','Ask a question']];
+const KINDS=[['trial','Book a trial lesson'],...P.map((p,i)=>p.trial?null:['plan:'+i,'Get '+p.name+(p.period?' ('+p.period+')':'')]).filter(Boolean),['question','Ask a question']];
 $('#cKind').innerHTML=KINDS.map(k=>`<option value="${esc(k[0])}">${esc(k[1])}</option>`).join('');
-$('#plans').addEventListener('click',e=>{const b=e.target.closest('[data-plan]');if(!b)return;$('#cKind').value='plan:'+b.dataset.plan;$('#contact').scrollIntoView({behavior:'smooth'});setTimeout(()=>$('#cName').focus({preventScroll:true}),400);});
+$('#plans').addEventListener('click',e=>{const b=e.target.closest('[data-plan]');if(!b)return;$('#cKind').value=P[b.dataset.plan].trial?'trial':'plan:'+b.dataset.plan;$('#contact').scrollIntoView({behavior:'smooth'});setTimeout(()=>$('#cName').focus({preventScroll:true}),400);});
 const CMSG={bad_name:'Please write your name.',bad_email:'Please check your email address.',too_many:'Too many messages. Please try again later.',mail_failed:'Could not send your message. Please try again in a minute.',network:'No connection. Please try again.'};
 $('#cForm').addEventListener('submit',async e=>{
  e.preventDefault();const out=$('#cMsgOut');

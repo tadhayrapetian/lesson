@@ -38,11 +38,12 @@ window.SITE = {
     { label: 'YouTube', url: '' }
   ],
 
-  // Абонементы. featured: true — выделенный тариф посередине
+  // Абонементы. featured: true — выделенный тариф, trial: true — пробный урок
   plans: [
-    { name: 'Trial lesson', price: 'Free', period: '30 minutes', features: ['Meet your teacher', 'Level check', 'A plan for your goals'] },
-    { name: 'Monthly', price: '55,000 AMD', period: '4 lessons a month', features: ['One lesson a week', 'Homework and feedback', 'All lessons on this site'], featured: true },
-    { name: 'Intensive', price: '75,000 AMD', period: '8 lessons a month', features: ['Two lessons a week', 'Homework and feedback', 'All lessons on this site'] }
+    { name: 'Trial lesson', price: 'Free', period: '30 minutes', features: ['Meet your teacher', 'Level check', 'A plan for your goals'], trial: true },
+    { name: '4 lessons', price: '55,000 AMD', period: '4 lessons a month', features: ['One lesson a week', 'Homework and feedback', 'All lessons on this site'] },
+    { name: '8 lessons', price: '75,000 AMD', period: '8 lessons a month', features: ['Two lessons a week', 'Homework and feedback', 'All lessons on this site'], featured: true },
+    { name: 'Intensive', price: '199,900 AMD', period: '5 lessons a week, monthly', features: ['A lesson every weekday', 'Homework and feedback', 'All lessons on this site'] }
   ]
 };
 
