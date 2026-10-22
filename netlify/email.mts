@@ -42,7 +42,7 @@ export function assignmentHtml(a: Assignment) {
     a.kind === "homework"
       ? `Your teacher <b>${esc(a.teacher)}</b> has assigned you homework.`
       : `Your teacher <b>${esc(a.teacher)}</b> has shared a lesson with you.`
-  const meta = [a.lesson.tag, a.lesson.minutes ? `${a.lesson.minutes} min` : ""].filter(Boolean).map(esc).join(" &nbsp;·&nbsp; ")
+  const meta = [[a.lesson.tag ?? []].flat().join(" & "), a.lesson.minutes ? `${a.lesson.minutes} min` : ""].filter(Boolean).map(esc).join(" &nbsp;·&nbsp; ")
   const note = (a.note ?? "").trim()
 
   return `<!DOCTYPE html>

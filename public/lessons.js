@@ -51,6 +51,7 @@ window.SITE = {
    1. Положи HTML-файл в папку private/lessons. Имя файла = slug + .html
       (например, small-joys.html для slug 'small-joys')
    2. Скопируй блок ниже, поставь запятую и заполни поля
+   tag: что в уроке, 'Speaking' или несколько ['Speaking', 'Grammar']
    level: уровень для фильтра, 'B1' или несколько ['B2', 'C1']
    color: цвет блока на главной. forest, midnight, sky, storm, cream
           или свои цвета ['фон', 'текст'], например ['#B8410F', '#FBF8F2']
@@ -62,7 +63,7 @@ window.LESSONS = [
     slug: 'small-joys',
     title: 'Small joys',
     topic: 'Rituals, habits and the little things that make life better',
-    tag: 'Speaking',
+    tag: ['Speaking', 'Grammar'],
     level: 'B1',
     minutes: 90,
     color: 'forest',
@@ -82,7 +83,7 @@ window.LESSONS = [
     slug: 'people-who-shaped-us',
     title: 'The people who shaped us',
     topic: 'A grandmother, a teacher, a stranger at a train station: who changed the way you see the world?',
-    tag: 'Speaking',
+    tag: ['Speaking', 'Grammar'],
     level: 'B2',
     minutes: 60,
     color: ['#2B211C', '#F3EDE2'],
@@ -92,7 +93,7 @@ window.LESSONS = [
     slug: 'alone-among-millions',
     title: 'Alone among millions',
     topic: 'Why do people feel lonely in a city full of people, and what small steps help them feel at home?',
-    tag: 'Speaking',
+    tag: ['Speaking', 'Grammar'],
     level: 'B2',
     minutes: 60,
     color: ['#252D48', '#F3EDE2'],
@@ -102,7 +103,7 @@ window.LESSONS = [
     slug: 'money-mindset',
     title: 'Money mindset',
     topic: 'Why we buy what we don\'t need, with the second conditional',
-    tag: 'Grammar',
+    tag: ['Speaking', 'Grammar'],
     level: 'B2',
     minutes: 60,
     color: ['#0B3D2E', '#FAF6EE'],
@@ -112,7 +113,7 @@ window.LESSONS = [
     slug: 'ghosting-friendship',
     title: 'Ghosted',
     topic: 'Why adult friendships fade, with reported speech',
-    tag: 'Grammar',
+    tag: ['Speaking', 'Grammar'],
     level: 'B2',
     minutes: 60,
     color: ['#6B4257', '#F7F1F0'],
@@ -122,7 +123,7 @@ window.LESSONS = [
     slug: 'hustle-burnout',
     title: 'Hustle culture and burnout',
     topic: 'What we owe our jobs and what we don\'t, with modals of advice and obligation',
-    tag: 'Grammar',
+    tag: ['Speaking', 'Grammar'],
     level: 'B2',
     minutes: 60,
     color: ['#C1541E', '#FFF8EE'],
@@ -132,7 +133,7 @@ window.LESSONS = [
     slug: 'cancel-culture',
     title: 'Cancel culture',
     topic: 'Public opinion on trial, with the passive voice',
-    tag: 'Grammar',
+    tag: ['Speaking', 'Grammar'],
     level: 'B2',
     minutes: 60,
     color: ['#181818', '#F4F1EA'],
@@ -142,7 +143,7 @@ window.LESSONS = [
     slug: 'nostalgia-generations',
     title: 'Nostalgia and generations',
     topic: 'Were things really better back then? With used to and would',
-    tag: 'Grammar',
+    tag: ['Speaking', 'Grammar'],
     level: 'B2',
     minutes: 60,
     color: ['#7A5230', '#FAF3E4'],

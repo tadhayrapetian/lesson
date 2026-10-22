@@ -345,6 +345,7 @@ $('#foot').textContent='© '+new Date().getFullYear()+' '+(S.name||'');
 
 const LEVELS=['A1','A2','B1','B2','C1','C2'];
 const levelsOf=l=>[].concat(l.level||[]);
+const tagsOf=l=>[].concat(l.tag||[]);
 const levelLabel=l=>{const v=levelsOf(l);return v.length>1?v[0]+'–'+v[v.length-1]:v[0]||'';};
 const allLevels=LEVELS.filter(x=>L.some(l=>levelsOf(l).includes(x)));
 
@@ -411,9 +412,9 @@ $('#filters').addEventListener('click',e=>{const b=e.target.closest('.chip');if(
 $('#q').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();render();});
 
 function render(){
- const list=L.filter(l=>(level==='All'||levelsOf(l).includes(level))&&(!q||(l.title+' '+(l.topic||'')+' '+(l.tag||'')+' '+levelsOf(l).join(' ')).toLowerCase().includes(q)));
+ const list=L.filter(l=>(level==='All'||levelsOf(l).includes(level))&&(!q||(l.title+' '+(l.topic||'')+' '+tagsOf(l).join(' ')+' '+levelsOf(l).join(' ')).toLowerCase().includes(q)));
  $('#grid').innerHTML=list.map((l,i)=>{const c=Array.isArray(l.color)?l.color:COLORS[l.color]||COLORS[ORDER[i%ORDER.length]];return `<button type="button" class="card" data-slug="${esc(l.slug)}" style="--c:${c[0]};--f:${c[1]}">
-  <span class="meta">${levelLabel(l)?`<span>${esc(levelLabel(l))}</span>`:''}${l.tag?`<span>${esc(l.tag)}</span>`:''}${l.minutes?`<span>${esc(l.minutes)} min</span>`:''}</span>
+  <span class="meta">${levelLabel(l)?`<span>${esc(levelLabel(l))}</span>`:''}${tagsOf(l).length?`<span>${esc(tagsOf(l).join(' · '))}</span>`:''}${l.minutes?`<span>${esc(l.minutes)} min</span>`:''}</span>
   <span><h2 class="serif" style="--n:${Math.max(6,...l.title.split(/\s+/).map(w=>w.length))}">${esc(l.title)}</h2></span>
   <span>${l.topic?`<p>${esc(l.topic)}</p>`:''}<span class="open">Open lesson</span></span>
  </button>`;}).join('');

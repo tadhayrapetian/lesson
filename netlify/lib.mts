@@ -30,7 +30,7 @@ export type Lesson = {
   slug: string
   title: string
   topic?: string
-  tag?: string
+  tag?: string | string[]
   minutes?: number
   theme?: Partial<Record<"bg" | "card" | "ink" | "muted" | "accent" | "onAccent" | "soft", string>>
 }
