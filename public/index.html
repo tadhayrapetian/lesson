@@ -261,6 +261,18 @@ body.viewing{-webkit-user-select:none;user-select:none}input,textarea{-webkit-us
    <input id="email" type="email" autocomplete="email" required>
    <button class="gbtn" id="sendBtn">Send code</button>
    <p class="gmsg" id="emailMsg" role="status"></p>
+   <div class="glinks"><span></span><button type="button" id="toPw">Teacher login</button></div>
+  </form>
+  <form class="gbox" id="pwForm" hidden>
+   <h2 class="serif">Teacher login</h2>
+   <p>Log in with your email and password.</p>
+   <label for="pwEmail">EMAIL</label>
+   <input id="pwEmail" type="email" autocomplete="username" required>
+   <label for="pw">PASSWORD</label>
+   <input id="pw" type="password" autocomplete="current-password" required>
+   <button class="gbtn" id="pwBtn">Open lesson</button>
+   <div class="glinks"><span></span><button type="button" id="toCode">Get a code by email instead</button></div>
+   <p class="gmsg" id="pwMsg" role="status"></p>
   </form>
   <form class="gbox" id="codeForm" hidden>
    <h2 class="serif">Check your email</h2>
@@ -395,7 +407,7 @@ async function api(path,body){
 }
 function showGate(){
  $('#frame').hidden=true;$('#frame').srcdoc='';$('#vfull').hidden=true;$('#gate').hidden=false;
- $('#emailForm').hidden=false;$('#codeForm').hidden=true;$('#emailMsg').textContent='';
+ $('#emailForm').hidden=false;$('#codeForm').hidden=true;$('#pwForm').hidden=true;$('#emailMsg').textContent='';
  setTimeout(()=>$('#email').focus(),0);
 }
 function tick(){
@@ -417,6 +429,15 @@ async function sendCode(msgEl){
 $('#emailForm').addEventListener('submit',async e=>{e.preventDefault();$('#sendBtn').disabled=true;await sendCode($('#emailMsg'));$('#sendBtn').disabled=false;});
 $('#resend').addEventListener('click',()=>sendCode($('#codeMsg')));
 $('#changeEmail').addEventListener('click',showGate);
+$('#toCode').addEventListener('click',showGate);
+$('#toPw').addEventListener('click',()=>{$('#emailForm').hidden=true;$('#pwForm').hidden=false;$('#pwMsg').textContent='';$('#pwEmail').value=$('#email').value;setTimeout(()=>($('#pwEmail').value?$('#pw'):$('#pwEmail')).focus(),0);});
+$('#pwForm').addEventListener('submit',async e=>{
+ e.preventDefault();$('#pwBtn').disabled=true;$('#pwMsg').className='gmsg';$('#pwMsg').textContent='Checking…';
+ const r=await api('/api/verify-code',{email:$('#pwEmail').value.trim(),password:$('#pw').value});
+ $('#pwBtn').disabled=false;$('#pw').value='';
+ if(r.token){token=r.token;teacher=!!r.teacher;$('#pwMsg').textContent='';if(current)loadLesson(current);return;}
+ $('#pwMsg').textContent=r.error==='locked'?'Too many tries. Wait 15 minutes or get a code by email.':r.error==='wrong_password'?'Wrong email or password.':MSG.network;
+});
 $('#codeForm').addEventListener('submit',async e=>{
  e.preventDefault();$('#openBtn').disabled=true;$('#codeMsg').className='gmsg';$('#codeMsg').textContent='Checking…';
  const r=await api('/api/verify-code',{email:$('#email').value.trim(),code:$('#code').value});

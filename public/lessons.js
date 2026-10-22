@@ -12,14 +12,14 @@ window.SITE = {
     title: 'About me',
     // Каждая строка — отдельный абзац
     text: [
-      'ЗАМЕНИ: Hi, I\'m Tad. I teach English to adults, one to one and online.',
-      'ЗАМЕНИ: My lessons are built around real topics and real conversations. You speak most of the time, learn the words you actually need, and leave every lesson with something you can use the same day.'
+      'Hi, I\'m Tad. I teach English to adults, one to one and online.',
+      'My lessons are built around real topics and real conversations. You speak most of the time, learn the words you actually need, and leave every lesson with something you can use the same day.'
     ],
     // Короткие факты рядом с текстом
     facts: [
-      'ЗАМЕНИ: 5 years of teaching',
       'Levels B1 to C1',
-      'One-to-one, online'
+      'One-to-one, online',
+      'Lessons built around real conversations'
     ]
   },
 
@@ -33,9 +33,9 @@ window.SITE = {
 
   // Абонементы. featured: true — выделенный тариф посередине
   plans: [
-    { name: 'Trial lesson', price: 'ЗАМЕНИ', period: '30 minutes', features: ['Meet your teacher', 'Level check', 'A plan for your goals'] },
-    { name: 'Monthly', price: 'ЗАМЕНИ', period: '4 lessons a month', features: ['One lesson a week', 'Homework and feedback', 'All lessons on this site'], featured: true },
-    { name: 'Intensive', price: 'ЗАМЕНИ', period: '8 lessons a month', features: ['Two lessons a week', 'Homework and feedback', 'All lessons on this site'] }
+    { name: 'Trial lesson', price: 'Free', period: '30 minutes', features: ['Meet your teacher', 'Level check', 'A plan for your goals'] },
+    { name: 'Monthly', price: 'On request', period: '4 lessons a month', features: ['One lesson a week', 'Homework and feedback', 'All lessons on this site'], featured: true },
+    { name: 'Intensive', price: 'On request', period: '8 lessons a month', features: ['Two lessons a week', 'Homework and feedback', 'All lessons on this site'] }
   ]
 };
 
