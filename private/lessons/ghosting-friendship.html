@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghosted: Friendship, Reported Speech &amp; Losing Touch as Adults</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --mauve:#6b4257;
+    --mauve-light:#8a5a72;
+    --blush:#e8c4c4;
+    --charcoal:#2b2530;
+    --offwhite:#f7f1f0;
+    --white:#fffdfc;
+    --line:rgba(107,66,87,0.18);
+    --radius:14px;
+    --shadow: 0 10px 30px -14px rgba(43,37,48,0.35);
+  }
+
+  *{box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    background:var(--offwhite);
+    color:var(--charcoal);
+    font-family:"Work Sans", sans-serif;
+    font-weight:400;
+    line-height:1.65;
+    font-size:17px;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3,h4{
+    font-family:"Fraunces", serif;
+    color:var(--charcoal);
+    margin:0 0 0.5em 0;
+    font-weight:600;
+    letter-spacing:-0.01em;
+  }
+
+  a{color:var(--mauve);}
+
+  .wrap{
+    max-width:920px;
+    margin:0 auto;
+    padding:0 clamp(1.1rem, 4vw, 2.5rem);
+  }
+
+  /* ---------- Header ---------- */
+  header.lesson-header{
+    background:
+      radial-gradient(circle at 12% 20%, rgba(232,196,196,0.55), transparent 45%),
+      radial-gradient(circle at 88% 75%, rgba(138,90,114,0.35), transparent 50%),
+      linear-gradient(160deg, var(--charcoal) 0%, var(--mauve) 62%, var(--mauve-light) 100%);
+    color:var(--offwhite);
+    padding: clamp(2.5rem, 6vw, 4.5rem) 0 clamp(3rem, 7vw, 5rem);
+    position:relative;
+    overflow:hidden;
+  }
+
+  header.lesson-header::before{
+    content:"";
+    position:absolute;
+    top:-40px; right:-40px;
+    width:260px; height:260px;
+    border:1.5px solid rgba(247,241,240,0.18);
+    border-radius:38% 62% 55% 45% / 45% 40% 60% 55%;
+  }
+  header.lesson-header::after{
+    content:"";
+    position:absolute;
+    bottom:-70px; left:-60px;
+    width:220px; height:220px;
+    border:1.5px solid rgba(247,241,240,0.12);
+    border-radius:50%;
+  }
+
+  .tag-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.6rem;
+    margin-bottom:1.4rem;
+    position:relative;
+    z-index:2;
+  }
+
+  .tag{
+    display:inline-flex;
+    align-items:center;
+    gap:0.4em;
+    font-family:"Work Sans", sans-serif;
+    font-size:0.78rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    font-weight:600;
+    padding:0.42em 0.9em;
+    border-radius:999px;
+    border:1px solid rgba(247,241,240,0.35);
+    color:var(--offwhite);
+    background:rgba(255,255,255,0.06);
+    backdrop-filter:blur(2px);
+  }
+  .tag.level{
+    background:var(--blush);
+    color:var(--charcoal);
+    border-color:transparent;
+    font-weight:700;
+  }
+
+  header.lesson-header h1{
+    color:var(--white);
+    font-size:clamp(2.1rem, 5.2vw, 3.4rem);
+    line-height:1.08;
+    max-width:15ch;
+    position:relative;
+    z-index:2;
+    margin-bottom:0.6em;
+  }
+
+  .intro-line{
+    position:relative;
+    z-index:2;
+    max-width:56ch;
+    font-size:1.12rem;
+    color:rgba(247,241,240,0.92);
+    font-weight:400;
+    border-left:2px solid var(--blush);
+    padding-left:1rem;
+  }
+
+  /* ---------- Dotted fade divider ---------- */
+  .divider{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    margin: 3.2rem 0;
+    user-select:none;
+  }
+  .divider span{
+    display:block;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--mauve-light);
+  }
+  .divider span:nth-child(1){opacity:1;}
+  .divider span:nth-child(2){opacity:0.8;}
+  .divider span:nth-child(3){opacity:0.62;}
+  .divider span:nth-child(4){opacity:0.46;}
+  .divider span:nth-child(5){opacity:0.32;}
+  .divider span:nth-child(6){opacity:0.2;}
+  .divider span:nth-child(7){opacity:0.1;}
+
+  /* ---------- Sections ---------- */
+  main{padding-top: clamp(2.5rem, 5vw, 3.5rem);}
+
+  section{
+    padding: clamp(1.2rem, 3vw, 2rem) 0 0;
+  }
+
+  .section-kicker{
+    font-size:0.78rem;
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    font-weight:600;
+    color:var(--mauve);
+    margin-bottom:0.4rem;
+  }
+
+  section h2{
+    font-size:clamp(1.5rem, 3.4vw, 2.05rem);
+    margin-bottom:0.9rem;
+  }
+
+  .lead{
+    color:#514753;
+    max-width:65ch;
+    margin-bottom:1.6rem;
+  }
+
+  /* ---------- Cards / boxes ---------- */
+  .card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+  }
+
+  /* Warm-up */
+  .warmup-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:grid;
+    gap:0.9rem;
+  }
+  .warmup-list li{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-left:4px solid var(--blush);
+    border-radius:10px;
+    padding:1rem 1.2rem;
+    font-size:1.02rem;
+    box-shadow:var(--shadow);
+  }
+  .warmup-list li::marker{content:"";}
+  .qnum{
+    display:inline-block;
+    font-family:"Fraunces", serif;
+    color:var(--mauve);
+    font-weight:600;
+    margin-right:0.4em;
+  }
+
+  /* Vocabulary */
+  .vocab-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+    gap:1rem;
+  }
+  .vocab-item{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:1.1rem 1.2rem 1.2rem;
+    box-shadow:var(--shadow);
+    display:flex;
+    flex-direction:column;
+    gap:0.55rem;
+  }
+  .vocab-head{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:0.7rem;
+  }
+  .vocab-term{
+    font-family:"Fraunces", serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:var(--mauve);
+    line-height:1.3;
+  }
+  .vocab-example{
+    margin:0;
+    font-size:0.96rem;
+    color:#453c48;
+  }
+  .reveal-btn{
+    flex-shrink:0;
+    background:var(--offwhite);
+    border:1px solid var(--mauve-light);
+    color:var(--mauve);
+    font-family:"Work Sans", sans-serif;
+    font-size:0.78rem;
+    font-weight:600;
+    letter-spacing:0.02em;
+    padding:0.42em 0.75em;
+    border-radius:999px;
+    cursor:pointer;
+    transition:background 0.18s ease, color 0.18s ease, transform 0.12s ease;
+    white-space:nowrap;
+  }
+  .reveal-btn:hover{background:var(--mauve); color:var(--white);}
+  .reveal-btn:active{transform:scale(0.97);}
+  .reveal-btn:focus-visible{outline:2px solid var(--mauve); outline-offset:2px;}
+
+  .vocab-translation{
+    background:var(--blush);
+    color:var(--charcoal);
+    border-radius:8px;
+    padding:0.55em 0.8em;
+    font-size:0.95rem;
+    font-weight:500;
+    width:fit-content;
+  }
+  .vocab-translation[hidden]{display:none;}
+
+  /* Grammar */
+  .grammar-box{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:1.3rem 1.4rem;
+    box-shadow:var(--shadow);
+    margin-bottom:1.4rem;
+  }
+  .grammar-box h3{
+    font-size:1.15rem;
+    color:var(--mauve);
+    margin-bottom:0.5rem;
+  }
+  .grammar-box ul{
+    margin:0.4rem 0 0;
+    padding-left:1.2rem;
+  }
+  .grammar-box li{margin-bottom:0.35rem;}
+
+  table.compare{
+    width:100%;
+    border-collapse:collapse;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    margin-bottom:1.5rem;
+    font-size:0.95rem;
+  }
+  table.compare caption{
+    text-align:left;
+    font-family:"Fraunces", serif;
+    font-weight:600;
+    color:var(--mauve);
+    padding:0.9rem 1.1rem 0.4rem;
+    font-size:1.02rem;
+  }
+  table.compare th{
+    text-align:left;
+    background:var(--mauve);
+    color:var(--white);
+    font-family:"Work Sans", sans-serif;
+    font-weight:600;
+    padding:0.7rem 1rem;
+    letter-spacing:0.02em;
+    font-size:0.85rem;
+    text-transform:uppercase;
+  }
+  table.compare td{
+    padding:0.75rem 1rem;
+    border-top:1px solid var(--line);
+    vertical-align:top;
+  }
+  table.compare tr:nth-child(even) td{background:rgba(232,196,196,0.14);}
+
+  .example-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:grid;
+    gap:0.7rem;
+  }
+  .example-list li{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:0.85rem 1.05rem;
+    box-shadow:var(--shadow);
+    font-size:0.98rem;
+  }
+  .example-list em{color:var(--mauve); font-style:normal; font-weight:600;}
+
+  /* Practice */
+  .exercise{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:1.1rem 1.25rem;
+    margin-bottom:1rem;
+    box-shadow:var(--shadow);
+  }
+  .exercise .exnum{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:1.9em; height:1.9em;
+    background:var(--mauve);
+    color:var(--white);
+    border-radius:50%;
+    font-family:"Fraunces", serif;
+    font-weight:600;
+    font-size:0.92rem;
+    margin-right:0.6em;
+    flex-shrink:0;
+  }
+  .exercise-head{
+    display:flex;
+    align-items:flex-start;
+    gap:0.2rem;
+    margin-bottom:0.55rem;
+  }
+  .exercise-prompt{font-weight:500;}
+  .exercise .options{
+    list-style:none;
+    margin:0.5rem 0 0 2.5em;
+    padding:0;
+    display:grid;
+    gap:0.35rem;
+  }
+  .exercise .options li{
+    font-size:0.96rem;
+    color:#3f3641;
+  }
+  .exercise .options li::before{
+    content:attr(data-letter) ")";
+    color:var(--mauve);
+    font-weight:600;
+    margin-right:0.5em;
+  }
+  .exercise input[type="text"]{
+    width:100%;
+    max-width:520px;
+    margin-left:2.5em;
+    margin-top:0.4rem;
+    padding:0.55em 0.75em;
+    border:1px solid var(--mauve-light);
+    border-radius:8px;
+    background:var(--offwhite);
+    font-family:"Work Sans", sans-serif;
+    font-size:0.96rem;
+    color:var(--charcoal);
+  }
+  .exercise input[type="text"]:focus-visible{outline:2px solid var(--mauve); outline-offset:1px;}
+  .blank-line{
+    display:inline-block;
+    min-width:120px;
+    border-bottom:1.5px dotted var(--mauve-light);
+  }
+
+  /* Speaking */
+  .speaking-grid{
+    width:100%;
+    border-collapse:collapse;
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    font-size:0.95rem;
+  }
+  .speaking-grid th, .speaking-grid td{
+    border:1px solid var(--line);
+    padding:0.75rem 0.9rem;
+    text-align:left;
+    vertical-align:top;
+  }
+  .speaking-grid th{
+    background:var(--mauve);
+    color:var(--white);
+    font-family:"Work Sans", sans-serif;
+    font-weight:600;
+    font-size:0.82rem;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+  }
+  .speaking-grid tr:nth-child(even) td{background:rgba(232,196,196,0.14);}
+
+  .role-cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+    gap:1rem;
+    margin-top:1.2rem;
+  }
+  .role-card{
+    background:linear-gradient(160deg, var(--white), rgba(232,196,196,0.25));
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:1.1rem 1.25rem;
+    box-shadow:var(--shadow);
+    position:relative;
+  }
+  .role-card::before{
+    content:"";
+    position:absolute;
+    top:14px; right:14px;
+    width:34px; height:24px;
+    border:1.5px solid var(--blush);
+    border-radius:50% 50% 50% 6px;
+    opacity:0.7;
+  }
+  .role-card h4{
+    color:var(--mauve);
+    font-size:1.05rem;
+    margin-bottom:0.5rem;
+  }
+
+  /* Production task */
+  .task-box{
+    background:linear-gradient(150deg, var(--mauve), var(--mauve-light));
+    color:var(--offwhite);
+    border-radius:var(--radius);
+    padding:1.5rem 1.6rem;
+    box-shadow:var(--shadow);
+  }
+  .task-box h3{
+    color:var(--white);
+    font-size:1.15rem;
+    margin-bottom:0.7rem;
+  }
+  .task-box ul{
+    margin:0;
+    padding-left:1.2rem;
+  }
+  .task-box li{margin-bottom:0.5rem;}
+
+  /* Checklist */
+  .checklist{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:grid;
+    gap:0.7rem;
+  }
+  .checklist li{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:0.8rem 1rem;
+    display:flex;
+    align-items:flex-start;
+    gap:0.7rem;
+    box-shadow:var(--shadow);
+  }
+  .checklist input[type="checkbox"]{
+    width:1.2em; height:1.2em;
+    margin-top:0.2em;
+    accent-color:var(--mauve);
+    flex-shrink:0;
+    cursor:pointer;
+  }
+  .checklist label{cursor:pointer;}
+
+  /* Homework */
+  .writing-box{
+    background:var(--white);
+    border:1.5px dashed var(--mauve-light);
+    border-radius:var(--radius);
+    padding:1.2rem 1.3rem;
+    box-shadow:var(--shadow);
+    margin-bottom:1.3rem;
+  }
+  .writing-box p{margin-top:0;}
+  .writing-box textarea{
+    width:100%;
+    min-height:170px;
+    resize:vertical;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:var(--offwhite);
+    padding:0.9rem 1rem;
+    font-family:"Work Sans", sans-serif;
+    font-size:0.98rem;
+    color:var(--charcoal);
+  }
+  .writing-box textarea:focus-visible{outline:2px solid var(--mauve); outline-offset:1px;}
+  .word-hint{
+    font-size:0.82rem;
+    color:var(--mauve);
+    margin-top:0.4rem;
+    font-weight:600;
+    letter-spacing:0.02em;
+  }
+
+  .prep-prompt{
+    background:var(--blush);
+    color:var(--charcoal);
+    border-radius:var(--radius);
+    padding:1.1rem 1.3rem;
+    box-shadow:var(--shadow);
+  }
+
+  footer{
+    text-align:center;
+    padding:2.5rem 1rem 3.5rem;
+    color:#8a7c86;
+    font-size:0.85rem;
+  }
+
+  @media (max-width: 600px){
+    body{font-size:16px;}
+    .exercise .options, .exercise input[type="text"]{margin-left:0;}
+    .exercise-head{flex-direction:row;}
+  }
+</style>
+</head>
+<body>
+
+<header class="lesson-header">
+  <div class="wrap">
+    <div class="tag-row">
+      <span class="tag">Topic: Friendship &amp; Ghosting</span>
+      <span class="tag">&#9201; ~60 min</span>
+    </div>
+    <h1>Ghosted: Why Adult Friendships Fade &mdash; and How We Talk About It</h1>
+    <p class="intro-line">People don't usually break up with their friends &mdash; they just stop replying. This lesson looks at how friendships quietly end, and gives you the grammar to report what was said when they did.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- 2. WARM-UP -->
+  <section id="warmup" aria-labelledby="warmup-h">
+    <p class="section-kicker">Warm-up</p>
+    <h2 id="warmup-h">Before we start</h2>
+    <p class="lead">Discuss these questions with a partner. There are no easy answers &mdash; that's the point.</p>
+    <ul class="warmup-list">
+      <li><span class="qnum">1.</span>Is it ever kinder to simply disappear from a friendship than to have an honest, awkward conversation about why it's ending?</li>
+      <li><span class="qnum">2.</span>Do you think adults need "closure" when a friendship ends, or is that just a way of avoiding moving on?</li>
+      <li><span class="qnum">3.</span>Why do you think friendships get harder to maintain as people get older &mdash; is it really about having less time, or something else?</li>
+      <li><span class="qnum">4.</span>Have you ever realised, only in hindsight, that a friendship had become one-sided? What was the first sign?</li>
+    </ul>
+  </section>
+
+  <div class="divider" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+  <!-- 3. VOCABULARY -->
+  <section id="vocabulary" aria-labelledby="vocab-h">
+    <p class="section-kicker">Vocabulary</p>
+    <h2 id="vocab-h">Key language: friendship &amp; drifting apart</h2>
+    <p class="lead">Read each example, then tap "Show translation" to check the Armenian equivalent.</p>
+
+    <div class="vocab-grid">
+
+      <div class="vocab-item">
+        <div class="vocab-head">
+          <span class="vocab-term">to ghost someone</span>
+          <button class="reveal-btn" aria-expanded="false" aria-controls="tr1" data-default="Show translation">Show translation</button>
+        </div>
+        <p class="vocab-example">After years of being close, he just <strong>ghosted</strong> me &mdash; no explanation, no final text, nothing.</p>
+        <div id="tr1" class="vocab-translation" hidden>անհետանալ՝ առանց բացատրության</div>
+      </div>
+
+      <div class="vocab-item">
+        <div class="vocab-head">
+          <span class="vocab-term">to drift apart</span>
+          <button class="reveal-btn" aria-expanded="false" aria-controls="tr2" data-default="Show translation">Show translation</button>
+        </div>
+        <p class="vocab-example">We didn't have a fight; we just <strong>drifted apart</strong> after she moved to another city.</p>
+        <div id="tr2" class="vocab-translation" hidden>աստիճանաբար հեռանալ միմյանցից</div>
+      </div>
+
+      <div class="vocab-item">
+        <div class="vocab-head">
+          <span class="vocab-term">to lose touch (with someone)</span>
+          <button class="reveal-btn" aria-expanded="false" aria-controls="tr3" data-default="Show translation">Show translation</button>
+        </div>
+        <p class="vocab-example">It's strange how easily you can <strong>lose touch with</strong> someone who once knew everything about you.</p>
+        <div id="tr3" class="vocab-translation" hidden>կապը կորցնել (ինչ-որ մեկի հետ)</div>
+      </div>
+
+      <div class="vocab-item">
+        <div class="vocab-head">
+          <span class="vocab-term">closure</span>
+          <button class="reveal-btn" aria-expanded="false" aria-controls="tr4" data-default="Show translation">Show translation</button>
+        </div>
+        <p class="vocab-example">Without a real conversation, she never got the <strong>closure</strong> she needed to stop wondering what went wrong.</p>
+        <div id="tr4" class="vocab-translation" hidden>հարցի հոգեբանական ավարտ, հանգստացում</div>
+      </div>
+
+      <div class="vocab-item">
+        <div class="vocab-head">
+          <span class="vocab-term">to fall out with someone</span>
+          <button class="reveal-btn" aria-expanded="false" aria-controls="tr5" data-default="Show translation">Show translation</button>
+        </div>
+        <p class="vocab-example">They <strong>fell out</strong> over something small, and neither of them was willing to apologise first.</p>
+        <div id="tr5" class="vocab-translation" hidden>վիճաբանել, հարաբերությունը փչացնել</div>
+      </div>
+
+      <div class="vocab-item">
+        <div class="vocab-head">
+          <span class="vocab-term">one-sided friendship</span>
+          <button class="reveal-btn" aria-expanded="false" aria-controls="tr6" data-default="Show translation">Show translation</button>
+        </div>
+        <p class="vocab-example">I was always the one texting first &mdash; eventually I admitted it had become a <strong>one-sided friendship</strong>.</p>
+        <div id="tr6" class="vocab-translation" hidden>միակողմանի ընկերություն</div>
+      </div>
+
+      <div class="vocab-item">
+        <div class="vocab-head">
+          <span class="vocab-term">to reach out (to someone)</span>
+          <button class="reveal-btn" aria-expanded="false" aria-controls="tr7" data-default="Show translation">Show translation</button>
+        </div>
+        <p class="vocab-example">I finally <strong>reached out to</strong> him after two years of silence, not knowing if he'd even reply.</p>
+        <div id="tr7" class="vocab-translation" hidden>կապ հաստատել, դիմել</div>
+      </div>
+
+      <div class="vocab-item">
+        <div class="vocab-head">
+          <span class="vocab-term">awkward silence</span>
+          <button class="reveal-btn" aria-expanded="false" aria-controls="tr8" data-default="Show translation">Show translation</button>
+        </div>
+        <p class="vocab-example">When we finally met again, there was an <strong>awkward silence</strong> before either of us mentioned the lost years.</p>
+        <div id="tr8" class="vocab-translation" hidden>անհարմար լռություն</div>
+      </div>
+
+      <div class="vocab-item">
+        <div class="vocab-head">
+          <span class="vocab-term">to reconnect</span>
+          <button class="reveal-btn" aria-expanded="false" aria-controls="tr9" data-default="Show translation">Show translation</button>
+        </div>
+        <p class="vocab-example">A chance meeting at a wedding gave us the excuse we needed to <strong>reconnect</strong>.</p>
+        <div id="tr9" class="vocab-translation" hidden>վերականգնել կապը</div>
+      </div>
+
+      <div class="vocab-item">
+        <div class="vocab-head">
+          <span class="vocab-term">to take someone for granted</span>
+          <button class="reveal-btn" aria-expanded="false" aria-controls="tr10" data-default="Show translation">Show translation</button>
+        </div>
+        <p class="vocab-example">Looking back, I think I <strong>took her friendship for granted</strong> and assumed she'd always be there.</p>
+        <div id="tr10" class="vocab-translation" hidden>թերագնահատել, որպես բնական ընդունել</div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+  <!-- 4. GRAMMAR -->
+  <section id="grammar" aria-labelledby="grammar-h">
+    <p class="section-kicker">Grammar focus</p>
+    <h2 id="grammar-h">Reported speech: statements &amp; questions</h2>
+    <p class="lead">When we report what someone said or asked, the sentence usually moves one step "back" &mdash; in tense, in time, and in perspective.</p>
+
+    <div class="grammar-box">
+      <h3>1. Reporting statements</h3>
+      <p>We generally introduce the reported clause with <em>said (that)</em> or <em>told + person (that)</em>. If the reporting verb is in the past, the verb tense in the reported clause usually shifts "one step back" (backshift):</p>
+      <ul>
+        <li>present simple &rarr; past simple</li>
+        <li>present continuous &rarr; past continuous</li>
+        <li>present perfect &rarr; past perfect</li>
+        <li>past simple &rarr; past perfect (often, though not always required)</li>
+        <li>will &rarr; would &nbsp;|&nbsp; can &rarr; could &nbsp;|&nbsp; may &rarr; might &nbsp;|&nbsp; must &rarr; had to / must</li>
+      </ul>
+      <p>Pronouns, possessives, and time/place expressions also shift to match the reporter's point of view: <em>I&rarr;she/he, my&rarr;her/his, now&rarr;then, today&rarr;that day, tomorrow&rarr;the next day, yesterday&rarr;the day before, here&rarr;there, this&rarr;that.</em></p>
+    </div>
+
+    <div class="grammar-box">
+      <h3>2. Reporting questions</h3>
+      <p>Reported questions follow <strong>statement word order</strong> (subject + verb) &mdash; there is no auxiliary <em>do/does/did</em>, no inversion, and no question mark.</p>
+      <ul>
+        <li><strong>Yes/No questions:</strong> introduce with <em>if</em> or <em>whether</em>.<br>"Did you get my message?" &rarr; He asked me <em>if / whether</em> I had got his message.</li>
+        <li><strong>Wh- questions:</strong> keep the question word, but switch to normal word order.<br>"Why didn't you reply?" &rarr; She asked me <em>why I hadn't replied</em>.</li>
+      </ul>
+    </div>
+
+    <table class="compare">
+      <caption>Direct speech vs. reported speech</caption>
+      <thead>
+        <tr><th>Direct speech</th><th>Reported speech</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>&ldquo;I'm too busy to hang out,&rdquo; she said.</td><td>She said (that) she was too busy to hang out.</td></tr>
+        <tr><td>&ldquo;I haven't heard from you in months,&rdquo; he told me.</td><td>He told me (that) he hadn't heard from me in months.</td></tr>
+        <tr><td>&ldquo;Why didn't you reply to my texts?&rdquo; she asked me.</td><td>She asked me why I hadn't replied to her texts.</td></tr>
+        <tr><td>&ldquo;Did you get my message?&rdquo; he asked.</td><td>He asked me if/whether I had got his message.</td></tr>
+        <tr><td>&ldquo;I'll call you back tomorrow,&rdquo; she promised.</td><td>She promised she would call me back the next day.</td></tr>
+      </tbody>
+    </table>
+
+    <ul class="example-list">
+      <li>My old friend <em>claimed</em> she'd never received my messages, even though I knew she had read them.</li>
+      <li>He <em>admitted</em> that he'd been avoiding me because he didn't know how to explain his feelings.</li>
+      <li>She <em>asked</em> whether I'd noticed that our friendship had become one-sided.</li>
+      <li>They <em>explained</em> that they had simply grown apart after starting new jobs.</li>
+      <li>He <em>denied</em> that he had been ignoring me on purpose.</li>
+    </ul>
+  </section>
+
+  <div class="divider" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+  <!-- 5. CONTROLLED PRACTICE -->
+  <section id="practice" aria-labelledby="practice-h">
+    <p class="section-kicker">Controlled practice</p>
+    <h2 id="practice-h">Put it into practice</h2>
+    <p class="lead">Transform or choose the correct reported form. Write your answers in the boxes provided.</p>
+
+    <div class="exercise">
+      <div class="exercise-head"><span class="exnum">1</span><span class="exercise-prompt">Maya said, &ldquo;I'm not going to reply to his messages anymore.&rdquo; &rarr; Maya said that she <span class="blank-line"></span> reply to his messages anymore.</span></div>
+      <ul class="options">
+        <li data-letter="A">isn't going to</li>
+        <li data-letter="B">wasn't going to</li>
+        <li data-letter="C">hasn't gone to</li>
+        <li data-letter="D">won't</li>
+      </ul>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-head"><span class="exnum">2</span><span class="exercise-prompt">&ldquo;We've drifted apart since college,&rdquo; Sam told me. &rarr; Sam told me that they&hellip;</span></div>
+      <input type="text" aria-label="Answer for exercise 2" placeholder="Type your reported sentence here">
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-head"><span class="exnum">3</span><span class="exercise-prompt">&ldquo;Why did you stop texting me?&rdquo; she asked him. &rarr; She asked him why&hellip;</span></div>
+      <ul class="options">
+        <li data-letter="A">did he stop texting her</li>
+        <li data-letter="B">he stopped texting her</li>
+        <li data-letter="C">he had stopped texting her</li>
+        <li data-letter="D">has he stopped texting her</li>
+      </ul>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-head"><span class="exnum">4</span><span class="exercise-prompt">&ldquo;I haven't spoken to Elena in over a year,&rdquo; Josh admitted. &rarr; Josh admitted that&hellip;</span></div>
+      <input type="text" aria-label="Answer for exercise 4" placeholder="Type your reported sentence here">
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-head"><span class="exnum">5</span><span class="exercise-prompt">&ldquo;Did you ever try to reach out to her?&rdquo; he asked me. &rarr; He asked me&hellip;</span></div>
+      <ul class="options">
+        <li data-letter="A">if I ever tried to reach out to her</li>
+        <li data-letter="B">whether I had ever tried to reach out to her</li>
+        <li data-letter="C">did I ever try to reach out to her</li>
+        <li data-letter="D">that I had ever tried to reach out to her</li>
+      </ul>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-head"><span class="exnum">6</span><span class="exercise-prompt">&ldquo;I'll never understand why she ghosted me,&rdquo; Priya said. &rarr; Priya said that&hellip;</span></div>
+      <input type="text" aria-label="Answer for exercise 6" placeholder="Type your reported sentence here">
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-head"><span class="exnum">7</span><span class="exercise-prompt">&ldquo;Are you still in touch with your school friends?&rdquo; she asked. &rarr; She asked me&hellip;</span></div>
+      <ul class="options">
+        <li data-letter="A">am I still in touch with my school friends</li>
+        <li data-letter="B">if I was still in touch with my school friends</li>
+        <li data-letter="C">that I was still in touch with my school friends</li>
+        <li data-letter="D">was I still in touch with my school friends</li>
+      </ul>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-head"><span class="exnum">8</span><span class="exercise-prompt">&ldquo;I might reach out to him next week,&rdquo; Tom said. &rarr; Tom said that&hellip;</span></div>
+      <input type="text" aria-label="Answer for exercise 8" placeholder="Type your reported sentence here">
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-head"><span class="exnum">9</span><span class="exercise-prompt">&ldquo;What made you two fall out?&rdquo; I asked her. &rarr; I asked her&hellip;</span></div>
+      <input type="text" aria-label="Answer for exercise 9" placeholder="Type your reported sentence here">
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-head"><span class="exnum">10</span><span class="exercise-prompt">Lena said, &ldquo;I saw him yesterday, and he didn't even say hello.&rdquo; &rarr; Lena said that she <span class="blank-line"></span> him the day before, and he <span class="blank-line"></span> even say hello.</span></div>
+      <ul class="options">
+        <li data-letter="A">saw / didn't</li>
+        <li data-letter="B">had seen / hadn't</li>
+        <li data-letter="C">has seen / hasn't</li>
+        <li data-letter="D">had seen / didn't</li>
+      </ul>
+    </div>
+
+  </section>
+
+  <div class="divider" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+  <!-- 6. SPEAKING / FREER PRACTICE -->
+  <section id="speaking" aria-labelledby="speaking-h">
+    <p class="section-kicker">Speaking practice</p>
+    <h2 id="speaking-h">Interview: a friendship that faded</h2>
+    <p class="lead">Work in pairs. Interview your partner using the questions below (or your own follow-up questions). Take brief notes, then report their answers back to the class or another pair using reported speech &mdash; e.g. <em>"She told me that she'd stopped calling because&hellip;"</em> or <em>"He said he still didn't know why they'd fallen out."</em></p>
+
+    <table class="speaking-grid">
+      <thead>
+        <tr><th>Question to ask your partner</th><th>Notes on their answer</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Tell me about a friendship that ended or faded away. What happened?</td><td></td></tr>
+        <tr><td>Did the friendship end suddenly, or did you drift apart slowly?</td><td></td></tr>
+        <tr><td>Did you ever try to reach out again? What happened?</td><td></td></tr>
+        <tr><td>Looking back, is there anything you wish you'd said?</td><td></td></tr>
+        <tr><td>Do you think you got closure, or does it still feel unfinished?</td><td></td></tr>
+      </tbody>
+    </table>
+
+    <div class="role-cards">
+      <div class="role-card">
+        <h4>Optional role-play &mdash; Role A</h4>
+        <p>You haven't heard from a close friend in eight months. You finally message them and ask to meet. Confront them gently: ask why they disappeared, and how they'd explain the silence.</p>
+      </div>
+      <div class="role-card">
+        <h4>Optional role-play &mdash; Role B</h4>
+        <p>You ghosted a friend without meaning to &mdash; life got overwhelming and you didn't know how to reply after so much time had passed. Explain yourself when they confront you.</p>
+      </div>
+    </div>
+    <p class="lead" style="margin-top:1rem;">After the role-play, report to another pair what was said: <em>"He asked her why she'd stopped replying, and she explained that&hellip;"</em></p>
+  </section>
+
+  <div class="divider" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+  <!-- 7. PRODUCTION TASK -->
+  <section id="production" aria-labelledby="production-h">
+    <p class="section-kicker">Production task</p>
+    <h2 id="production-h">Longer speaking turn (2&ndash;3 minutes)</h2>
+    <p class="lead">Prepare a short talk about a friendship that ended, faded, or was ghosted &mdash; your own story or an invented one. Use the points below to structure it.</p>
+    <div class="task-box">
+      <h3>Include the following:</h3>
+      <ul>
+        <li>Describe the friendship and how it started to change &mdash; use at least three vocabulary items from this lesson (e.g. <em>drift apart, one-sided, take for granted</em>).</li>
+        <li>Report at least two things that were actually said between you, using reported speech (statements and/or questions).</li>
+        <li>Explain whether the friendship ended through a conversation or through silence &mdash; and why.</li>
+        <li>Reflect on whether you ever got closure, or whether honesty at the time would have changed things.</li>
+        <li>End by saying what you would do differently if it happened again today.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+  <!-- 8. WRAP-UP -->
+  <section id="wrapup" aria-labelledby="wrapup-h">
+    <p class="section-kicker">Wrap-up</p>
+    <h2 id="wrapup-h">Self-assessment: I can&hellip;</h2>
+    <ul class="checklist">
+      <li><input type="checkbox" id="c1"><label for="c1">use at least eight new words and phrases about friendship and ghosting.</label></li>
+      <li><input type="checkbox" id="c2"><label for="c2">report statements with correct tense backshift and pronoun/time changes.</label></li>
+      <li><input type="checkbox" id="c3"><label for="c3">report yes/no questions accurately using if / whether.</label></li>
+      <li><input type="checkbox" id="c4"><label for="c4">report wh- questions with the correct word order.</label></li>
+      <li><input type="checkbox" id="c5"><label for="c5">discuss adult friendship dynamics and share opinions with confidence in English.</label></li>
+    </ul>
+  </section>
+
+  <div class="divider" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+  <!-- 9. HOMEWORK -->
+  <section id="homework" aria-labelledby="homework-h">
+    <p class="section-kicker">Homework</p>
+    <h2 id="homework-h">Before next class</h2>
+
+    <div class="writing-box">
+      <h3>A. Writing (120&ndash;150 words)</h3>
+      <p>Write a short account of a friendship that ended or faded &mdash; real or invented. Use at least four examples of reported speech (statements and/or questions).</p>
+      <textarea aria-label="Writing space for homework paragraph" placeholder="Write your 120–150 word paragraph here..."></textarea>
+      <p class="word-hint">Target: 120&ndash;150 words &middot; minimum 4 reported speech structures</p>
+    </div>
+
+    <h3 style="font-size:1.2rem; margin-top:1.6rem;">B. Five more practice items</h3>
+
+    <div class="exercise">
+      <div class="exercise-head"><span class="exnum">1</span><span class="exercise-prompt">&ldquo;I don't want to talk about it,&rdquo; she said. &rarr; She said that&hellip;</span></div>
+      <input type="text" aria-label="Homework answer 1" placeholder="Type your reported sentence here">
+    </div>
+    <div class="exercise">
+      <div class="exercise-head"><span class="exnum">2</span><span class="exercise-prompt">&ldquo;Have you spoken to him since the argument?&rdquo; my sister asked. &rarr; My sister asked me&hellip;</span></div>
+      <input type="text" aria-label="Homework answer 2" placeholder="Type your reported sentence here">
+    </div>
+    <div class="exercise">
+      <div class="exercise-head"><span class="exnum">3</span><span class="exercise-prompt">Choose the correct option: &ldquo;I can't forgive him for disappearing like that,&rdquo; she said. &rarr; She said she <span class="blank-line"></span> forgive him for disappearing like that.</span></div>
+      <ul class="options">
+        <li data-letter="A">can't</li>
+        <li data-letter="B">couldn't</li>
+        <li data-letter="C">won't</li>
+        <li data-letter="D">didn't</li>
+      </ul>
+    </div>
+    <div class="exercise">
+      <div class="exercise-head"><span class="exnum">4</span><span class="exercise-prompt">&ldquo;Where have you been all this time?&rdquo; he asked me. &rarr; He asked me&hellip;</span></div>
+      <input type="text" aria-label="Homework answer 4" placeholder="Type your reported sentence here">
+    </div>
+    <div class="exercise">
+      <div class="exercise-head"><span class="exnum">5</span><span class="exercise-prompt">Choose the correct option: &ldquo;We must talk about this properly,&rdquo; he told her. &rarr; He told her that they <span class="blank-line"></span> talk about it properly.</span></div>
+      <ul class="options">
+        <li data-letter="A">must</li>
+        <li data-letter="B">had to</li>
+        <li data-letter="C">would</li>
+        <li data-letter="D">should had</li>
+      </ul>
+    </div>
+
+    <div class="prep-prompt">
+      <h3 style="margin-bottom:0.4rem; color:var(--charcoal);">C. Speaking prep</h3>
+      <p style="margin:0;">Think of one question you'd genuinely like to ask a friend you've lost touch with. Be ready to share it next class and explain &mdash; using reported speech &mdash; what you imagine they would say back.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">Friendship &amp; Ghosting &middot; Reported Speech</div>
+</footer>
+
+<script>
+  (function () {
+    "use strict";
+    var buttons = document.querySelectorAll(".reveal-btn");
+    buttons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var targetId = btn.getAttribute("aria-controls");
+        var target = document.getElementById(targetId);
+        if (!target) return;
+        var isExpanded = btn.getAttribute("aria-expanded") === "true";
+        var willExpand = !isExpanded;
+        btn.setAttribute("aria-expanded", String(willExpand));
+        target.hidden = !willExpand;
+        btn.textContent = willExpand ? "Hide translation" : "Show translation";
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cancel Culture &amp; Public Opinion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#181818;
+    --paper:#f4f1ea;
+    --paper-2:#ebe6da;
+    --white:#ffffff;
+    --red:#c8202f;
+    --rule: 2px solid var(--ink);
+  }
+
+  *{box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Libre Baskerville", Georgia, serif;
+    line-height:1.65;
+    font-size:17px;
+  }
+
+  h1,h2,h3,h4,.display{
+    font-family:"Bebas Neue", "Arial Narrow", sans-serif;
+    letter-spacing:0.03em;
+    line-height:1.05;
+    color:var(--ink);
+    font-weight:400;
+  }
+
+  a{color:var(--red);}
+
+  .wrap{
+    max-width:960px;
+    margin:0 auto;
+    padding:0 clamp(16px,4vw,40px);
+  }
+
+  /* ================= MASTHEAD ================= */
+  .masthead{
+    background:var(--ink);
+    color:var(--white);
+    padding:28px 0 20px;
+    border-bottom:6px solid var(--red);
+  }
+
+  .masthead-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.18em;
+    border-bottom:1px solid rgba(255,255,255,0.35);
+    padding-bottom:10px;
+    margin-bottom:14px;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  .masthead-top span{opacity:0.85;}
+
+  .breaking-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:var(--red);
+    color:var(--white);
+    padding:3px 10px;
+    border-radius:2px;
+    font-weight:700;
+    letter-spacing:0.14em;
+  }
+
+  .breaking-tag svg{width:14px;height:14px;flex-shrink:0;}
+
+  .masthead h1{
+    font-size:clamp(2.6rem, 8vw, 4.6rem);
+    text-align:center;
+    text-transform:uppercase;
+    margin:6px 0 4px;
+  }
+
+  .masthead .sub{
+    text-align:center;
+    font-family:"Libre Baskerville", serif;
+    font-style:italic;
+    color:#e9e6dd;
+    font-size:1.02rem;
+    max-width:620px;
+    margin:0 auto 18px;
+  }
+
+  .badge-row{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:14px;
+  }
+
+  .badge{
+    border:1px solid var(--white);
+    padding:5px 14px;
+    font-size:0.78rem;
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+  }
+
+  .badge.level{
+    background:var(--red);
+    border-color:var(--red);
+    font-weight:700;
+  }
+
+  .intro-line{
+    max-width:760px;
+    margin:20px auto 0;
+    text-align:center;
+    font-size:1.12rem;
+    padding:14px 0 0;
+    border-top:1px solid rgba(255,255,255,0.35);
+  }
+
+  /* ================= SECTION FRAMEWORK ================= */
+  section{
+    padding:44px 0;
+    border-bottom:1px solid #cfc9b8;
+  }
+
+  section:last-of-type{border-bottom:none;}
+
+  .section-label{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:var(--red);
+    text-transform:uppercase;
+    letter-spacing:0.2em;
+    font-size:0.78rem;
+    font-weight:700;
+    margin-bottom:6px;
+    font-family:"Libre Baskerville", serif;
+  }
+
+  .section-label svg{width:16px;height:16px;}
+
+  .section-label::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:#cfc9b8;
+  }
+
+  h2.section-title{
+    font-size:clamp(2rem, 5vw, 2.8rem);
+    text-transform:uppercase;
+    margin:0 0 18px;
+    border-bottom:4px solid var(--ink);
+    padding-bottom:10px;
+  }
+
+  h3{
+    font-size:1.5rem;
+    text-transform:uppercase;
+    letter-spacing:0.02em;
+    margin:26px 0 10px;
+  }
+
+  p{margin:0 0 14px;}
+
+  .lede{
+    font-size:1.08rem;
+    max-width:70ch;
+  }
+
+  .lede::first-letter{
+    font-family:"Bebas Neue", sans-serif;
+    font-size:3.6rem;
+    float:left;
+    line-height:0.8;
+    padding:6px 10px 0 0;
+    color:var(--red);
+  }
+
+  /* ================= WARM UP ================= */
+  .question-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:grid;
+    gap:14px;
+  }
+
+  .question-list li{
+    background:var(--white);
+    border:1px solid var(--ink);
+    border-left:6px solid var(--red);
+    padding:14px 18px;
+    font-size:1.02rem;
+  }
+
+  .question-list li strong{
+    font-family:"Bebas Neue", sans-serif;
+    color:var(--red);
+    font-size:1.15rem;
+    margin-right:8px;
+  }
+
+  /* ================= VOCAB ================= */
+  .vocab-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+    gap:16px;
+  }
+
+  .vocab-card{
+    background:var(--white);
+    border:1px solid var(--ink);
+    padding:16px 18px 18px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+
+  .vocab-term{
+    font-family:"Bebas Neue", sans-serif;
+    font-size:1.4rem;
+    letter-spacing:0.02em;
+    color:var(--ink);
+    border-bottom:2px solid var(--red);
+    padding-bottom:4px;
+  }
+
+  .vocab-example{
+    font-style:italic;
+    font-size:0.98rem;
+    color:#333;
+  }
+
+  .reveal-btn{
+    align-self:flex-start;
+    background:var(--ink);
+    color:var(--white);
+    border:none;
+    padding:7px 14px;
+    font-family:"Libre Baskerville", serif;
+    font-size:0.82rem;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    cursor:pointer;
+    border-radius:2px;
+    transition:background 0.15s ease;
+  }
+
+  .reveal-btn:hover, .reveal-btn:focus-visible{
+    background:var(--red);
+  }
+
+  .reveal-btn:focus-visible{
+    outline:3px solid var(--red);
+    outline-offset:2px;
+  }
+
+  .translation{
+    background:var(--paper-2);
+    border:1px dashed var(--ink);
+    padding:8px 12px;
+    font-size:0.98rem;
+  }
+
+  .translation[hidden]{display:none;}
+
+  /* ================= GRAMMAR ================= */
+  .grammar-box{
+    background:var(--white);
+    border:1px solid var(--ink);
+    padding:20px 22px;
+    margin-bottom:20px;
+  }
+
+  .grammar-box .formula{
+    font-family:"Bebas Neue", sans-serif;
+    font-size:1.3rem;
+    background:var(--ink);
+    color:var(--white);
+    padding:10px 14px;
+    display:inline-block;
+    margin:8px 0;
+    letter-spacing:0.03em;
+  }
+
+  table.compare{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0;
+    background:var(--white);
+    font-size:0.96rem;
+  }
+
+  table.compare caption{
+    text-align:left;
+    font-family:"Bebas Neue", sans-serif;
+    font-size:1.2rem;
+    margin-bottom:8px;
+    text-transform:uppercase;
+  }
+
+  table.compare th, table.compare td{
+    border:1px solid var(--ink);
+    padding:10px 12px;
+    text-align:left;
+    vertical-align:top;
+  }
+
+  table.compare th{
+    background:var(--ink);
+    color:var(--white);
+    text-transform:uppercase;
+    font-family:"Bebas Neue", sans-serif;
+    letter-spacing:0.05em;
+    font-weight:400;
+    font-size:1rem;
+  }
+
+  table.compare td.tense-label{
+    font-weight:700;
+    background:var(--paper-2);
+    white-space:nowrap;
+  }
+
+  .example-list{
+    list-style:none;
+    margin:16px 0 0;
+    padding:0;
+    display:grid;
+    gap:12px;
+  }
+
+  .example-list li{
+    padding:10px 14px;
+    border-left:4px solid var(--red);
+    background:var(--paper-2);
+  }
+
+  .example-list .modal-tag{
+    display:inline-block;
+    background:var(--red);
+    color:var(--white);
+    font-size:0.7rem;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    padding:2px 8px;
+    margin-right:8px;
+    border-radius:2px;
+    vertical-align:middle;
+  }
+
+  /* ================= PRACTICE ================= */
+  .exercise-block{
+    background:var(--white);
+    border:1px solid var(--ink);
+    padding:18px 20px;
+    margin-bottom:18px;
+  }
+
+  .exercise-block h4{
+    font-size:1.25rem;
+    margin:0 0 12px;
+    color:var(--red);
+    text-transform:uppercase;
+  }
+
+  ol.items{
+    margin:0;
+    padding-left:1.3em;
+    display:grid;
+    gap:14px;
+  }
+
+  ol.items li{padding-left:4px;}
+
+  .mc-options{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px 18px;
+    margin-top:6px;
+    font-size:0.96rem;
+  }
+
+  .mc-options span{white-space:nowrap;}
+
+  .blank-line{
+    display:inline-block;
+    min-width:160px;
+    border-bottom:1.5px solid var(--ink);
+    margin:0 4px;
+  }
+
+  .answer-space{
+    display:block;
+    margin-top:6px;
+    border-bottom:1.5px dotted #999;
+    height:1.4em;
+  }
+
+  /* ================= SPEAKING CARDS ================= */
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(250px,1fr));
+    gap:18px;
+  }
+
+  .discuss-card{
+    background:var(--white);
+    border:1px solid var(--ink);
+    padding:18px;
+    position:relative;
+    box-shadow:5px 5px 0 var(--ink);
+  }
+
+  .discuss-card::before{
+    content:"SCENARIO";
+    position:absolute;
+    top:-11px;
+    left:14px;
+    background:var(--red);
+    color:var(--white);
+    font-size:0.68rem;
+    letter-spacing:0.14em;
+    padding:2px 8px;
+  }
+
+  .discuss-card h4{
+    font-size:1.15rem;
+    margin:8px 0 8px;
+    text-transform:none;
+    font-family:"Libre Baskerville", serif;
+    font-weight:700;
+  }
+
+  .discuss-card p{font-size:0.96rem; margin-bottom:0;}
+
+  .task-box{
+    background:var(--ink);
+    color:var(--white);
+    padding:22px 24px;
+    margin-top:22px;
+  }
+
+  .task-box h3{color:var(--white); margin-top:0;}
+
+  .task-box ul{padding-left:1.2em; margin:10px 0 0;}
+
+  .task-box li{margin-bottom:8px;}
+
+  /* ================= CHECKLIST ================= */
+  .checklist{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:grid;
+    gap:12px;
+  }
+
+  .checklist li{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    background:var(--white);
+    border:1px solid var(--ink);
+    padding:12px 16px;
+  }
+
+  .checklist input[type="checkbox"]{
+    width:22px;
+    height:22px;
+    accent-color:var(--red);
+    flex-shrink:0;
+    margin-top:2px;
+  }
+
+  .checklist label{cursor:pointer;}
+
+  /* ================= HOMEWORK ================= */
+  .writing-box{
+    background:repeating-linear-gradient(var(--white) 0 31px, #d8d2c0 31px 32px);
+    border:1px solid var(--ink);
+    padding:18px 20px 4px;
+    margin:14px 0 22px;
+  }
+
+  .writing-box textarea{
+    width:100%;
+    min-height:220px;
+    background:transparent;
+    border:none;
+    resize:vertical;
+    font-family:"Libre Baskerville", serif;
+    font-size:1.02rem;
+    line-height:32px;
+    color:var(--ink);
+    outline:none;
+  }
+
+  .word-target{
+    display:inline-block;
+    background:var(--red);
+    color:var(--white);
+    font-size:0.75rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    padding:3px 10px;
+    border-radius:2px;
+    margin-bottom:10px;
+  }
+
+  .prep-box{
+    border:2px solid var(--red);
+    padding:16px 18px;
+    background:var(--white);
+    margin-top:18px;
+  }
+
+  /* ================= FOOTER ================= */
+  footer{
+    background:var(--ink);
+    color:#c9c4b6;
+    text-align:center;
+    padding:26px 16px;
+    font-size:0.85rem;
+    letter-spacing:0.05em;
+  }
+
+  footer strong{color:var(--white);}
+
+  @media (max-width: 600px){
+    body{font-size:16px;}
+    .discuss-card{box-shadow:4px 4px 0 var(--ink);}
+    table.compare{font-size:0.86rem;}
+    .masthead-top{justify-content:center; text-align:center;}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="masthead-top">
+      <span>The Weekly Grammar &mdash; Language Edition</span>
+      <span class="breaking-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 11v2a2 2 0 0 0 2 2h1l3 5h2l-1-5h4l7 4V5l-7 4H9L6 4H4a2 2 0 0 0-2 2v2"/>
+          <path d="M15 9v6"/>
+        </svg>
+        Breaking
+      </span>
+      <span>Vol. 4 &mdash; 16 August 2026</span>
+    </div>
+
+    <h1>Cancelled! Public Opinion on Trial</h1>
+    <p class="sub">A lesson on cancel culture, mob mentality, and who really deserves a second chance &mdash; and the grammar of the passive voice you need to talk about it.</p>
+
+    <div class="badge-row">
+      <span class="badge">Topic: Cancel Culture &amp; Public Opinion</span>
+      <span class="badge">&#9202; ~60 minutes</span>
+    </div>
+
+    <p class="intro-line">Somebody says the wrong thing. A screenshot is taken. Within hours, a reputation built over twenty years is undone by twenty thousand strangers. Is that justice &mdash; or is it a mob? Today, we argue it out &mdash; and we learn how to talk about what was said, who was blamed, and who should be forgiven.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ 2. WARM-UP ============ -->
+  <section id="warmup">
+    <div class="section-label">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
+      Front Page &mdash; Warm-Up
+    </div>
+    <h2 class="section-title">Before We Start</h2>
+    <p class="lede">Discuss the following questions with a partner. Be honest &mdash; there are no easy answers here.</p>
+    <ul class="question-list">
+      <li><strong>01</strong>Where is the line between holding someone accountable and simply enjoying watching them suffer online?</li>
+      <li><strong>02</strong>Can someone truly earn a second chance after a public scandal, or does the internet never really forget?</li>
+      <li><strong>03</strong>Why do ordinary people join online pile-ons against strangers they've never met? Is it about justice, or something else?</li>
+      <li><strong>04</strong>Has social media given ordinary citizens real power over powerful people &mdash; or just the illusion of it?</li>
+    </ul>
+  </section>
+
+  <!-- ============ 3. VOCABULARY ============ -->
+  <section id="vocab">
+    <div class="section-label">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Classifieds &mdash; Key Vocabulary
+    </div>
+    <h2 class="section-title">Words of the Week</h2>
+    <p class="lede">Ten words and phrases you'll need to talk about public opinion, scandal, and accountability. Tap the button to check the Armenian translation.</p>
+
+    <div class="vocab-grid" id="vocabGrid"></div>
+  </section>
+
+  <!-- ============ 4. GRAMMAR ============ -->
+  <section id="grammar">
+    <div class="section-label">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 4v16"/></svg>
+      Editorial &mdash; Grammar Focus
+    </div>
+    <h2 class="section-title">The Passive Voice</h2>
+
+    <div class="grammar-box">
+      <h3>Form</h3>
+      <p>The passive voice is built with the verb <strong>be</strong> + <strong>past participle</strong>. The tense of <em>be</em> changes to match the time we're talking about; the past participle itself never changes.</p>
+      <span class="formula">subject + BE + past participle (+ by agent)</span>
+      <p>Modal passives follow the same logic: <strong>modal + be + past participle</strong> (present/future), or <strong>modal + have been + past participle</strong> (past/hypothetical).</p>
+      <span class="formula">modal + BE / HAVE BEEN + past participle</span>
+
+      <h3>Use</h3>
+      <p>We choose the passive when the <strong>action or the receiver</strong> of the action matters more than who did it &mdash; which is exactly how most cancel-culture stories are told: "He was accused..." matters more than naming every single person who accused him. We also use it when the doer is <strong>unknown, obvious, or unimportant</strong>, or simply to sound more formal, neutral, and journalistic &mdash; the classic tone of a news report.</p>
+    </div>
+
+    <table class="compare">
+      <caption>Active vs. Passive, side by side</caption>
+      <thead>
+        <tr><th>Tense / Structure</th><th>Active</th><th>Passive</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="tense-label">Present Simple</td>
+          <td>The internet <strong>cancels</strong> public figures overnight.</td>
+          <td>Public figures <strong>are cancelled</strong> overnight (by the internet).</td>
+        </tr>
+        <tr>
+          <td class="tense-label">Past Simple</td>
+          <td>Journalists <strong>exposed</strong> the scandal last week.</td>
+          <td>The scandal <strong>was exposed</strong> last week.</td>
+        </tr>
+        <tr>
+          <td class="tense-label">Present Perfect</td>
+          <td>Fans <strong>have forgiven</strong> the singer.</td>
+          <td>The singer <strong>has been forgiven</strong> by fans.</td>
+        </tr>
+        <tr>
+          <td class="tense-label">Modal (present/future)</td>
+          <td>We <strong>should hold</strong> public figures accountable.</td>
+          <td>Public figures <strong>should be held</strong> accountable.</td>
+        </tr>
+        <tr>
+          <td class="tense-label">Modal Perfect (past)</td>
+          <td>The network <strong>could have handled</strong> this differently.</td>
+          <td>This <strong>could have been handled</strong> differently (by the network).</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>In context</h3>
+    <ul class="example-list">
+      <li>The comedian's old jokes <strong>were unearthed</strong> by an anonymous account just days before his film's release.</li>
+      <li>It is often argued that public apologies <strong>are written</strong> more for damage control than for genuine remorse.</li>
+      <li><span class="modal-tag">modal</span>Some critics believe that no one <strong>should be permanently cancelled</strong> for a single mistake.</li>
+      <li><span class="modal-tag">modal perfect</span>Many agree the entire situation <strong>could have been avoided</strong> if the statement had been fact-checked first.</li>
+      <li>By the time the CEO resigned, the story <strong>had already been shared</strong> by millions of accounts worldwide.</li>
+    </ul>
+  </section>
+
+  <!-- ============ 5. CONTROLLED PRACTICE ============ -->
+  <section id="practice">
+    <div class="section-label">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      Op-Ed &mdash; Controlled Practice
+    </div>
+    <h2 class="section-title">Check Your Grammar</h2>
+    <p class="lede">Complete the exercises below. Write your answers in the spaces provided.</p>
+
+    <div class="exercise-block">
+      <h4>Part A &mdash; Multiple Choice</h4>
+      <p>Circle the option that correctly completes each sentence.</p>
+      <ol class="items">
+        <li>The politician's statements <span class="blank-line">&nbsp;</span> widely on social media within minutes last night.
+          <div class="mc-options"><span>a) shared</span><span>b) were shared</span><span>c) has shared</span><span>d) share</span></div>
+        </li>
+        <li>Many commentators argue that public figures <span class="blank-line">&nbsp;</span> accountable for what they say, not just for what they do.
+          <div class="mc-options"><span>a) should hold</span><span>b) should be held</span><span>c) should held</span><span>d) are hold</span></div>
+        </li>
+        <li>By the time the story broke on the news, the original post <span class="blank-line">&nbsp;</span> already <span class="blank-line">&nbsp;</span> from the platform.
+          <div class="mc-options"><span>a) had / deleted</span><span>b) had / been deleted</span><span>c) has / been deleted</span><span>d) was / delete</span></div>
+        </li>
+        <li>The company's reputation <span class="blank-line">&nbsp;</span> badly damaged after the leaked internal emails appeared online.
+          <div class="mc-options"><span>a) was</span><span>b) is being</span><span>c) has</span><span>d) were</span></div>
+        </li>
+        <li>Nowadays, a whole controversy <span class="blank-line">&nbsp;</span> overnight, sometimes by a single careless tweet.
+          <div class="mc-options"><span>a) can create</span><span>b) can be created</span><span>c) can created</span><span>d) can be create</span></div>
+        </li>
+      </ol>
+    </div>
+
+    <div class="exercise-block">
+      <h4>Part B &mdash; Transformation (Active &rarr; Passive)</h4>
+      <p>Rewrite each sentence in the passive voice. Keep the same tense or modal meaning.</p>
+      <ol class="items">
+        <li>Thousands of users shared the video within an hour.
+          <span class="answer-space"></span>
+        </li>
+        <li>Someone should have warned him about the consequences of that interview.
+          <span class="answer-space"></span>
+        </li>
+        <li>The network has suspended the presenter indefinitely.
+          <span class="answer-space"></span>
+        </li>
+        <li>Critics say that people often forgive celebrities too quickly.
+          <span class="answer-space"></span>
+        </li>
+        <li>The board must investigate the allegations before making any public statement.
+          <span class="answer-space"></span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ 6. SPEAKING / FREER PRACTICE ============ -->
+  <section id="speaking">
+    <div class="section-label">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Letters to the Editor &mdash; Speaking
+    </div>
+    <h2 class="section-title">The Court of Public Opinion</h2>
+    <p class="lede">Work in pairs or small groups. Choose two or three scenario cards below. For each one, decide: <strong>should this person be cancelled, forgiven, or something in between?</strong> Justify your opinion using passive structures and this week's vocabulary.</p>
+
+    <div class="card-grid">
+      <div class="discuss-card">
+        <h4>The Chef's Old Interview</h4>
+        <p>A celebrity chef was caught making offensive jokes in an interview filmed ten years ago. The clip has just gone viral, and several restaurant chains have cancelled their partnerships with him.</p>
+      </div>
+      <div class="discuss-card">
+        <h4>The Leaked Emails</h4>
+        <p>A tech CEO's private emails were leaked, revealing that employees had been mistreated for years. The company's reputation has been seriously damaged, and calls for her resignation are growing.</p>
+      </div>
+      <div class="discuss-card">
+        <h4>The Copied Content</h4>
+        <p>A popular influencer has been accused of stealing ideas from smaller, less-known creators. No formal proof has been published yet, but public outcry is already enormous.</p>
+      </div>
+      <div class="discuss-card">
+        <h4>The Old Rivalry Posts</h4>
+        <p>An athlete's old social media posts, in which rival fans were openly mocked, have resurfaced right before an important match. He says he was a different person back then.</p>
+      </div>
+      <div class="discuss-card">
+        <h4>The Off-Air Comment</h4>
+        <p>A local news anchor was recorded making an insensitive remark off-air. The recording was leaked and shared by a former colleague. The anchor claims it was taken out of context.</p>
+      </div>
+      <div class="discuss-card">
+        <h4>The Apology Video</h4>
+        <p>After weeks of backlash, a public figure has finally posted an apology video. Some viewers believe he was genuinely sorry; others think the video was clearly written by his PR team.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 7. PRODUCTION TASK ============ -->
+  <section id="production">
+    <div class="section-label">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 19c-4.4 0-8-1.8-8-4V9c0-2.2 3.6-4 8-4s8 1.8 8 4v6c0 2.2-3.6 4-8 4z"/><path d="M4 15c0 2.2 3.6 4 8 4s8-1.8 8-4"/></svg>
+      Feature Story &mdash; Production Task
+    </div>
+    <h2 class="section-title">Your Turn on the Front Page</h2>
+    <p class="lede">Prepare a 2&ndash;3 minute talk about a real or invented cancel-culture story. Use the points below to structure it.</p>
+
+    <div class="task-box">
+      <h3>Guiding Points</h3>
+      <ul>
+        <li>Introduce the public figure and briefly explain what they are accused of &mdash; use passive voice: "It is claimed that...", "He was accused of..."</li>
+        <li>Describe how the story spread: what <strong>was shared</strong>, what <strong>went viral</strong>, and how the <strong>backlash</strong> developed.</li>
+        <li>Explain what has been done so far: apologies made, statements issued, deals cancelled, etc.</li>
+        <li>Give your own opinion: should this person <strong>be held accountable</strong>, or <strong>be given</strong> a second chance? Use at least one modal passive.</li>
+        <li>Use a minimum of four vocabulary items from today's lesson naturally in your talk.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 8. WRAP-UP ============ -->
+  <section id="wrapup">
+    <div class="section-label">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+      Corrections &mdash; Self-Assessment
+    </div>
+    <h2 class="section-title">I Can...</h2>
+    <ul class="checklist">
+      <li>
+        <input type="checkbox" id="check1">
+        <label for="check1">I can talk about cancel culture and public opinion using appropriate vocabulary.</label>
+      </li>
+      <li>
+        <input type="checkbox" id="check2">
+        <label for="check2">I can form the passive voice correctly in the present simple, past simple, and present perfect.</label>
+      </li>
+      <li>
+        <input type="checkbox" id="check3">
+        <label for="check3">I can use modal passives such as "should be held accountable" and "could have been handled differently."</label>
+      </li>
+      <li>
+        <input type="checkbox" id="check4">
+        <label for="check4">I can discuss whether public figures deserve second chances, giving clear reasons.</label>
+      </li>
+      <li>
+        <input type="checkbox" id="check5">
+        <label for="check5">I can describe a scandal or controversy from start to finish using passive structures.</label>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ============ 9. HOMEWORK ============ -->
+  <section id="homework">
+    <div class="section-label">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Next Edition &mdash; Homework
+    </div>
+    <h2 class="section-title">Before Next Class</h2>
+
+    <h3>1. Writing Task</h3>
+    <p class="lede">Write about a public figure (real or invented) who was "cancelled." Describe what happened and give your opinion on whether they should be forgiven. Use at least five passive structures.</p>
+    <div class="writing-box">
+      <span class="word-target">120&ndash;150 words</span>
+      <textarea placeholder="Start writing here... (e.g. 'Last year, a well-known author was accused of...')" aria-label="Homework writing space"></textarea>
+    </div>
+
+    <h3>2. Extra Practice</h3>
+    <div class="exercise-block">
+      <p>Rewrite the following sentences in the passive voice.</p>
+      <ol class="items">
+        <li>Reporters are investigating the allegations right now.
+          <span class="answer-space"></span>
+        </li>
+        <li>The magazine must publish a correction by tomorrow.
+          <span class="answer-space"></span>
+        </li>
+        <li>Nobody has confirmed the rumours yet.
+          <span class="answer-space"></span>
+        </li>
+        <li>The producers could have avoided this entire controversy.
+          <span class="answer-space"></span>
+        </li>
+        <li>The public forgave the singer within a few months.
+          <span class="answer-space"></span>
+        </li>
+      </ol>
+    </div>
+
+    <div class="prep-box">
+      <h3 style="margin-top:0;">Before Next Class &mdash; Speaking Prep</h3>
+      <p style="margin-bottom:0;">Find one real cancel-culture story in the news this week. Be ready to summarise what happened &mdash; using passive voice &mdash; and to share whether you think it was handled fairly.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p><strong>The Weekly Grammar</strong> &mdash; English Lesson Series &mdash; Cancel Culture &amp; Public Opinion</p>
+</footer>
+
+<script>
+  (function(){
+    "use strict";
+
+    var vocabulary = [
+      {
+        term: "to cancel someone",
+        example: "Fans threatened to cancel the singer after his old comments went public.",
+        translation: "բոյկոտել (հրապարակավ մերժել)"
+      },
+      {
+        term: "backlash",
+        example: "The brand faced serious backlash for staying silent about the scandal for a week.",
+        translation: "կատաղի հակազդեցություն"
+      },
+      {
+        term: "public outcry",
+        example: "There was a huge public outcry when the actor's old messages were leaked.",
+        translation: "հանրային վրդովմունք"
+      },
+      {
+        term: "to hold someone accountable",
+        example: "The company was finally held accountable for its executive's behaviour.",
+        translation: "պատասխանատվության ենթարկել"
+      },
+      {
+        term: "to go viral",
+        example: "The video of the argument went viral within just a few hours.",
+        translation: "արագ տարածվել ցանցում"
+      },
+      {
+        term: "damage control",
+        example: "Her publicist went into full damage control mode right after the interview aired.",
+        translation: "վնասի կառավարում"
+      },
+      {
+        term: "to call someone out",
+        example: "Several colleagues called him out publicly for the offensive remark.",
+        translation: "հրապարակավ մեղադրել"
+      },
+      {
+        term: "reputation",
+        example: "One bad decision can destroy a reputation that took decades to build.",
+        translation: "հեղինակություն"
+      },
+      {
+        term: "controversy",
+        example: "The interview sparked a controversy that lasted for weeks online.",
+        translation: "հակասություն, վիճելի իրավիճակ"
+      },
+      {
+        term: "to be in the spotlight",
+        example: "Being in the spotlight means that every small mistake gets magnified.",
+        translation: "ուշադրության կենտրոնում լինել"
+      }
+    ];
+
+    var grid = document.getElementById("vocabGrid");
+
+    vocabulary.forEach(function(item, index){
+      var id = "trans-" + index;
+
+      var card = document.createElement("div");
+      card.className = "vocab-card";
+
+      var term = document.createElement("div");
+      term.className = "vocab-term";
+      term.textContent = (index + 1) + ". " + item.term;
+
+      var example = document.createElement("p");
+      example.className = "vocab-example";
+      example.textContent = item.example;
+
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "reveal-btn";
+      btn.textContent = "Reveal translation";
+      btn.setAttribute("aria-expanded", "false");
+      btn.setAttribute("aria-controls", id);
+
+      var translation = document.createElement("div");
+      translation.className = "translation";
+      translation.id = id;
+      translation.hidden = true;
+      translation.textContent = item.translation;
+
+      btn.addEventListener("click", function(){
+        var isExpanded = btn.getAttribute("aria-expanded") === "true";
+        btn.setAttribute("aria-expanded", String(!isExpanded));
+        translation.hidden = isExpanded;
+        btn.textContent = isExpanded ? "Reveal translation" : "Hide translation";
+      });
+
+      card.appendChild(term);
+      card.appendChild(example);
+      card.appendChild(btn);
+      card.appendChild(translation);
+      grid.appendChild(card);
+    });
+  })();
+</script>
+
+</body>
+</html>

@@ -97,5 +97,55 @@ window.LESSONS = [
     minutes: 60,
     color: ['#252D48', '#F3EDE2'],
     theme: { bg: '#F6EFE4', card: '#FFFBF4', ink: '#1F2433', muted: '#646A78', accent: '#252D48', onAccent: '#F2C572', soft: '#F4DCCF' }
+  },
+  {
+    slug: 'money-mindset',
+    title: 'Money mindset',
+    topic: 'Why we buy what we don\'t need, with the second conditional',
+    tag: 'Grammar',
+    level: 'B2',
+    minutes: 60,
+    color: ['#0B3D2E', '#FAF6EE'],
+    theme: { bg: '#FAF6EE', card: '#FFFDF8', ink: '#241F1A', muted: '#6B6154', accent: '#0B3D2E', onAccent: '#E3C98A', soft: '#F1ECE0' }
+  },
+  {
+    slug: 'ghosting-friendship',
+    title: 'Ghosted',
+    topic: 'Why adult friendships fade, with reported speech',
+    tag: 'Grammar',
+    level: 'B2',
+    minutes: 60,
+    color: ['#6B4257', '#F7F1F0'],
+    theme: { bg: '#F7F1F0', card: '#FFFDFC', ink: '#2B2530', muted: '#8A7C86', accent: '#6B4257', onAccent: '#FFFDFC', soft: '#F1DEDE' }
+  },
+  {
+    slug: 'hustle-burnout',
+    title: 'Hustle culture and burnout',
+    topic: 'What we owe our jobs and what we don\'t, with modals of advice and obligation',
+    tag: 'Grammar',
+    level: 'B2',
+    minutes: 60,
+    color: ['#C1541E', '#FFF8EE'],
+    theme: { bg: '#F5EDE1', card: '#FFF8EE', ink: '#241A12', muted: '#7A6F5C', accent: '#1B2A41', onAccent: '#FFF8EE', soft: '#EFE3D2' }
+  },
+  {
+    slug: 'cancel-culture',
+    title: 'Cancel culture',
+    topic: 'Public opinion on trial, with the passive voice',
+    tag: 'Grammar',
+    level: 'B2',
+    minutes: 60,
+    color: ['#181818', '#F4F1EA'],
+    theme: { bg: '#F4F1EA', card: '#FFFFFF', ink: '#181818', muted: '#6B6B6B', accent: '#C8202F', onAccent: '#FFFFFF', soft: '#EBE6DA' }
+  },
+  {
+    slug: 'nostalgia-generations',
+    title: 'Nostalgia and generations',
+    topic: 'Were things really better back then? With used to and would',
+    tag: 'Grammar',
+    level: 'B2',
+    minutes: 60,
+    color: ['#7A5230', '#FAF3E4'],
+    theme: { bg: '#F2E8D5', card: '#FAF3E4', ink: '#2E2115', muted: '#8A6F55', accent: '#7A5230', onAccent: '#FAF3E4', soft: '#E9DBC0' }
   }
 ];

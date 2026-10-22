@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Money Mindset &amp; Spending Psychology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --emerald-deep:#0b3d2e;
+    --emerald:#145c45;
+    --gold:#c9a24b;
+    --gold-soft:#e3c98a;
+    --cream:#faf6ee;
+    --charcoal:#241f1a;
+    --paper:#fffdf8;
+    --line:rgba(11,61,46,0.16);
+  }
+
+  *{box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--charcoal);
+    font-family:"Inter",system-ui,sans-serif;
+    line-height:1.65;
+    font-size:16px;
+    background-image:
+      repeating-linear-gradient(
+        to bottom,
+        rgba(11,61,46,0.05) 0px,
+        rgba(11,61,46,0.05) 1px,
+        transparent 1px,
+        transparent 34px
+      );
+  }
+
+  .wrap{
+    max-width:920px;
+    margin:0 auto;
+    padding:0 20px 80px;
+  }
+
+  h1,h2,h3{
+    font-family:"Playfair Display",Georgia,serif;
+    color:var(--emerald-deep);
+    line-height:1.25;
+    margin:0 0 .5em;
+  }
+
+  h2{
+    font-size:1.65rem;
+    font-weight:700;
+    border-bottom:2px solid var(--gold);
+    padding-bottom:.35em;
+    margin-top:0;
+  }
+
+  h3{
+    font-size:1.15rem;
+    font-weight:600;
+    color:var(--emerald);
+  }
+
+  p{margin:0 0 1em;}
+
+  a{color:var(--emerald);}
+
+  /* ---------- header ---------- */
+  header.masthead{
+    background:linear-gradient(160deg,var(--emerald-deep) 0%, var(--emerald) 100%);
+    color:var(--cream);
+    padding:56px 20px 46px;
+    position:relative;
+    overflow:hidden;
+    border-bottom:6px solid var(--gold);
+  }
+
+  header.masthead::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+      repeating-linear-gradient(to bottom, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, transparent 1px, transparent 28px);
+    pointer-events:none;
+  }
+
+  .masthead-inner{
+    max-width:920px;
+    margin:0 auto;
+    position:relative;
+    z-index:1;
+  }
+
+  .tag-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:22px;
+  }
+
+  .tag{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-family:"Inter",sans-serif;
+    font-size:.78rem;
+    font-weight:600;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    padding:6px 14px;
+    border-radius:999px;
+    border:1px solid rgba(250,246,238,0.4);
+    color:var(--cream);
+  }
+
+  .tag.badge-level{
+    background:var(--gold);
+    color:var(--emerald-deep);
+    border-color:var(--gold);
+    font-weight:700;
+  }
+
+  header.masthead h1{
+    color:var(--paper);
+    font-size:clamp(2rem,5vw,3rem);
+    margin-bottom:.3em;
+    max-width:14ch;
+  }
+
+  .intro-line{
+    font-size:1.08rem;
+    max-width:62ch;
+    color:rgba(250,246,238,0.92);
+    border-left:3px solid var(--gold);
+    padding-left:16px;
+    font-style:italic;
+  }
+
+  /* ---------- section shell ---------- */
+  section{
+    margin-top:56px;
+  }
+
+  .section-marker{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    background:var(--emerald-deep);
+    color:var(--gold-soft);
+    font-family:"Playfair Display",serif;
+    font-weight:700;
+    font-size:.95rem;
+    margin-right:12px;
+    flex:none;
+    box-shadow:0 0 0 3px var(--cream), 0 0 0 4px var(--gold);
+  }
+
+  .section-head{
+    display:flex;
+    align-items:center;
+    margin-bottom:.6em;
+  }
+
+  .section-head h2{
+    border:none;
+    padding:0;
+    margin:0;
+  }
+
+  .section-head::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:var(--line);
+    margin-left:16px;
+    display:none;
+  }
+
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:26px 28px;
+    box-shadow:0 1px 3px rgba(11,61,46,0.06);
+  }
+
+  .rule{
+    border:none;
+    height:1px;
+    background:linear-gradient(to right, var(--gold), transparent);
+    margin:28px 0;
+  }
+
+  /* ---------- warm up ---------- */
+  .question-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:grid;
+    gap:14px;
+  }
+
+  .question-list li{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-left:4px solid var(--gold);
+    border-radius:6px;
+    padding:16px 18px;
+    font-size:1.02rem;
+  }
+
+  .q-num{
+    font-family:"Playfair Display",serif;
+    color:var(--gold);
+    font-weight:700;
+    margin-right:8px;
+  }
+
+  /* ---------- vocab ---------- */
+  .vocab-grid{
+    display:grid;
+    gap:16px;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  }
+
+  .vocab-card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:18px 20px;
+    position:relative;
+  }
+
+  .vocab-term{
+    font-family:"Playfair Display",serif;
+    font-weight:700;
+    font-size:1.12rem;
+    color:var(--emerald-deep);
+    margin-bottom:4px;
+  }
+
+  .vocab-example{
+    font-size:.95rem;
+    color:#4a433a;
+    margin-bottom:12px;
+  }
+
+  .reveal-btn{
+    font-family:"Inter",sans-serif;
+    font-size:.82rem;
+    font-weight:600;
+    letter-spacing:.03em;
+    background:var(--emerald-deep);
+    color:var(--cream);
+    border:none;
+    border-radius:999px;
+    padding:7px 16px;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+
+  .reveal-btn:hover,
+  .reveal-btn:focus-visible{
+    background:var(--emerald);
+  }
+
+  .reveal-btn[aria-expanded="true"]{
+    background:var(--gold);
+    color:var(--emerald-deep);
+  }
+
+  .translation{
+    display:block;
+    margin-top:10px;
+    padding:8px 12px;
+    background:#f1ece0;
+    border:1px dashed var(--gold);
+    border-radius:6px;
+    font-weight:600;
+    color:var(--emerald-deep);
+  }
+
+  .translation.hidden{
+    display:none;
+  }
+
+  /* ---------- grammar ---------- */
+  .grammar-box{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:24px 26px;
+    margin-bottom:20px;
+  }
+
+  .formula{
+    font-family:"Playfair Display",serif;
+    font-size:1.15rem;
+    text-align:center;
+    background:var(--emerald-deep);
+    color:var(--cream);
+    padding:18px 16px;
+    border-radius:8px;
+    margin:16px 0;
+  }
+
+  .formula span{
+    color:var(--gold-soft);
+    font-weight:700;
+  }
+
+  table.compare{
+    width:100%;
+    border-collapse:collapse;
+    margin:18px 0;
+    font-size:.95rem;
+  }
+
+  table.compare caption{
+    caption-side:top;
+    text-align:left;
+    font-family:"Playfair Display",serif;
+    font-weight:600;
+    color:var(--emerald-deep);
+    margin-bottom:8px;
+    font-size:1.05rem;
+  }
+
+  table.compare th,
+  table.compare td{
+    border:1px solid var(--line);
+    padding:12px 14px;
+    text-align:left;
+    vertical-align:top;
+  }
+
+  table.compare th{
+    background:var(--emerald-deep);
+    color:var(--cream);
+    font-weight:600;
+  }
+
+  table.compare tr:nth-child(even) td{
+    background:#f5f0e4;
+  }
+
+  ul.example-list{
+    list-style:none;
+    padding:0;
+    margin:18px 0 0;
+    display:grid;
+    gap:12px;
+  }
+
+  ul.example-list li{
+    padding:12px 16px;
+    border-left:3px solid var(--gold);
+    background:#f5f0e4;
+    border-radius:0 6px 6px 0;
+    font-style:italic;
+  }
+
+  /* ---------- practice ---------- */
+  .exercise{
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:18px 20px;
+    margin-bottom:16px;
+    background:var(--paper);
+  }
+
+  .exercise-num{
+    display:inline-block;
+    font-family:"Playfair Display",serif;
+    font-weight:700;
+    color:var(--gold);
+    margin-right:6px;
+  }
+
+  .options{
+    list-style:none;
+    padding:0;
+    margin:10px 0 0;
+    display:grid;
+    gap:8px;
+  }
+
+  .options li label{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 10px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+
+  .options li label:hover{
+    border-color:var(--gold);
+    background:#f5f0e4;
+  }
+
+  .blank-input{
+    font-family:"Inter",sans-serif;
+    font-size:1rem;
+    border:none;
+    border-bottom:2px solid var(--gold);
+    background:transparent;
+    padding:4px 6px;
+    min-width:220px;
+    color:var(--charcoal);
+  }
+
+  .blank-input:focus{
+    outline:none;
+    border-bottom-color:var(--emerald-deep);
+  }
+
+  /* ---------- speaking grid ---------- */
+  .interview-grid{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:16px;
+  }
+
+  .interview-grid th,
+  .interview-grid td{
+    border:1px solid var(--line);
+    padding:12px 14px;
+    text-align:left;
+    font-size:.95rem;
+  }
+
+  .interview-grid th{
+    background:var(--emerald-deep);
+    color:var(--cream);
+  }
+
+  .interview-grid tr:nth-child(even) td{
+    background:#f5f0e4;
+  }
+
+  .cards-row{
+    display:grid;
+    gap:14px;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    margin-top:18px;
+  }
+
+  .scenario-card{
+    background:var(--emerald-deep);
+    color:var(--cream);
+    border-radius:10px;
+    padding:18px 20px;
+    position:relative;
+    box-shadow:0 4px 10px rgba(11,61,46,0.25);
+  }
+
+  .scenario-card::before{
+    content:"";
+    position:absolute;
+    top:14px;
+    right:14px;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:var(--gold);
+  }
+
+  .scenario-card p{
+    margin:0;
+    font-family:"Playfair Display",serif;
+    font-style:italic;
+    font-size:1.02rem;
+    padding-right:26px;
+  }
+
+  /* ---------- production ---------- */
+  .bullet-points{
+    margin:16px 0 0;
+    padding-left:0;
+    list-style:none;
+    display:grid;
+    gap:10px;
+  }
+
+  .bullet-points li{
+    padding-left:34px;
+    position:relative;
+  }
+
+  .bullet-points li::before{
+    content:"●";
+    color:var(--gold);
+    position:absolute;
+    left:0;
+    top:0;
+    font-size:1rem;
+  }
+
+  /* ---------- checklist ---------- */
+  .checklist{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:grid;
+    gap:12px;
+  }
+
+  .checklist li{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:12px 16px;
+  }
+
+  .checklist input[type="checkbox"]{
+    width:20px;
+    height:20px;
+    accent-color:var(--emerald-deep);
+    margin-top:2px;
+    flex:none;
+  }
+
+  .checklist label{
+    cursor:pointer;
+  }
+
+  /* ---------- homework ---------- */
+  .writing-box{
+    border:1px solid var(--gold);
+    border-radius:10px;
+    background:repeating-linear-gradient(
+        to bottom,
+        var(--paper) 0px,
+        var(--paper) 29px,
+        #f1ead9 30px
+      );
+    padding:16px;
+  }
+
+  .writing-box textarea{
+    width:100%;
+    min-height:220px;
+    border:none;
+    background:transparent;
+    resize:vertical;
+    font-family:"Inter",sans-serif;
+    font-size:1rem;
+    line-height:30px;
+    color:var(--charcoal);
+  }
+
+  .writing-box textarea:focus{
+    outline:none;
+  }
+
+  .word-target{
+    display:inline-block;
+    margin-top:8px;
+    font-size:.85rem;
+    color:var(--emerald);
+    font-weight:600;
+  }
+
+  .prep-box{
+    background:var(--emerald-deep);
+    color:var(--cream);
+    border-radius:10px;
+    padding:20px 22px;
+    margin-top:18px;
+  }
+
+  .prep-box h3{
+    color:var(--gold-soft);
+    margin-top:0;
+  }
+
+  footer{
+    text-align:center;
+    margin-top:60px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+    font-size:.85rem;
+    color:#6b6154;
+  }
+
+  @media (max-width:640px){
+    header.masthead{padding:44px 16px 36px;}
+    .card, .grammar-box, .exercise{padding:18px;}
+    table.compare, .interview-grid{font-size:.85rem;}
+    .interview-grid th, .interview-grid td, table.compare th, table.compare td{padding:8px 8px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="tag-row">
+      <span class="tag">Topic: Money Mindset &amp; Spending Psychology</span>
+      <span class="tag">~60 min</span>
+    </div>
+    <h1>Money Mindset: Why We Buy What We Don't Need</h1>
+    <p class="intro-line">We like to think our spending is rational — it rarely is. Today we dig into the guilt, the habits inherited from our parents, and the hypothetical lives we imagine every time we say "if I had the money…"</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- 2. WARM-UP -->
+  <section id="warmup" aria-labelledby="warmup-heading">
+    <div class="section-head">
+      <span class="section-marker" aria-hidden="true">1</span>
+      <h2 id="warmup-heading">Warm-Up: Talking Points</h2>
+    </div>
+    <div class="card">
+      <p>Before we open a single book, talk to a partner. Be honest — there are no wrong answers here.</p>
+      <ul class="question-list">
+        <li><span class="q-num">1.</span>Do you think the way you handle money says something about who you are as a person, or is it just a practical skill, unrelated to identity?</li>
+        <li><span class="q-num">2.</span>Have you ever felt guilty about spending money on something you actually needed? Where do you think that guilt comes from?</li>
+        <li><span class="q-num">3.</span>Which financial habit did you inherit from your parents or family — and is it one you'd actually like to change?</li>
+        <li><span class="q-num">4.</span>Is it possible to buy your way into feeling better after a bad day? Does it ever actually work, in your experience?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3. VOCABULARY -->
+  <section id="vocabulary" aria-labelledby="vocab-heading">
+    <div class="section-head">
+      <span class="section-marker" aria-hidden="true">2</span>
+      <h2 id="vocab-heading">Key Vocabulary</h2>
+    </div>
+    <p>Read each word and its example. Tap "Reveal translation" to check the Eastern Armenian equivalent.</p>
+
+    <div class="vocab-grid">
+
+      <div class="vocab-card">
+        <div class="vocab-term">impulse buy (n.)</div>
+        <p class="vocab-example">Those noise-cancelling headphones were a total impulse buy — I saw them, and three minutes later they were in my cart.</p>
+        <button class="reveal-btn" aria-expanded="false" aria-controls="tr-1" data-toggle="tr-1">Reveal translation</button>
+        <span class="translation hidden" id="tr-1">հանկարծակի գնում</span>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-term">frugal (adj.)</div>
+        <p class="vocab-example">My grandfather was so frugal that he reused envelopes and never once ordered takeout.</p>
+        <button class="reveal-btn" aria-expanded="false" aria-controls="tr-2" data-toggle="tr-2">Reveal translation</button>
+        <span class="translation hidden" id="tr-2">խնայող, տնտեսող</span>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-term">to splurge (v.)</div>
+        <p class="vocab-example">After a stressful month at work, she splurged on a weekend spa retreat she couldn't really afford.</p>
+        <button class="reveal-btn" aria-expanded="false" aria-controls="tr-3" data-toggle="tr-3">Reveal translation</button>
+        <span class="translation hidden" id="tr-3">շռայլել, ավելորդ ծախսել</span>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-term">financial anxiety (n. phrase)</div>
+        <p class="vocab-example">Checking his bank balance gives him such financial anxiety that he avoids opening the app for days.</p>
+        <button class="reveal-btn" aria-expanded="false" aria-controls="tr-4" data-toggle="tr-4">Reveal translation</button>
+        <span class="translation hidden" id="tr-4">ֆինանսական անհանգստություն</span>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-term">to be in the red (idiom)</div>
+        <p class="vocab-example">By the twentieth of every month, we're already in the red — the rent alone eats up half the salary.</p>
+        <button class="reveal-btn" aria-expanded="false" aria-controls="tr-5" data-toggle="tr-5">Reveal translation</button>
+        <span class="translation hidden" id="tr-5">պարտքերի մեջ լինել</span>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-term">disposable income (n. phrase)</div>
+        <p class="vocab-example">Once the bills are paid, my disposable income is small, but I still try to save a little each month.</p>
+        <button class="reveal-btn" aria-expanded="false" aria-controls="tr-6" data-toggle="tr-6">Reveal translation</button>
+        <span class="translation hidden" id="tr-6">ազատ եկամուտ (ծախսերից հետո մնացած գումարը)</span>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-term">retail therapy (n. phrase)</div>
+        <p class="vocab-example">She calls her weekend shopping trips "retail therapy," even though it never actually fixes anything.</p>
+        <button class="reveal-btn" aria-expanded="false" aria-controls="tr-7" data-toggle="tr-7">Reveal translation</button>
+        <span class="translation hidden" id="tr-7">գնումներով «բուժում», տրամադրություն բարձրացնող գնումներ</span>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-term">to live beyond your means (idiom)</div>
+        <p class="vocab-example">They kept living beyond their means for years, financing a lifestyle their salaries couldn't actually support.</p>
+        <button class="reveal-btn" aria-expanded="false" aria-controls="tr-8" data-toggle="tr-8">Reveal translation</button>
+        <span class="translation hidden" id="tr-8">ապրել իր միջոցներից վեր</span>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-term">revenge spending (n. phrase)</div>
+        <p class="vocab-example">After two years of lockdowns, a lot of people went straight into revenge spending on holidays and clothes.</p>
+        <button class="reveal-btn" aria-expanded="false" aria-controls="tr-9" data-toggle="tr-9">Reveal translation</button>
+        <span class="translation hidden" id="tr-9">«վրեժխնդիր» ծախսարարություն (զրկանքներից հետո ավելորդ ծախսում)</span>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-term">buyer's remorse (n. phrase)</div>
+        <p class="vocab-example">The moment he clicked "confirm order," a wave of buyer's remorse hit him.</p>
+        <button class="reveal-btn" aria-expanded="false" aria-controls="tr-10" data-toggle="tr-10">Reveal translation</button>
+        <span class="translation hidden" id="tr-10">գնորդի զղջում</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4. GRAMMAR -->
+  <section id="grammar" aria-labelledby="grammar-heading">
+    <div class="section-head">
+      <span class="section-marker" aria-hidden="true">3</span>
+      <h2 id="grammar-heading">Grammar Focus: Second Conditional</h2>
+    </div>
+
+    <div class="grammar-box">
+      <h3>Form</h3>
+      <p>We use the second conditional to talk about <strong>unreal, imagined or unlikely situations</strong> in the present or future — and their imagined results. It's the language of "what if," daydreaming, and hypothetical honesty about money.</p>
+      <div class="formula">If + <span>past simple</span>, ... <span>would</span> + base verb</div>
+      <p>The "if clause" describes an imaginary condition; the main clause describes its imagined consequence. The clauses can also be reversed: <em>I would feel less anxious if I had savings.</em></p>
+
+      <table class="compare">
+        <caption>First vs. Second Conditional — Real vs. Unreal</caption>
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">First Conditional (real / likely)</th>
+            <th scope="col">Second Conditional (unreal / hypothetical)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Form</td>
+            <td>If + present simple, will + base verb</td>
+            <td>If + past simple, would + base verb</td>
+          </tr>
+          <tr>
+            <td>Meaning</td>
+            <td>A realistic possibility</td>
+            <td>An imaginary or unlikely situation</td>
+          </tr>
+          <tr>
+            <td>Example</td>
+            <td>If I save $50 this month, I'll finally buy that jacket.</td>
+            <td>If I had $50,000, I would pay off every debt I have.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p><strong>Note:</strong> In formal or careful speech, many speakers use <em>were</em> instead of <em>was</em> for all subjects: <em>If I were less impulsive, I would save more.</em></p>
+
+      <h3>Sophisticated Examples</h3>
+      <ul class="example-list">
+        <li>If I had more disposable income, I wouldn't feel the need to justify every small splurge.</li>
+        <li>If she weren't so afraid of financial anxiety, she would actually look at her bank statements.</li>
+        <li>My habits would probably be completely different if my parents had talked openly about money.</li>
+        <li>If he stopped comparing his life to what he sees online, he wouldn't engage in so much revenge spending.</li>
+        <li>What would you do differently if nobody could ever judge your spending?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5. CONTROLLED PRACTICE -->
+  <section id="practice" aria-labelledby="practice-heading">
+    <div class="section-head">
+      <span class="section-marker" aria-hidden="true">4</span>
+      <h2 id="practice-heading">Controlled Practice</h2>
+    </div>
+    <p>Complete the exercises below. Some are multiple choice, some are gap-fills, and some ask you to rewrite a sentence.</p>
+
+    <div class="exercise">
+      <p><span class="exercise-num">1.</span>If I ______ (have) more free time, I would think less about shopping online.</p>
+      <ul class="options">
+        <li><label><input type="radio" name="q1"> have</label></li>
+        <li><label><input type="radio" name="q1"> had</label></li>
+        <li><label><input type="radio" name="q1"> would have</label></li>
+        <li><label><input type="radio" name="q1"> has</label></li>
+      </ul>
+    </div>
+
+    <div class="exercise">
+      <p><span class="exercise-num">2.</span>If she ______ (not / feel) guilty about spending on herself, she would enjoy her purchases far more.</p>
+      <label>Your answer: <input type="text" class="blank-input" aria-label="Answer for question 2"></label>
+    </div>
+
+    <div class="exercise">
+      <p><span class="exercise-num">3.</span>If we lived within our means, we ______ in debt right now.</p>
+      <ul class="options">
+        <li><label><input type="radio" name="q3"> wouldn't be</label></li>
+        <li><label><input type="radio" name="q3"> won't be</label></li>
+        <li><label><input type="radio" name="q3"> don't be</label></li>
+        <li><label><input type="radio" name="q3"> hadn't been</label></li>
+      </ul>
+    </div>
+
+    <div class="exercise">
+      <p><span class="exercise-num">4.</span>Rewrite using the Second Conditional: "I don't have enough savings, so I can't quit this job."</p>
+      <label>Your rewrite: <input type="text" class="blank-input" aria-label="Answer for question 4" style="min-width:100%;margin-top:6px;"></label>
+    </div>
+
+    <div class="exercise">
+      <p><span class="exercise-num">5.</span>If he ______ (not / spend) so much money eating out, he would have a healthier savings account.</p>
+      <label>Your answer: <input type="text" class="blank-input" aria-label="Answer for question 5"></label>
+    </div>
+
+    <div class="exercise">
+      <p><span class="exercise-num">6.</span>What would you do if you ______ (win) a large sum of money tomorrow?</p>
+      <ul class="options">
+        <li><label><input type="radio" name="q6"> win</label></li>
+        <li><label><input type="radio" name="q6"> won</label></li>
+        <li><label><input type="radio" name="q6"> would win</label></li>
+        <li><label><input type="radio" name="q6"> had won</label></li>
+      </ul>
+    </div>
+
+    <div class="exercise">
+      <p><span class="exercise-num">7.</span>Rewrite using the Second Conditional: "I'm not frugal, so I overspend on clothes I don't need."</p>
+      <label>Your rewrite: <input type="text" class="blank-input" aria-label="Answer for question 7" style="min-width:100%;margin-top:6px;"></label>
+    </div>
+
+    <div class="exercise">
+      <p><span class="exercise-num">8.</span>If my grandmother ______ (see) my monthly coffee spending, she would be genuinely shocked.</p>
+      <label>Your answer: <input type="text" class="blank-input" aria-label="Answer for question 8"></label>
+    </div>
+
+    <div class="exercise">
+      <p><span class="exercise-num">9.</span>If they ______ (stop) comparing themselves to their coworkers, they would feel far less pressure to splurge.</p>
+      <ul class="options">
+        <li><label><input type="radio" name="q9"> stop</label></li>
+        <li><label><input type="radio" name="q9"> stopped</label></li>
+        <li><label><input type="radio" name="q9"> will stop</label></li>
+        <li><label><input type="radio" name="q9"> would stop</label></li>
+      </ul>
+    </div>
+
+    <div class="exercise">
+      <p><span class="exercise-num">10.</span>Complete with your own true ideas: "If I weren't so ______ (adjective) about money, I would ______."</p>
+      <label>Your answer: <input type="text" class="blank-input" aria-label="Answer for question 10" style="min-width:100%;margin-top:6px;"></label>
+    </div>
+
+  </section>
+
+  <!-- 6. SPEAKING / FREER PRACTICE -->
+  <section id="speaking" aria-labelledby="speaking-heading">
+    <div class="section-head">
+      <span class="section-marker" aria-hidden="true">5</span>
+      <h2 id="speaking-heading">Speaking: Money Mindset Interview</h2>
+    </div>
+    <div class="card">
+      <p>Work in pairs. Interview your partner using the second conditional prompts below, then add one follow-up question of your own to each row.</p>
+      <table class="interview-grid">
+        <thead>
+          <tr>
+            <th scope="col">Hypothetical Prompt</th>
+            <th scope="col">Partner's Answer (notes)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>If you suddenly had no financial anxiety at all, what would change in your daily life?</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>If your closest friend were living beyond their means, would you say something? What would you say?</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>If you had to explain your family's money habits to a stranger, what would you tell them?</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>If retail therapy were officially banned for a month, how would you cope with a bad day?</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>Your own question:</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p style="margin-top:22px;">Now discuss these hypothetical scenario cards in small groups. For each one, explain what you would (and wouldn't) do, and why.</p>
+      <div class="cards-row">
+        <div class="scenario-card"><p>If a close friend asked to borrow a large sum of money, what would you do?</p></div>
+        <div class="scenario-card"><p>If you inherited your grandparents' frugal habits completely, how would your life look different?</p></div>
+        <div class="scenario-card"><p>If you could never feel buyer's remorse again, would that be a good thing or a dangerous one?</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. PRODUCTION TASK -->
+  <section id="production" aria-labelledby="production-heading">
+    <div class="section-head">
+      <span class="section-marker" aria-hidden="true">6</span>
+      <h2 id="production-heading">Production Task: Long Turn</h2>
+    </div>
+    <div class="card">
+      <p>Prepare a short talk (2–3 minutes) on the topic: <strong>"My money mindset — and the one I wish I had."</strong> Use the guiding points below, and try to use at least three vocabulary items and three second conditional sentences.</p>
+      <ul class="bullet-points">
+        <li>Describe your own spending personality — are you more of a saver, a splurger, or somewhere in between?</li>
+        <li>Explain one financial habit you learned from your family, and whether it still serves you today.</li>
+        <li>Use the second conditional to describe how your life would be different with a completely different money mindset.</li>
+        <li>Talk about a moment of buyer's remorse or revenge spending you (or someone you know) has experienced.</li>
+        <li>Finish with what you would change first, if you could change only one financial habit.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 8. WRAP-UP -->
+  <section id="wrapup" aria-labelledby="wrapup-heading">
+    <div class="section-head">
+      <span class="section-marker" aria-hidden="true">7</span>
+      <h2 id="wrapup-heading">Wrap-Up: Self-Assessment</h2>
+    </div>
+    <div class="card">
+      <p>Tick the boxes that are true for you now.</p>
+      <ul class="checklist">
+        <li>
+          <input type="checkbox" id="check1">
+          <label for="check1">I can use at least 8 of today's vocabulary items correctly in a sentence.</label>
+        </li>
+        <li>
+          <input type="checkbox" id="check2">
+          <label for="check2">I can form the second conditional accurately (If + past simple, would + base verb).</label>
+        </li>
+        <li>
+          <input type="checkbox" id="check3">
+          <label for="check3">I can explain the difference between the first and second conditional.</label>
+        </li>
+        <li>
+          <input type="checkbox" id="check4">
+          <label for="check4">I can talk about my own spending habits and where they came from.</label>
+        </li>
+        <li>
+          <input type="checkbox" id="check5">
+          <label for="check5">I can discuss hypothetical money situations confidently with a partner.</label>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 9. HOMEWORK -->
+  <section id="homework" aria-labelledby="homework-heading">
+    <div class="section-head">
+      <span class="section-marker" aria-hidden="true">8</span>
+      <h2 id="homework-heading">Homework</h2>
+    </div>
+
+    <div class="card">
+      <h3>A. Writing (120–150 words)</h3>
+      <p>Write a short paragraph titled <strong>"If I managed money differently…"</strong> Use at least four second conditional sentences and three vocabulary words from today's lesson.</p>
+      <div class="writing-box">
+        <textarea placeholder="Start writing here..." aria-label="Homework writing space"></textarea>
+      </div>
+      <span class="word-target">Target: 120–150 words</span>
+
+      <hr class="rule">
+
+      <h3>B. Fresh Practice</h3>
+      <div class="exercise">
+        <p><span class="exercise-num">1.</span>If I ______ (not / worry) so much about money, I would sleep much better at night.</p>
+        <label>Your answer: <input type="text" class="blank-input" aria-label="Homework answer 1"></label>
+      </div>
+      <div class="exercise">
+        <p><span class="exercise-num">2.</span>She would stop living beyond her means if she ______ (make) a realistic monthly budget.</p>
+        <label>Your answer: <input type="text" class="blank-input" aria-label="Homework answer 2"></label>
+      </div>
+      <div class="exercise">
+        <p><span class="exercise-num">3.</span>If your best friend asked you for honest financial advice, what ______ you ______ (say)?</p>
+        <label>Your answer: <input type="text" class="blank-input" aria-label="Homework answer 3"></label>
+      </div>
+      <div class="exercise">
+        <p><span class="exercise-num">4.</span>Rewrite using the Second Conditional: "I feel financial anxiety because I don't track my spending."</p>
+        <label>Your rewrite: <input type="text" class="blank-input" aria-label="Homework answer 4" style="min-width:100%;margin-top:6px;"></label>
+      </div>
+      <div class="exercise">
+        <p><span class="exercise-num">5.</span>If disposable income ______ (not / exist) as a concept, would people still find ways to splurge?</p>
+        <label>Your answer: <input type="text" class="blank-input" aria-label="Homework answer 5"></label>
+      </div>
+
+      <hr class="rule">
+
+      <div class="prep-box">
+        <h3>Before Next Class</h3>
+        <p>Ask one family member (parent, grandparent, sibling) a single question: "What's one thing you wish someone had taught you about money when you were younger?" Come ready to report their answer — and your own reaction to it — using the second conditional.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Money Mindset &amp; Spending Psychology · Second Conditional
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    "use strict";
+    var buttons = document.querySelectorAll(".reveal-btn[data-toggle]");
+    buttons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var targetId = btn.getAttribute("data-toggle");
+        var target = document.getElementById(targetId);
+        if (!target) { return; }
+        var isExpanded = btn.getAttribute("aria-expanded") === "true";
+        var nextState = !isExpanded;
+        btn.setAttribute("aria-expanded", String(nextState));
+        target.classList.toggle("hidden", !nextState);
+        btn.textContent = nextState ? "Hide translation" : "Reveal translation";
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

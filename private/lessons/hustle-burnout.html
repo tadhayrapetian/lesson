@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hustle Culture &amp; Burnout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --terracotta:#c1541e;
+    --terracotta-light:#d97a3f;
+    --navy:#1b2a41;
+    --sand:#f5ede1;
+    --cream:#fff8ee;
+    --ink:#241a12;
+    --line:rgba(27,42,65,0.16);
+    --shadow: 0 10px 30px rgba(27,42,65,0.10);
+  }
+
+  *{box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    background:var(--sand);
+    color:var(--ink);
+    font-family:"Source Serif 4", Georgia, serif;
+    line-height:1.6;
+    font-size:17px;
+  }
+
+  h1,h2,h3,h4{
+    font-family:"Space Grotesk", sans-serif;
+    color:var(--navy);
+    margin:0 0 .5em;
+    letter-spacing:-0.01em;
+  }
+
+  a{color:var(--terracotta);}
+
+  .wrap{
+    max-width:920px;
+    margin:0 auto;
+    padding:0 1.5rem 5rem;
+  }
+
+  /* ---------- HEADER ---------- */
+  header.lesson-header{
+    background:
+      radial-gradient(circle at 85% -10%, rgba(217,122,63,0.35), transparent 55%),
+      linear-gradient(160deg, var(--navy) 0%, #223454 65%, #2a3f63 100%);
+    color:var(--cream);
+    padding:3.2rem 1.5rem 3.6rem;
+    position:relative;
+    overflow:hidden;
+    border-bottom:6px solid var(--terracotta);
+  }
+
+  header.lesson-header::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(255,248,238,0.025) 0 2px, transparent 2px 40px);
+    pointer-events:none;
+  }
+
+  .header-inner{
+    max-width:920px;
+    margin:0 auto;
+    position:relative;
+    z-index:1;
+  }
+
+  .tag-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.6rem;
+    margin-bottom:1.4rem;
+  }
+
+  .badge{
+    display:inline-flex;
+    align-items:center;
+    gap:.4rem;
+    font-family:"Space Grotesk", sans-serif;
+    font-size:.78rem;
+    font-weight:600;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    padding:.42em .9em;
+    border-radius:999px;
+    border:1px solid rgba(255,248,238,0.35);
+    background:rgba(255,248,238,0.06);
+    color:var(--cream);
+  }
+
+  .badge.level{
+    background:var(--terracotta);
+    border-color:var(--terracotta);
+    color:var(--cream);
+  }
+
+  header.lesson-header h1{
+    color:var(--cream);
+    font-size:clamp(2rem, 5vw, 3.1rem);
+    line-height:1.06;
+    margin:0 0 .55em;
+    max-width:14ch;
+  }
+
+  .intro-line{
+    font-family:"Source Serif 4", serif;
+    font-style:italic;
+    font-size:1.15rem;
+    max-width:56ch;
+    color:rgba(255,248,238,0.88);
+    border-left:3px solid var(--terracotta-light);
+    padding-left:1rem;
+  }
+
+  /* ---------- DECORATIVE DIVIDERS ---------- */
+  .motif-divider{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:1rem;
+    margin:3.2rem 0 2rem;
+    color:var(--terracotta);
+    opacity:.75;
+  }
+  .motif-divider .line{
+    height:1px;
+    flex:1;
+    background:linear-gradient(90deg, transparent, var(--line) 20%, var(--line) 80%, transparent);
+  }
+  .motif-divider svg{
+    width:34px;
+    height:34px;
+    stroke:var(--terracotta);
+    fill:none;
+    stroke-width:1.1;
+    flex-shrink:0;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section{
+    margin-top:3.4rem;
+  }
+
+  .section-kicker{
+    font-family:"Space Grotesk", sans-serif;
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    font-size:.78rem;
+    color:var(--terracotta);
+    font-weight:600;
+    margin-bottom:.4rem;
+    display:block;
+  }
+
+  section h2{
+    font-size:clamp(1.5rem, 3.4vw, 2rem);
+    padding-bottom:.5rem;
+    border-bottom:2px solid var(--line);
+  }
+
+  .card{
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:1.6rem 1.7rem;
+    box-shadow:var(--shadow);
+  }
+
+  .lead-note{
+    font-size:.95rem;
+    color:#5c5142;
+    margin-top:-.3rem;
+    margin-bottom:1.2rem;
+  }
+
+  /* ---------- WARM UP ---------- */
+  .question-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:grid;
+    gap:1rem;
+  }
+  .question-list li{
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-left:4px solid var(--terracotta);
+    border-radius:10px;
+    padding:1rem 1.2rem;
+    box-shadow:var(--shadow);
+    font-size:1.05rem;
+  }
+  .question-list li .q-num{
+    font-family:"Space Grotesk", sans-serif;
+    color:var(--terracotta);
+    font-weight:700;
+    margin-right:.5em;
+  }
+
+  /* ---------- VOCAB ---------- */
+  .vocab-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(270px, 1fr));
+    gap:1.1rem;
+  }
+
+  .vocab-card{
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:1.2rem 1.3rem;
+    box-shadow:var(--shadow);
+    display:flex;
+    flex-direction:column;
+    gap:.55rem;
+  }
+
+  .vocab-term{
+    font-family:"Space Grotesk", sans-serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:var(--navy);
+  }
+
+  .vocab-example{
+    font-style:italic;
+    color:#4d4536;
+    font-size:.98rem;
+  }
+
+  .reveal-btn{
+    align-self:flex-start;
+    font-family:"Space Grotesk", sans-serif;
+    font-size:.82rem;
+    font-weight:600;
+    letter-spacing:.03em;
+    background:transparent;
+    border:1.5px solid var(--terracotta);
+    color:var(--terracotta);
+    padding:.4em .9em;
+    border-radius:999px;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease;
+  }
+  .reveal-btn:hover, .reveal-btn:focus-visible{
+    background:var(--terracotta);
+    color:var(--cream);
+    outline:none;
+  }
+  .reveal-btn[aria-expanded="true"]{
+    background:var(--navy);
+    border-color:var(--navy);
+    color:var(--cream);
+  }
+
+  .translation{
+    font-family:"Space Grotesk", sans-serif;
+    background:var(--sand);
+    border:1px dashed var(--terracotta-light);
+    border-radius:8px;
+    padding:.5em .8em;
+    font-size:.95rem;
+    color:var(--navy);
+  }
+  .translation.hidden{
+    display:none;
+  }
+
+  /* ---------- GRAMMAR ---------- */
+  .grammar-block{
+    display:grid;
+    gap:1.4rem;
+  }
+
+  .grammar-explain p{margin:.4em 0;}
+
+  table.modal-table{
+    width:100%;
+    border-collapse:collapse;
+    background:var(--cream);
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    font-size:.94rem;
+  }
+  table.modal-table caption{
+    text-align:left;
+    font-family:"Space Grotesk", sans-serif;
+    font-weight:600;
+    color:var(--navy);
+    padding:.6rem 0;
+    font-size:1rem;
+  }
+  table.modal-table th, table.modal-table td{
+    padding:.7rem .8rem;
+    text-align:left;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  table.modal-table thead th{
+    background:var(--navy);
+    color:var(--cream);
+    font-family:"Space Grotesk", sans-serif;
+    font-weight:600;
+    font-size:.82rem;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+  }
+  table.modal-table tbody tr:nth-child(even){
+    background:rgba(193,84,30,0.04);
+  }
+  table.modal-table td.strength{
+    white-space:nowrap;
+    font-family:"Space Grotesk", sans-serif;
+    font-weight:600;
+    color:var(--terracotta);
+  }
+
+  .example-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:grid;
+    gap:.7rem;
+  }
+  .example-list li{
+    background:var(--cream);
+    border-left:4px solid var(--navy);
+    border-radius:8px;
+    padding:.7rem 1rem;
+    box-shadow:var(--shadow);
+  }
+  .example-list strong{color:var(--terracotta);}
+
+  /* ---------- EXERCISES ---------- */
+  .exercise{
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:1.2rem 1.4rem;
+    margin-bottom:1rem;
+    box-shadow:var(--shadow);
+  }
+  .exercise .ex-num{
+    font-family:"Space Grotesk", sans-serif;
+    font-weight:700;
+    color:var(--terracotta);
+    margin-right:.4em;
+  }
+  .options{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.6rem;
+    margin-top:.6rem;
+  }
+  .options label{
+    background:var(--sand);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:.4em 1em;
+    font-size:.92rem;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:.4em;
+  }
+  .blank-input{
+    font-family:"Source Serif 4", serif;
+    font-size:1rem;
+    border:none;
+    border-bottom:2px solid var(--terracotta);
+    background:transparent;
+    padding:.15em .3em;
+    min-width:160px;
+    color:var(--ink);
+  }
+  .blank-input:focus{outline:none; border-bottom-color:var(--navy);}
+
+  /* ---------- SPEAKING / ROLE PLAY ---------- */
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+    gap:1.1rem;
+  }
+  .role-card{
+    background:var(--navy);
+    color:var(--cream);
+    border-radius:14px;
+    padding:1.3rem 1.4rem;
+    box-shadow:var(--shadow);
+    position:relative;
+  }
+  .role-card h3{
+    color:var(--terracotta-light);
+    font-size:1.05rem;
+    margin-bottom:.5em;
+  }
+  .role-card p{margin:.3em 0; font-size:.96rem; color:rgba(255,248,238,0.92);}
+
+  .dilemma-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:1rem;
+    margin-top:1.2rem;
+  }
+  .dilemma-card{
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-top:4px solid var(--terracotta);
+    border-radius:12px;
+    padding:1rem 1.1rem;
+    box-shadow:var(--shadow);
+    font-size:.95rem;
+  }
+
+  /* ---------- PRODUCTION ---------- */
+  ul.bullets{
+    display:grid;
+    gap:.6rem;
+    padding-left:0;
+    list-style:none;
+  }
+  ul.bullets li{
+    padding-left:1.8rem;
+    position:relative;
+  }
+  ul.bullets li::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:.45em;
+    width:.6rem;
+    height:.6rem;
+    border:1.5px solid var(--terracotta);
+    border-radius:50%;
+    background:transparent;
+  }
+
+  /* ---------- WRAP UP CHECKLIST ---------- */
+  .checklist{
+    display:grid;
+    gap:.7rem;
+    list-style:none;
+    padding:0;
+    margin:0;
+  }
+  .checklist li{
+    background:var(--cream);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:.75rem 1rem;
+    display:flex;
+    align-items:flex-start;
+    gap:.7rem;
+    box-shadow:var(--shadow);
+  }
+  .checklist input[type="checkbox"]{
+    margin-top:.3em;
+    width:1.15em;
+    height:1.15em;
+    accent-color:var(--terracotta);
+    flex-shrink:0;
+  }
+
+  /* ---------- HOMEWORK ---------- */
+  .writing-box{
+    background:var(--cream);
+    border:2px dashed var(--terracotta-light);
+    border-radius:14px;
+    padding:1.4rem;
+    box-shadow:var(--shadow);
+  }
+  .writing-box textarea{
+    width:100%;
+    min-height:180px;
+    resize:vertical;
+    font-family:"Source Serif 4", serif;
+    font-size:1rem;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:var(--sand);
+    padding:1rem;
+    color:var(--ink);
+  }
+  .writing-box textarea:focus{outline:2px solid var(--terracotta); outline-offset:2px;}
+
+  .prep-box{
+    background:var(--navy);
+    color:var(--cream);
+    border-radius:14px;
+    padding:1.2rem 1.4rem;
+    box-shadow:var(--shadow);
+    margin-top:1.2rem;
+  }
+  .prep-box h3{color:var(--terracotta-light); margin-bottom:.4em;}
+
+  footer{
+    text-align:center;
+    padding:2.5rem 1.5rem 1rem;
+    font-size:.85rem;
+    color:#7a6f5c;
+    font-family:"Space Grotesk", sans-serif;
+  }
+
+  @media (max-width: 600px){
+    body{font-size:16px;}
+    header.lesson-header{padding:2.4rem 1.2rem 2.8rem;}
+    .card, .exercise, .vocab-card{padding:1.1rem 1.1rem;}
+  }
+</style>
+</head>
+<body>
+
+<header class="lesson-header">
+  <div class="header-inner">
+    <div class="tag-row">
+      <span class="badge">Topic: Hustle Culture &amp; Burnout</span>
+      <span class="badge">~60 min</span>
+    </div>
+    <h1>Hustle Culture &amp; Burnout</h1>
+    <p class="intro-line">Somewhere between "rise and grind" and running on empty, an entire generation redefined exhaustion as ambition. Let's talk about what we actually owe our jobs — and what we don't.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- DIVIDER: CLOCK -->
+  <div class="motif-divider" aria-hidden="true">
+    <span class="line"></span>
+    <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="16"/><line x1="20" y1="20" x2="20" y2="10"/><line x1="20" y1="20" x2="27" y2="24"/><circle cx="20" cy="20" r="1.2" fill="var(--terracotta)"/></svg>
+    <span class="line"></span>
+  </div>
+
+  <!-- 1. WARM UP -->
+  <section id="warmup" aria-labelledby="warmup-h">
+    <span class="section-kicker">Warm-Up</span>
+    <h2 id="warmup-h">Lead-In Discussion</h2>
+    <p class="lead-note">Talk in pairs or small groups for 5–6 minutes before we look at any vocabulary.</p>
+    <ul class="question-list">
+      <li><span class="q-num">1.</span>How much of your sense of self-worth is tied to how productive or "busy" you appear to others — and is that healthy?</li>
+      <li><span class="q-num">2.</span>Can genuine ambition and real rest coexist, or is one always sacrificed for the other? Give an example from your own life.</li>
+      <li><span class="q-num">3.</span>Do you think older and younger generations at work genuinely disagree about overwork, or do they just talk about it differently?</li>
+      <li><span class="q-num">4.</span>Is it possible to "quietly quit" — doing only what you're paid to do, nothing more — without it damaging your career or your conscience?</li>
+    </ul>
+  </section>
+
+  <!-- DIVIDER: GEAR -->
+  <div class="motif-divider" aria-hidden="true">
+    <span class="line"></span>
+    <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="7"/><circle cx="20" cy="20" r="2.4"/><path d="M20 4 v5 M20 31 v5 M4 20 h5 M31 20 h5 M8.2 8.2 l3.5 3.5 M28.3 28.3 l3.5 3.5 M8.2 31.8 l3.5 -3.5 M28.3 11.7 l3.5 -3.5"/></svg>
+    <span class="line"></span>
+  </div>
+
+  <!-- 2. VOCABULARY -->
+  <section id="vocab" aria-labelledby="vocab-h">
+    <span class="section-kicker">Vocabulary</span>
+    <h2 id="vocab-h">Key Words &amp; Phrases</h2>
+    <p class="lead-note">Read each example, then tap "Show translation" to check the Eastern Armenian meaning.</p>
+
+    <div class="vocab-grid" id="vocab-grid">
+      <!-- Vocab items injected via static HTML below -->
+
+      <div class="vocab-card">
+        <div class="vocab-term">1. burnout <em>(n.)</em></div>
+        <div class="vocab-example">After eighteen months of back-to-back deadlines, she was diagnosed with severe burnout.</div>
+        <button class="reveal-btn" type="button" aria-expanded="false" aria-controls="tr-1">Show translation</button>
+        <div class="translation hidden" id="tr-1">մասնագիտական այրում</div>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-term">2. to overwork (yourself) <em>(v.)</em></div>
+        <div class="vocab-example">He kept overworking himself, convinced that resting equaled falling behind.</div>
+        <button class="reveal-btn" type="button" aria-expanded="false" aria-controls="tr-2">Show translation</button>
+        <div class="translation hidden" id="tr-2">գերաշխատել</div>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-term">3. work-life balance <em>(n.)</em></div>
+        <div class="vocab-example">The new manager talks a lot about work-life balance, but she still emails the team at midnight.</div>
+        <button class="reveal-btn" type="button" aria-expanded="false" aria-controls="tr-3">Show translation</button>
+        <div class="translation hidden" id="tr-3">աշխատանքի և կյանքի հավասարակշռություն</div>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-term">4. side hustle <em>(n.)</em></div>
+        <div class="vocab-example">Running a side hustle on weekends helped her save money, but it left almost no time to unwind.</div>
+        <button class="reveal-btn" type="button" aria-expanded="false" aria-controls="tr-4">Show translation</button>
+        <div class="translation hidden" id="tr-4">կողմնակի եկամտի աղբյուր</div>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-term">5. to set boundaries <em>(v. phrase)</em></div>
+        <div class="vocab-example">Learning to set boundaries at work meant she finally started saying no to unpaid overtime.</div>
+        <button class="reveal-btn" type="button" aria-expanded="false" aria-controls="tr-5">Show translation</button>
+        <div class="translation hidden" id="tr-5">սահմաններ սահմանել</div>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-term">6. to be overwhelmed <em>(adj. phrase)</em></div>
+        <div class="vocab-example">By Thursday he was so overwhelmed by his inbox that he couldn't think clearly.</div>
+        <button class="reveal-btn" type="button" aria-expanded="false" aria-controls="tr-6">Show translation</button>
+        <div class="translation hidden" id="tr-6">ճնշված/գերբեռնված զգալ</div>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-term">7. workaholic <em>(n.)</em></div>
+        <div class="vocab-example">Her father was a classic workaholic — he took his laptop on every family holiday.</div>
+        <button class="reveal-btn" type="button" aria-expanded="false" aria-controls="tr-7">Show translation</button>
+        <div class="translation hidden" id="tr-7">աշխատանքամոլ</div>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-term">8. to unwind <em>(v.)</em></div>
+        <div class="vocab-example">It took him a full week of vacation just to unwind and stop checking his phone.</div>
+        <button class="reveal-btn" type="button" aria-expanded="false" aria-controls="tr-8">Show translation</button>
+        <div class="translation hidden" id="tr-8">հանգստանալ, թուլանալ</div>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-term">9. to burn the candle at both ends <em>(idiom)</em></div>
+        <div class="vocab-example">Studying all night and working all day, he was burning the candle at both ends long before the crash came.</div>
+        <button class="reveal-btn" type="button" aria-expanded="false" aria-controls="tr-9">Show translation</button>
+        <div class="translation hidden" id="tr-9">մոմը երկու ծայրից այրել (առանց հանգստի ապրել)</div>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-term">10. quiet quitting <em>(n. phrase)</em></div>
+        <div class="vocab-example">After the layoffs, several employees turned to quiet quitting, doing exactly what their job description said and nothing more.</div>
+        <button class="reveal-btn" type="button" aria-expanded="false" aria-controls="tr-10">Show translation</button>
+        <div class="translation hidden" id="tr-10">լուռ հրաժարում (աշխատել միայն նվազագույնը)</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DIVIDER: CANDLE -->
+  <div class="motif-divider" aria-hidden="true">
+    <span class="line"></span>
+    <svg viewBox="0 0 40 40"><path d="M20 6 c2 3 3 5 0 7 c-3 -2 -2 -4 0 -7 Z"/><rect x="16" y="14" width="8" height="20" rx="1"/><line x1="12" y1="34" x2="28" y2="34"/></svg>
+    <span class="line"></span>
+  </div>
+
+  <!-- 3. GRAMMAR -->
+  <section id="grammar" aria-labelledby="grammar-h">
+    <span class="section-kicker">Grammar Focus</span>
+    <h2 id="grammar-h">Modals of Advice &amp; Obligation</h2>
+
+    <div class="grammar-block">
+      <div class="card grammar-explain">
+        <p><strong>Advice (should / ought to):</strong> used to say what is a good idea, based on opinion or experience. Not legally or contractually binding.</p>
+        <p><strong>Obligation — external (must / have to):</strong> <em>have to</em> usually expresses a rule or requirement imposed by someone else (a boss, a law, a contract). <em>Must</em> can express the same external rule, but is also used for the speaker's own strong, internal sense of necessity or urgency.</p>
+        <p><strong>Need to:</strong> expresses a practical necessity — something is genuinely required to reach a goal, often slightly softer and more personal than <em>must</em>.</p>
+        <p><strong>Had better:</strong> stronger than <em>should</em>, and carries an implied warning — if the advice is ignored, there will be a negative consequence, often fairly soon.</p>
+        <p><strong>Should have + past participle:</strong> used to criticize or express regret about a past action (or inaction) that cannot be changed now.</p>
+      </div>
+
+      <table class="modal-table">
+        <caption>Comparing strength &amp; nuance</caption>
+        <thead>
+          <tr>
+            <th scope="col">Modal</th>
+            <th scope="col">Strength</th>
+            <th scope="col">Nuance / Use</th>
+            <th scope="col">Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>should / ought to</td>
+            <td class="strength">Mild</td>
+            <td>Opinion-based advice; ought to is more formal, less common in speech</td>
+            <td>You should delegate more instead of doing everything yourself.</td>
+          </tr>
+          <tr>
+            <td>need to</td>
+            <td class="strength">Moderate</td>
+            <td>Practical necessity to achieve a result</td>
+            <td>You need to log off by six if you want to actually recover.</td>
+          </tr>
+          <tr>
+            <td>have to</td>
+            <td class="strength">Strong</td>
+            <td>External obligation — a rule, contract, or someone else's requirement</td>
+            <td>All staff have to complete the wellbeing survey this month.</td>
+          </tr>
+          <tr>
+            <td>must</td>
+            <td class="strength">Strong</td>
+            <td>External rule OR the speaker's own urgent, internal conviction</td>
+            <td>I must stop answering emails after 9pm — it's ruining my sleep.</td>
+          </tr>
+          <tr>
+            <td>had better</td>
+            <td class="strength">Very strong</td>
+            <td>Advice + implied warning of a bad consequence if ignored</td>
+            <td>You'd better talk to HR before this affects your health.</td>
+          </tr>
+          <tr>
+            <td>should have + p.p.</td>
+            <td class="strength">Retrospective</td>
+            <td>Regret or criticism about the unchangeable past</td>
+            <td>He shouldn't have taken on that second side hustle — he had nothing left to give.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ul class="example-list">
+        <li><strong>1.</strong> Managers <strong>ought to</strong> notice the early warning signs of burnout before an employee reaches breaking point.</li>
+        <li><strong>2.</strong> You <strong>don't have to</strong> answer messages on the weekend — that's not in your contract, no matter what the culture implies.</li>
+        <li><strong>3.</strong> If you keep burning the candle at both ends like this, you'd <strong>better</strong> expect your health to suffer sooner or later.</li>
+        <li><strong>4.</strong> I <strong>must</strong> admit — the "always on" mentality got the better of me long before I recognized it as a problem.</li>
+        <li><strong>5.</strong> She <strong>should have</strong> set boundaries with her clients years ago instead of quietly resenting every late-night call.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. CONTROLLED PRACTICE -->
+  <section id="practice" aria-labelledby="practice-h">
+    <span class="section-kicker">Controlled Practice</span>
+    <h2 id="practice-h">Exercises</h2>
+    <p class="lead-note">Choose the best option or complete the sentence. Discuss your reasoning with a partner.</p>
+
+    <div class="exercise">
+      <p><span class="ex-num">1.</span>Your colleague looks exhausted and keeps skipping lunch. What's the most natural piece of advice?</p>
+      <div class="options">
+        <label><input type="radio" name="q1"> "You must skip lunch."</label>
+        <label><input type="radio" name="q1"> "You should take a proper break."</label>
+        <label><input type="radio" name="q1"> "You need to skip lunch."</label>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <p><span class="ex-num">2.</span>Complete with the correct form of <em>have to</em>: "All new employees ______ (have to) attend the mandatory onboarding session next Monday."</p>
+      <input type="text" class="blank-input" aria-label="Answer for question 2">
+    </div>
+
+    <div class="exercise">
+      <p><span class="ex-num">3.</span>Rewrite using <strong>should have + past participle</strong>: "It was a mistake to ignore the early signs of burnout for so long."</p>
+      <input type="text" class="blank-input" aria-label="Answer for question 3" style="min-width:280px;">
+    </div>
+
+    <div class="exercise">
+      <p><span class="ex-num">4.</span>Which sentence best expresses an <em>internal, personal</em> sense of urgency rather than an external company rule?</p>
+      <div class="options">
+        <label><input type="radio" name="q4"> "I must slow down before this destroys my health."</label>
+        <label><input type="radio" name="q4"> "I have to submit the report by Friday."</label>
+        <label><input type="radio" name="q4"> "I have to badge in by 9am."</label>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <p><span class="ex-num">5.</span>Fill the gap with <em>need to</em>, <em>must</em>, or <em>have to</em> (more than one may be possible — be ready to explain your choice): "If we want the team to stop burning out, we ______ change how we measure 'productivity'."</p>
+      <input type="text" class="blank-input" aria-label="Answer for question 5">
+    </div>
+
+    <div class="exercise">
+      <p><span class="ex-num">6.</span>Choose the sentence that carries a clear <strong>warning of consequence</strong>.</p>
+      <div class="options">
+        <label><input type="radio" name="q6"> "You should mention it to your manager."</label>
+        <label><input type="radio" name="q6"> "You'd better mention it to your manager, or this will get worse."</label>
+        <label><input type="radio" name="q6"> "You could mention it to your manager."</label>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <p><span class="ex-num">7.</span>Transform into the negative obligation with the correct meaning: "It is not necessary for you to reply to emails after hours." → "You ______ reply to emails after hours."</p>
+      <input type="text" class="blank-input" aria-label="Answer for question 7">
+    </div>
+
+    <div class="exercise">
+      <p><span class="ex-num">8.</span>Find and correct the error: "She should to have talked to a therapist months ago, before the exhaustion became unbearable."</p>
+      <input type="text" class="blank-input" aria-label="Answer for question 8" style="min-width:280px;">
+    </div>
+
+    <div class="exercise">
+      <p><span class="ex-num">9.</span>Which modal best fits: "Honestly, nobody ______ work sixty-hour weeks to prove their worth — that idea itself is the problem."</p>
+      <div class="options">
+        <label><input type="radio" name="q9"> should</label>
+        <label><input type="radio" name="q9"> has to</label>
+        <label><input type="radio" name="q9"> must</label>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <p><span class="ex-num">10.</span>Complete with <em>mustn't</em> or <em>don't have to</em>: "You ______ feel guilty for logging off on time — it's not a failure, it's a boundary."</p>
+      <input type="text" class="blank-input" aria-label="Answer for question 10">
+    </div>
+  </section>
+
+  <!-- DIVIDER: GEAR -->
+  <div class="motif-divider" aria-hidden="true">
+    <span class="line"></span>
+    <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="7"/><circle cx="20" cy="20" r="2.4"/><path d="M20 4 v5 M20 31 v5 M4 20 h5 M31 20 h5 M8.2 8.2 l3.5 3.5 M28.3 28.3 l3.5 3.5 M8.2 31.8 l3.5 -3.5 M28.3 11.7 l3.5 -3.5"/></svg>
+    <span class="line"></span>
+  </div>
+
+  <!-- 5. SPEAKING / FREER PRACTICE -->
+  <section id="speaking" aria-labelledby="speaking-h">
+    <span class="section-kicker">Speaking Practice</span>
+    <h2 id="speaking-h">Role-Play: "You Look Burned Out"</h2>
+    <p class="lead-note">Work in pairs. Choose a card each and act out the conversation. Use at least three modals of advice/obligation from today's lesson.</p>
+
+    <div class="card-grid">
+      <div class="role-card">
+        <h3>Role A — The Colleague</h3>
+        <p>You've noticed your coworker hasn't taken a real day off in three months. They cancel plans constantly and seem irritable. Start a caring but honest conversation. Give them concrete advice using <em>should</em>, <em>had better</em>, and <em>need to</em>.</p>
+      </div>
+      <div class="role-card">
+        <h3>Role B — The Overworked One</h3>
+        <p>You insist you're "fine," but admit you feel overwhelmed and haven't unwound in weeks. Explain what you think you <em>have to</em> do for your job, and react to your colleague's advice — agree with some points, push back on others.</p>
+      </div>
+      <div class="role-card">
+        <h3>Role A (Round 2) — The Manager</h3>
+        <p>One of your team members has quietly started doing the bare minimum. Talk to them about expectations and support, using <em>must</em>/<em>have to</em> for real requirements and <em>should</em> for genuine advice — avoid sounding punitive.</p>
+      </div>
+      <div class="role-card">
+        <h3>Role B (Round 2) — The Quiet Quitter</h3>
+        <p>You're not lazy — you're protecting your energy after last year's burnout. Explain, using <em>shouldn't have</em>, what you regret about how you worked before, and what boundaries you now refuse to cross.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2rem;">Discussion Grid: Workplace Dilemmas</h3>
+    <p class="lead-note">In small groups, discuss each dilemma. For each one, agree on what the person should/shouldn't/must/needs to do.</p>
+    <div class="dilemma-grid">
+      <div class="dilemma-card">A friend brags about only sleeping five hours a night and calls it "dedication." What should you say to them?</div>
+      <div class="dilemma-card">Your company offers "unlimited vacation," but no one on the team actually takes more than five days a year. What needs to change?</div>
+      <div class="dilemma-card">A junior employee keeps volunteering for extra unpaid projects to "stand out." What advice would you give them?</div>
+      <div class="dilemma-card">An employee quietly reduced their output after being denied a promotion. Was this the right response, or should they have done something different?</div>
+    </div>
+  </section>
+
+  <!-- DIVIDER: CLOCK -->
+  <div class="motif-divider" aria-hidden="true">
+    <span class="line"></span>
+    <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="16"/><line x1="20" y1="20" x2="20" y2="10"/><line x1="20" y1="20" x2="27" y2="24"/><circle cx="20" cy="20" r="1.2" fill="var(--terracotta)"/></svg>
+    <span class="line"></span>
+  </div>
+
+  <!-- 6. PRODUCTION TASK -->
+  <section id="production" aria-labelledby="production-h">
+    <span class="section-kicker">Production Task</span>
+    <h2 id="production-h">Longer Speaking Turn (2–3 minutes)</h2>
+    <p class="lead-note">Prepare for two minutes, then speak for 2–3 minutes without stopping. Your partner listens and notes down every modal verb they hear.</p>
+    <div class="card">
+      <p><strong>Topic:</strong> "What I think workplaces — and individuals — should actually change about how we work."</p>
+      <p>Use these guiding points, and try to naturally include at least five modals of advice/obligation and five vocabulary items from today:</p>
+      <ul class="bullets">
+        <li>Describe a time you (or someone you know) experienced burnout, overwork, or the pressure of hustle culture.</li>
+        <li>Explain what that person should have done differently, looking back.</li>
+        <li>Say what you believe employers must/have to change about workplace expectations.</li>
+        <li>Say what individuals need to do for themselves to protect their work-life balance.</li>
+        <li>End with one piece of advice you'd give your younger, more "hustle-obsessed" self.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 7. WRAP-UP -->
+  <section id="wrapup" aria-labelledby="wrapup-h">
+    <span class="section-kicker">Wrap-Up</span>
+    <h2 id="wrapup-h">Self-Assessment: I Can...</h2>
+    <ul class="checklist">
+      <li><input type="checkbox" id="can1"><label for="can1">...use at least ten vocabulary items about hustle culture and burnout in context.</label></li>
+      <li><input type="checkbox" id="can2"><label for="can2">...distinguish between should/ought to (advice) and must/have to (obligation).</label></li>
+      <li><input type="checkbox" id="can3"><label for="can3">...explain the difference between must and have to for internal vs. external obligation.</label></li>
+      <li><input type="checkbox" id="can4"><label for="can4">...use had better to give advice with an implied warning.</label></li>
+      <li><input type="checkbox" id="can5"><label for="can5">...use should have + past participle to talk about past regrets or mistakes at work.</label></li>
+    </ul>
+  </section>
+
+  <!-- DIVIDER: CANDLE -->
+  <div class="motif-divider" aria-hidden="true">
+    <span class="line"></span>
+    <svg viewBox="0 0 40 40"><path d="M20 6 c2 3 3 5 0 7 c-3 -2 -2 -4 0 -7 Z"/><rect x="16" y="14" width="8" height="20" rx="1"/><line x1="12" y1="34" x2="28" y2="34"/></svg>
+    <span class="line"></span>
+  </div>
+
+  <!-- 8. HOMEWORK -->
+  <section id="homework" aria-labelledby="homework-h">
+    <span class="section-kicker">Homework</span>
+    <h2 id="homework-h">Before Next Class</h2>
+
+    <h3>A. Writing (120–150 words)</h3>
+    <p class="lead-note">Write a short piece of advice to someone starting their first job, about avoiding burnout and protecting their time. Use at least five modals of advice/obligation from this lesson.</p>
+    <div class="writing-box">
+      <textarea placeholder="Write your 120–150 word paragraph here..." aria-label="Homework writing area"></textarea>
+    </div>
+
+    <h3 style="margin-top:2rem;">B. Extra Practice</h3>
+    <div class="exercise">
+      <p><span class="ex-num">1.</span>Complete: "You ______ (had better) tell your manager now, before the deadline makes everything worse."</p>
+      <input type="text" class="blank-input" aria-label="Homework answer 1">
+    </div>
+    <div class="exercise">
+      <p><span class="ex-num">2.</span>Rewrite with should have: "It was wrong of the company to ignore employee complaints about workload."</p>
+      <input type="text" class="blank-input" aria-label="Homework answer 2" style="min-width:280px;">
+    </div>
+    <div class="exercise">
+      <p><span class="ex-num">3.</span>Choose: "Employees ______ (must / have to) clock in by 9am — it's written in the contract."</p>
+      <input type="text" class="blank-input" aria-label="Homework answer 3">
+    </div>
+    <div class="exercise">
+      <p><span class="ex-num">4.</span>Fill in: "You ______ (don't need to / mustn't) answer every notification the second it arrives."</p>
+      <input type="text" class="blank-input" aria-label="Homework answer 4">
+    </div>
+    <div class="exercise">
+      <p><span class="ex-num">5.</span>Write one original sentence about burnout using <em>ought to</em>.</p>
+      <input type="text" class="blank-input" aria-label="Homework answer 5" style="min-width:280px;">
+    </div>
+
+    <div class="prep-box">
+      <h3>C. Before Next Class — Speaking Prep</h3>
+      <p>Think of one habit at work (yours or someone else's) that you believe needs to change. Come ready to describe it in two or three sentences using at least one modal of advice and one modal of obligation.</p>
+    </div>
+  </section>
+
+  <footer>
+    Hustle Culture &amp; Burnout · Student Edition
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var buttons = document.querySelectorAll(".reveal-btn");
+
+  buttons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var targetId = btn.getAttribute("aria-controls");
+      var target = document.getElementById(targetId);
+      if (!target) { return; }
+
+      var isExpanded = btn.getAttribute("aria-expanded") === "true";
+      var nowExpanded = !isExpanded;
+
+      btn.setAttribute("aria-expanded", String(nowExpanded));
+      target.classList.toggle("hidden", !nowExpanded);
+      btn.textContent = nowExpanded ? "Hide translation" : "Show translation";
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

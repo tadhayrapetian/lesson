@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nostalgia &amp; Generations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --brown-dark:#2e2115;
+    --brown-mid:#7a5230;
+    --brown-light:#a67c52;
+    --blue-dusty:#7c93a8;
+    --cream:#f2e8d5;
+    --cream-deep:#e9dbc0;
+    --paper:#faf3e4;
+    --ok-shadow: rgba(46,33,21,0.18);
+  }
+
+  *{box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    background-color:var(--cream);
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(166,124,82,0.10), transparent 45%),
+      radial-gradient(circle at 85% 30%, rgba(124,147,168,0.10), transparent 40%),
+      radial-gradient(circle at 50% 90%, rgba(122,82,48,0.10), transparent 50%);
+    color:var(--brown-dark);
+    font-family:'Nunito Sans', sans-serif;
+    line-height:1.65;
+    position:relative;
+    min-height:100vh;
+  }
+
+  /* film grain overlay */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:999;
+    opacity:0.05;
+    mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-size:180px 180px;
+  }
+
+  h1,h2,h3,h4{
+    font-family:'Cormorant Garamond', serif;
+    color:var(--brown-mid);
+    letter-spacing:0.01em;
+    margin-top:0;
+  }
+
+  h1{font-size:clamp(2rem, 5vw, 3.2rem); font-weight:700; color:var(--brown-dark);}
+  h2{font-size:clamp(1.5rem, 3.4vw, 2.1rem); font-weight:600; border-bottom:1px solid rgba(122,82,48,0.35); padding-bottom:0.4rem;}
+  h3{font-size:clamp(1.15rem, 2.4vw, 1.4rem); font-weight:600; color:var(--brown-mid);}
+
+  a{color:var(--blue-dusty);}
+
+  .wrap{
+    max-width:920px;
+    margin:0 auto;
+    padding:1.5rem 1.25rem 5rem;
+  }
+
+  /* ---------- Header ---------- */
+  header.lesson-header{
+    position:relative;
+    padding:2.6rem 2rem 2.2rem;
+    margin:1.5rem auto 2.5rem;
+    max-width:920px;
+    background:linear-gradient(180deg, var(--paper), var(--cream-deep));
+    border:1px solid rgba(122,82,48,0.35);
+    box-shadow:0 10px 30px var(--ok-shadow);
+    text-align:center;
+  }
+  header.lesson-header::before,
+  header.lesson-header::after{
+    content:"";
+    position:absolute;
+    width:34px;height:34px;
+    border:1px solid rgba(122,82,48,0.55);
+    opacity:0.85;
+  }
+  header.lesson-header::before{top:12px; left:12px; border-right:none; border-bottom:none;}
+  header.lesson-header::after{bottom:12px; right:12px; border-left:none; border-top:none;}
+
+  .badges{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:0.6rem;
+    margin:0.9rem 0 1.2rem;
+  }
+  .badge{
+    font-family:'Nunito Sans', sans-serif;
+    font-weight:700;
+    font-size:0.78rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:0.35rem 0.85rem;
+    border-radius:999px;
+    border:1px solid var(--brown-light);
+    color:var(--brown-mid);
+    background:rgba(166,124,82,0.10);
+  }
+  .badge.level{ background:var(--brown-mid); color:var(--paper); border-color:var(--brown-mid);}
+  .badge.accent{ background:var(--blue-dusty); color:var(--paper); border-color:var(--blue-dusty);}
+
+  .intro-line{
+    font-style:italic;
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.3rem;
+    color:var(--brown-dark);
+    max-width:640px;
+    margin:0.8rem auto 0;
+  }
+
+  /* ---------- Section boxes (vintage photo frame) ---------- */
+  section{
+    position:relative;
+    background:var(--paper);
+    border:1px solid rgba(122,82,48,0.3);
+    padding:1.8rem 1.7rem;
+    margin-bottom:2.3rem;
+    box-shadow:0 6px 18px var(--ok-shadow), inset 0 0 0 6px rgba(242,232,213,0.6);
+  }
+  section::before{
+    content:"";
+    position:absolute;
+    inset:6px;
+    border:1px solid rgba(124,147,168,0.35);
+    pointer-events:none;
+  }
+  /* polaroid corner accents */
+  section .corner{
+    position:absolute;
+    width:16px;height:16px;
+    background:var(--blue-dusty);
+    opacity:0.5;
+  }
+  section .corner.tl{top:-1px;left:-1px; clip-path:polygon(0 0,100% 0,0 100%);}
+  section .corner.br{bottom:-1px;right:-1px; clip-path:polygon(100% 100%,0 100%,100% 0);}
+
+  .section-label{
+    display:inline-block;
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    font-weight:700;
+    color:var(--blue-dusty);
+    margin-bottom:0.4rem;
+  }
+
+  /* ---------- Warm-up ---------- */
+  .qlist{list-style:none; padding:0; margin:0;}
+  .qlist li{
+    padding:0.85rem 1rem 0.85rem 2.6rem;
+    margin-bottom:0.7rem;
+    position:relative;
+    background:rgba(166,124,82,0.08);
+    border-left:3px solid var(--brown-light);
+  }
+  .qlist li::before{
+    content:"“";
+    position:absolute;
+    left:0.7rem; top:0.35rem;
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.8rem;
+    color:var(--blue-dusty);
+  }
+
+  /* ---------- Vocabulary ---------- */
+  .vocab-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:1rem;
+  }
+  @media (min-width:680px){
+    .vocab-grid{grid-template-columns:1fr 1fr;}
+  }
+  .vocab-card{
+    border:1px solid rgba(122,82,48,0.3);
+    background:linear-gradient(180deg, rgba(255,255,255,0.5), rgba(242,232,213,0.4));
+    padding:1rem 1.1rem;
+  }
+  .vocab-word{
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.35rem;
+    font-weight:700;
+    color:var(--brown-dark);
+  }
+  .vocab-example{
+    font-style:italic;
+    margin:0.4rem 0 0.6rem;
+    color:#443723;
+  }
+  .reveal-btn{
+    font-family:'Nunito Sans', sans-serif;
+    font-size:0.82rem;
+    font-weight:700;
+    letter-spacing:0.03em;
+    background:var(--blue-dusty);
+    color:#fff;
+    border:none;
+    padding:0.45rem 0.9rem;
+    cursor:pointer;
+    border-radius:3px;
+    transition:background 0.15s ease, transform 0.1s ease;
+  }
+  .reveal-btn:hover{background:#6c8298;}
+  .reveal-btn:focus-visible{outline:3px solid var(--brown-dark); outline-offset:2px;}
+  .reveal-btn:active{transform:translateY(1px);}
+
+  .translation{
+    margin-top:0.6rem;
+    padding:0.55rem 0.8rem;
+    background:var(--brown-mid);
+    color:var(--paper);
+    border-radius:3px;
+    font-weight:700;
+    font-family:'Nunito Sans', sans-serif;
+  }
+  .translation[hidden]{display:none;}
+
+  /* ---------- Grammar ---------- */
+  .grammar-box{
+    background:rgba(124,147,168,0.10);
+    border:1px solid rgba(124,147,168,0.4);
+    padding:1rem 1.2rem;
+    margin:1rem 0;
+  }
+  table.compare{
+    width:100%;
+    border-collapse:collapse;
+    margin:1.2rem 0;
+    font-size:0.95rem;
+  }
+  table.compare caption{
+    text-align:left;
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.2rem;
+    margin-bottom:0.5rem;
+    color:var(--brown-mid);
+  }
+  table.compare th, table.compare td{
+    border:1px solid rgba(122,82,48,0.35);
+    padding:0.6rem 0.7rem;
+    text-align:left;
+    vertical-align:top;
+  }
+  table.compare th{
+    background:var(--brown-mid);
+    color:var(--paper);
+    font-family:'Nunito Sans', sans-serif;
+  }
+  table.compare tr:nth-child(even) td{background:rgba(166,124,82,0.07);}
+  .no{color:#8a2b1f; font-weight:700;}
+  .yes{color:#2c5e3f; font-weight:700;}
+
+  .example-list{padding-left:1.1rem;}
+  .example-list li{margin-bottom:0.5rem;}
+
+  /* ---------- Exercises ---------- */
+  .exercise{
+    margin-bottom:1.4rem;
+    padding-bottom:1.2rem;
+    border-bottom:1px dashed rgba(122,82,48,0.35);
+  }
+  .exercise:last-child{border-bottom:none;}
+  .ex-num{
+    display:inline-block;
+    font-family:'Cormorant Garamond', serif;
+    font-weight:700;
+    font-size:1.1rem;
+    color:var(--blue-dusty);
+    margin-right:0.4rem;
+  }
+  .options{list-style:none; padding-left:1.6rem; margin:0.5rem 0;}
+  .options li{margin-bottom:0.3rem;}
+  input[type="text"].blank{
+    border:none;
+    border-bottom:2px solid var(--brown-light);
+    background:transparent;
+    font-family:'Nunito Sans', sans-serif;
+    font-size:1rem;
+    padding:0.15rem 0.3rem;
+    min-width:180px;
+    color:var(--brown-dark);
+  }
+  input[type="text"].blank:focus{outline:none; border-bottom-color:var(--blue-dusty);}
+  textarea.answer-area{
+    width:100%;
+    min-height:70px;
+    border:1px solid rgba(122,82,48,0.4);
+    background:rgba(255,255,255,0.5);
+    font-family:'Nunito Sans', sans-serif;
+    font-size:0.95rem;
+    padding:0.6rem;
+    resize:vertical;
+    color:var(--brown-dark);
+  }
+
+  /* ---------- Interview grid ---------- */
+  .interview-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:1rem;
+    font-size:0.92rem;
+  }
+  .interview-table th, .interview-table td{
+    border:1px solid rgba(122,82,48,0.35);
+    padding:0.55rem 0.6rem;
+  }
+  .interview-table th{
+    background:var(--blue-dusty);
+    color:#fff;
+    font-family:'Nunito Sans', sans-serif;
+  }
+  .interview-table td.fill{background:rgba(255,255,255,0.4); min-width:120px;}
+
+  /* ---------- Production task ---------- */
+  ul.bullets{padding-left:1.3rem;}
+  ul.bullets li{margin-bottom:0.5rem;}
+
+  /* ---------- Checklist ---------- */
+  .checklist{list-style:none; padding:0; margin:0;}
+  .checklist li{
+    display:flex;
+    align-items:flex-start;
+    gap:0.7rem;
+    padding:0.6rem 0.2rem;
+    border-bottom:1px solid rgba(122,82,48,0.2);
+  }
+  .checklist input[type="checkbox"]{
+    margin-top:0.25rem;
+    width:1.15rem;height:1.15rem;
+    accent-color:var(--brown-mid);
+    flex-shrink:0;
+  }
+  .checklist label{cursor:pointer;}
+
+  /* ---------- Homework writing box ---------- */
+  .writing-box{
+    border:2px solid var(--brown-mid);
+    background:repeating-linear-gradient(var(--paper), var(--paper) 34px, rgba(122,82,48,0.15) 35px);
+    padding:1.4rem;
+    position:relative;
+  }
+  .writing-box::before{
+    content:"✎ your paragraph";
+    position:absolute;
+    top:-13px; left:16px;
+    background:var(--cream);
+    padding:0 0.6rem;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    color:var(--brown-mid);
+    font-size:0.95rem;
+  }
+  .writing-box textarea{
+    width:100%;
+    min-height:200px;
+    border:none;
+    background:transparent;
+    font-family:'Nunito Sans', sans-serif;
+    font-size:1rem;
+    line-height:35px;
+    color:var(--brown-dark);
+    resize:vertical;
+  }
+  .writing-box textarea:focus{outline:none;}
+
+  .word-count-note{
+    font-size:0.85rem;
+    color:var(--brown-mid);
+    margin-top:0.4rem;
+    font-style:italic;
+  }
+
+  footer{
+    text-align:center;
+    font-size:0.85rem;
+    color:var(--brown-mid);
+    padding:2rem 1rem 1rem;
+  }
+
+  @media (max-width:520px){
+    header.lesson-header{padding:2rem 1.1rem;}
+    section{padding:1.3rem 1.1rem;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="lesson-header">
+    <div class="badges">
+      <span class="badge">Nostalgia &amp; Generational Differences</span>
+      <span class="badge accent">~60 min</span>
+    </div>
+    <h1>Nostalgia &amp; the Weight of Generations</h1>
+    <p class="intro-line">Every generation insists the world was simpler, kinder, or better before it arrived — this lesson asks whether they're actually right, or just remembering selectively.</p>
+  </header>
+
+  <!-- 2. WARM-UP -->
+  <section aria-labelledby="warmup-h">
+    <span class="corner tl"></span><span class="corner br"></span>
+    <p class="section-label">Warm-up</p>
+    <h2 id="warmup-h">Lead-in Discussion</h2>
+    <p>Before we look at any language, talk about these questions with a partner.</p>
+    <ul class="qlist">
+      <li>Does nostalgia distort our memory of the past, or does it preserve something real that simply gets lost over time?</li>
+      <li>Is there anything from a decade you never actually lived through that you feel strangely nostalgic for? Why might that happen?</li>
+      <li>What do you think today's teenagers will feel nostalgic for in twenty years — and will older generations even understand it?</li>
+      <li>Is the claim "things were better back then" ever objectively true, or is it always a matter of perspective and selective memory?</li>
+    </ul>
+  </section>
+
+  <!-- 3. VOCABULARY -->
+  <section aria-labelledby="vocab-h">
+    <span class="corner tl"></span><span class="corner br"></span>
+    <p class="section-label">Vocabulary</p>
+    <h2 id="vocab-h">Key Words &amp; Phrases</h2>
+    <p>Read each sentence, then tap the button to reveal the Eastern Armenian translation.</p>
+
+    <div class="vocab-grid">
+
+      <div class="vocab-card">
+        <div class="vocab-word">nostalgia <em>(n)</em></div>
+        <p class="vocab-example">Hearing that old song filled her with a wave of nostalgia for her university years.</p>
+        <button class="reveal-btn" aria-expanded="false" aria-controls="t1">Show translation</button>
+        <div id="t1" class="translation" hidden>նոստալգիա</div>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-word">to romanticize <em>(v)</em></div>
+        <p class="vocab-example">It's easy to romanticize your childhood and forget how bored you actually were half the time.</p>
+        <button class="reveal-btn" aria-expanded="false" aria-controls="t2">Show translation</button>
+        <div id="t2" class="translation" hidden>իդեալականացնել</div>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-word">generation gap <em>(n phrase)</em></div>
+        <p class="vocab-example">The generation gap became obvious the moment my father tried to explain social media to my grandmother.</p>
+        <button class="reveal-btn" aria-expanded="false" aria-controls="t3">Show translation</button>
+        <div id="t3" class="translation" hidden>սերունդների բացը</div>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-word">to reminisce <em>(v)</em></div>
+        <p class="vocab-example">Every Sunday, my grandparents reminisce about the small village where they grew up.</p>
+        <button class="reveal-btn" aria-expanded="false" aria-controls="t4">Show translation</button>
+        <div id="t4" class="translation" hidden>վերհիշել անցյալը</div>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-word">the good old days <em>(idiom)</em></div>
+        <p class="vocab-example">My uncle never stops talking about the good old days, even though half his stories are exaggerated.</p>
+        <button class="reveal-btn" aria-expanded="false" aria-controls="t5">Show translation</button>
+        <div id="t5" class="translation" hidden>հին բարի ժամանակները</div>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-word">outdated <em>(adj)</em></div>
+        <p class="vocab-example">Some of my parents' career advice feels completely outdated in today's job market.</p>
+        <button class="reveal-btn" aria-expanded="false" aria-controls="t6">Show translation</button>
+        <div id="t6" class="translation" hidden>հնացած</div>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-word">to take something for granted <em>(phrase)</em></div>
+        <p class="vocab-example">Older generations often say we take technology for granted because we never lived without it.</p>
+        <button class="reveal-btn" aria-expanded="false" aria-controls="t7">Show translation</button>
+        <div id="t7" class="translation" hidden>որպես ինքնին հասկանալի բան ընդունել</div>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-word">sentimental <em>(adj)</em></div>
+        <p class="vocab-example">He got surprisingly sentimental while looking through his mother's old photographs.</p>
+        <button class="reveal-btn" aria-expanded="false" aria-controls="t8">Show translation</button>
+        <div id="t8" class="translation" hidden>սենտիմենտալ, հուզական</div>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-word">a bygone era <em>(n phrase)</em></div>
+        <p class="vocab-example">Black-and-white television belongs to a bygone era that younger viewers can barely imagine.</p>
+        <button class="reveal-btn" aria-expanded="false" aria-controls="t9">Show translation</button>
+        <div id="t9" class="translation" hidden>անցյալ դարաշրջան</div>
+      </div>
+
+      <div class="vocab-card">
+        <div class="vocab-word">to look back on <em>(phrasal verb)</em></div>
+        <p class="vocab-example">When I look back on my twenties, I realize how little I actually appreciated my freedom.</p>
+        <button class="reveal-btn" aria-expanded="false" aria-controls="t10">Show translation</button>
+        <div id="t10" class="translation" hidden>հետադարձ հայացք գցել, վերհիշել</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4. GRAMMAR -->
+  <section aria-labelledby="grammar-h">
+    <span class="corner tl"></span><span class="corner br"></span>
+    <p class="section-label">Grammar Focus</p>
+    <h2 id="grammar-h">used to / would vs. Present Simple</h2>
+
+    <div class="grammar-box">
+      <h3>Form &amp; Use</h3>
+      <p><strong>used to + base verb</strong> — describes a habit or a state that was true in the past but is no longer true. It works for both repeated <em>actions</em> ("I used to smoke") and <em>states</em> ("I used to live in Yerevan", "I used to be shy").</p>
+      <p><strong>would + base verb</strong> — describes a repeated <em>action</em> in the past, often used when reminiscing or telling stories. Crucially, <strong>would does NOT work for past states</strong> — you cannot say "I would live in Yerevan" or "I would be shy" to describe a past condition. States need <em>used to</em> (or the simple past).</p>
+      <p><strong>present simple</strong> — describes habits, routines, and facts that are true now.</p>
+    </div>
+
+    <table class="compare">
+      <caption>Quick comparison</caption>
+      <thead>
+        <tr><th>Use</th><th>used to</th><th>would</th><th>present simple</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Repeated past <strong>action</strong><br><small>e.g. visiting, telling stories, walking</small></td>
+          <td class="yes">✓ correct</td>
+          <td class="yes">✓ correct</td>
+          <td class="no">✗ (wrong tense)</td>
+        </tr>
+        <tr>
+          <td>Past <strong>state</strong><br><small>e.g. live, be, have, know, like, own, believe</small></td>
+          <td class="yes">✓ correct</td>
+          <td class="no">✗ never used</td>
+          <td class="no">✗ (wrong tense)</td>
+        </tr>
+        <tr>
+          <td>Present <strong>habit or fact</strong></td>
+          <td class="no">✗ (wrong time)</td>
+          <td class="no">✗ (wrong time)</td>
+          <td class="yes">✓ correct</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Examples tied to today's topic</h3>
+    <ul class="example-list">
+      <li>My grandmother <strong>used to walk</strong> three miles to school every morning, and she <strong>would tell</strong> that story at every family dinner.</li>
+      <li>People <strong>used to write</strong> long letters to relatives abroad; now we simply send a text and expect an instant reply.</li>
+      <li>My father <strong>would spend</strong> hours fixing the radio himself, but I just <strong>take</strong> my broken phone straight to the shop.</li>
+      <li>She <strong>used to believe</strong> that the past was always simpler — until she started reading real history. <em>(state — "would believe" is impossible here)</em></li>
+      <li>As a boy, my grandfather <strong>would sit</strong> on the porch for hours after dinner; nowadays, children rarely <strong>sit</strong> still that long.</li>
+    </ul>
+  </section>
+
+  <!-- 5. CONTROLLED PRACTICE -->
+  <section aria-labelledby="practice-h">
+    <span class="corner tl"></span><span class="corner br"></span>
+    <p class="section-label">Controlled Practice</p>
+    <h2 id="practice-h">Exercises</h2>
+
+    <h3>Part A — Multiple choice</h3>
+
+    <div class="exercise">
+      <p><span class="ex-num">1.</span> There ______ a small cinema at the end of our street, but it closed down years ago.</p>
+      <ul class="options">
+        <li><label><input type="radio" name="a1"> a) would be</label></li>
+        <li><label><input type="radio" name="a1"> b) used to be</label></li>
+        <li><label><input type="radio" name="a1"> c) uses to be</label></li>
+      </ul>
+    </div>
+
+    <div class="exercise">
+      <p><span class="ex-num">2.</span> My grandfather ______ every evening after dinner, no matter the weather.</p>
+      <ul class="options">
+        <li><label><input type="radio" name="a2"> a) used to walking</label></li>
+        <li><label><input type="radio" name="a2"> b) would walk</label></li>
+        <li><label><input type="radio" name="a2"> c) walks (referring to the past)</label></li>
+      </ul>
+    </div>
+
+    <div class="exercise">
+      <p><span class="ex-num">3.</span> My mother says she ______ her freedom until she became a parent herself.</p>
+      <ul class="options">
+        <li><label><input type="radio" name="a3"> a) wouldn't appreciate</label></li>
+        <li><label><input type="radio" name="a3"> b) didn't use to appreciate</label></li>
+        <li><label><input type="radio" name="a3"> c) doesn't appreciate</label></li>
+      </ul>
+    </div>
+
+    <div class="exercise">
+      <p><span class="ex-num">4.</span> Nowadays, most families ______ dinner together far less often than in the past.</p>
+      <ul class="options">
+        <li><label><input type="radio" name="a4"> a) used to have</label></li>
+        <li><label><input type="radio" name="a4"> b) would have</label></li>
+        <li><label><input type="radio" name="a4"> c) have</label></li>
+      </ul>
+    </div>
+
+    <h3>Part B — Fill in the blank</h3>
+    <p>Write the correct form (<em>used to</em>, <em>would</em>, or present simple) of the verb in brackets. Think carefully about whether the sentence describes a state or a repeated action.</p>
+
+    <div class="exercise">
+      <p><span class="ex-num">5.</span> My grandparents <input type="text" class="blank" aria-label="answer 5"> (not / have) a television until they were almost thirty.</p>
+    </div>
+
+    <div class="exercise">
+      <p><span class="ex-num">6.</span> Every summer, my great-uncle <input type="text" class="blank" aria-label="answer 6"> (tell) the same stories about the war, and nobody ever complained.</p>
+    </div>
+
+    <div class="exercise">
+      <p><span class="ex-num">7.</span> In many families today, grandparents <input type="text" class="blank" aria-label="answer 7"> (live) far from their grandchildren, so video calls have replaced Sunday visits.</p>
+    </div>
+
+    <div class="exercise">
+      <p><span class="ex-num">8.</span> My father <input type="text" class="blank" aria-label="answer 8"> (be) painfully shy as a teenager, though it's hard to imagine now.</p>
+    </div>
+
+    <h3>Part C — Transformation &amp; error correction</h3>
+
+    <div class="exercise">
+      <p><span class="ex-num">9.</span> Rewrite this sentence with <em>would</em> if it is possible. If it is <strong>not</strong> possible, explain briefly why in your own words.</p>
+      <p><em>"My grandmother used to be the strictest teacher in the village school."</em></p>
+      <textarea class="answer-area" aria-label="answer to exercise 9"></textarea>
+    </div>
+
+    <div class="exercise">
+      <p><span class="ex-num">10.</span> Find the mistake in this sentence and correct it.</p>
+      <p><em>"When I was small, my parents would own a little shop near the train station."</em></p>
+      <textarea class="answer-area" aria-label="answer to exercise 10"></textarea>
+    </div>
+
+  </section>
+
+  <!-- 6. SPEAKING / FREER PRACTICE -->
+  <section aria-labelledby="speaking-h">
+    <span class="corner tl"></span><span class="corner br"></span>
+    <p class="section-label">Speaking</p>
+    <h2 id="speaking-h">Then vs. Now — Interview Grid</h2>
+    <p>Work with a partner. Take turns asking about how things <em>used to be</em> for your partner's parents or grandparents, and how things are <em>now</em>. Use <strong>used to / would</strong> for the past column and the <strong>present simple</strong> for the present column. Take notes in the table.</p>
+
+    <table class="interview-table">
+      <thead>
+        <tr>
+          <th>Topic</th>
+          <th>Then (grandparents/parents)</th>
+          <th>Now (your partner)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Free time &amp; entertainment</td><td class="fill"></td><td class="fill"></td></tr>
+        <tr><td>Technology &amp; communication</td><td class="fill"></td><td class="fill"></td></tr>
+        <tr><td>Family meals</td><td class="fill"></td><td class="fill"></td></tr>
+        <tr><td>Staying in touch with friends</td><td class="fill"></td><td class="fill"></td></tr>
+        <tr><td>Work &amp; daily routine</td><td class="fill"></td><td class="fill"></td></tr>
+        <tr><td>Attitudes toward the older generation</td><td class="fill"></td><td class="fill"></td></tr>
+      </tbody>
+    </table>
+    <p>When you finish, report back to the class: pick one row and share the most surprising contrast you found.</p>
+  </section>
+
+  <!-- 7. PRODUCTION TASK -->
+  <section aria-labelledby="production-h">
+    <span class="corner tl"></span><span class="corner br"></span>
+    <p class="section-label">Production Task</p>
+    <h2 id="production-h">Long Turn: A Generation Apart</h2>
+    <p>Speak for <strong>2–3 minutes</strong> on the following topic: <em>"How someone from an older generation in your life used to live — and what that says about nostalgia."</em> Use these points to guide you:</p>
+    <ul class="bullets">
+      <li>Describe how a parent, grandparent, or older relative used to live day-to-day when they were young.</li>
+      <li>Use at least three vocabulary words or phrases from today's lesson.</li>
+      <li>Use both <strong>used to</strong> and <strong>would</strong> where appropriate — and be ready to explain why you chose one over the other for at least one state verb.</li>
+      <li>Compare that past lifestyle with one of your own present-day habits, using the present simple.</li>
+      <li>Finish with your own opinion: is nostalgia for that earlier era justified, or is it romanticized?</li>
+    </ul>
+  </section>
+
+  <!-- 8. WRAP-UP -->
+  <section aria-labelledby="wrapup-h">
+    <span class="corner tl"></span><span class="corner br"></span>
+    <p class="section-label">Wrap-up</p>
+    <h2 id="wrapup-h">Self-Assessment</h2>
+    <p>Check the boxes that are true for you.</p>
+    <ul class="checklist">
+      <li>
+        <input type="checkbox" id="c1">
+        <label for="c1">I can talk about nostalgia and generational differences using accurate vocabulary.</label>
+      </li>
+      <li>
+        <input type="checkbox" id="c2">
+        <label for="c2">I can correctly choose between <em>used to</em>, <em>would</em>, and the present simple to describe past and present habits.</label>
+      </li>
+      <li>
+        <input type="checkbox" id="c3">
+        <label for="c3">I can explain why <em>would</em> cannot be used for past states (e.g. "used to be/live/have/know").</label>
+      </li>
+      <li>
+        <input type="checkbox" id="c4">
+        <label for="c4">I can interview a partner about how life "used to be" and report back what I learned.</label>
+      </li>
+      <li>
+        <input type="checkbox" id="c5">
+        <label for="c5">I can speak for 2–3 minutes about generational change using the target grammar and vocabulary confidently.</label>
+      </li>
+    </ul>
+  </section>
+
+  <!-- 9. HOMEWORK -->
+  <section aria-labelledby="homework-h">
+    <span class="corner tl"></span><span class="corner br"></span>
+    <p class="section-label">Homework</p>
+    <h2 id="homework-h">Before Next Class</h2>
+
+    <h3>a) Writing (120–150 words)</h3>
+    <p>Write a short paragraph about how someone from an older generation in your life used to live — a parent, grandparent, or older relative. Use <strong>both</strong> <em>used to</em> and <em>would</em> correctly, plus at least three vocabulary items from today's lesson.</p>
+    <div class="writing-box">
+      <textarea aria-label="homework writing paragraph" placeholder="Start writing here..."></textarea>
+    </div>
+    <p class="word-count-note">Aim for 120–150 words. This box is for drafting only — nothing is submitted automatically.</p>
+
+    <h3>b) Extra practice</h3>
+    <div class="exercise">
+      <p><span class="ex-num">1.</span> My grandmother <input type="text" class="blank" aria-label="homework answer 1"> (not / trust) banks, so she kept her savings at home.</p>
+    </div>
+    <div class="exercise">
+      <p><span class="ex-num">2.</span> Every Friday night, the whole street <input type="text" class="blank" aria-label="homework answer 2"> (gather) outside to watch the only television in the neighborhood.</p>
+    </div>
+    <div class="exercise">
+      <p><span class="ex-num">3.</span> These days, young couples <input type="text" class="blank" aria-label="homework answer 3"> (postpone) marriage far longer than their parents did.</p>
+    </div>
+    <div class="exercise">
+      <p><span class="ex-num">4.</span> He <input type="text" class="blank" aria-label="homework answer 4"> (be) terrified of the dark as a child — now he laughs about it.</p>
+    </div>
+    <div class="exercise">
+      <p><span class="ex-num">5.</span> Rewrite using <em>would</em> if possible, or explain briefly why not: <em>"My father used to know every neighbor on our street by name."</em></p>
+      <textarea class="answer-area" aria-label="homework answer 5"></textarea>
+    </div>
+
+    <h3>c) Before next class</h3>
+    <p>Ask an older relative or family friend one question about how something "used to be" in their youth — school, technology, entertainment, or daily routine — and come prepared to share their answer with the class, using <em>used to</em> / <em>would</em> correctly.</p>
+  </section>
+
+  <footer>
+    <p>Nostalgia &amp; Generational Differences</p>
+  </footer>
+
+</div>
+
+<script>
+  (function(){
+    var buttons = document.querySelectorAll('.reveal-btn');
+    buttons.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var targetId = btn.getAttribute('aria-controls');
+        var panel = document.getElementById(targetId);
+        if(!panel) return;
+        var isExpanded = btn.getAttribute('aria-expanded') === 'true';
+        var nowExpanded = !isExpanded;
+        btn.setAttribute('aria-expanded', String(nowExpanded));
+        if(nowExpanded){
+          panel.hidden = false;
+          btn.textContent = 'Hide translation';
+        } else {
+          panel.hidden = true;
+          btn.textContent = 'Show translation';
+        }
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
