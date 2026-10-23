@@ -32,6 +32,8 @@ export type Lesson = {
   topic?: string
   tag?: string | string[]
   minutes?: number
+  vocab?: string
+  grammar?: string
   theme?: Partial<Record<"bg" | "card" | "ink" | "muted" | "accent" | "onAccent" | "soft", string>>
 }
 

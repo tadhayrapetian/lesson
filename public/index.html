@@ -70,11 +70,17 @@ body.library .landing{display:none}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0;border:1px solid var(--line)}
 .card{display:flex;flex-direction:column;justify-content:space-between;gap:2rem;min-height:340px;padding:1.8rem;border:0;background:var(--c);color:var(--f);text-align:left;cursor:pointer;transition:filter .2s}
 .card:hover{filter:brightness(1.06)}
-.meta{display:flex;gap:1.2rem;font-size:.75rem;letter-spacing:.14em;opacity:.85}
+.meta{display:flex;flex-wrap:wrap;gap:.3rem 1rem;font-size:.72rem;letter-spacing:.12em;opacity:.85}
+.meta span{white-space:nowrap}
 .card{container-type:inline-size}
 /* --n is the longest word in the title, so it always fits on one line of the block */
 .card h2{margin:0;font-size:min(clamp(2.4rem,4vw,3.2rem),calc(100cqw / (var(--n) * .5)));line-height:1;overflow-wrap:break-word}
 .card p{margin:0;font-size:.9rem;opacity:.9;max-width:30ch}
+.focus{margin:0 0 1.1rem;display:grid;gap:.7rem}
+.focus div{border-top:1px solid color-mix(in srgb,currentColor 30%,transparent);padding-top:.55rem}
+.focus dt{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;opacity:.75}
+.focus dd{margin:.15rem 0 0;font-size:.92rem;line-height:1.35}
+.focus dd.none{opacity:.7;font-style:italic}
 .open{font-size:.8rem;letter-spacing:.1em;border-bottom:1px solid currentColor;align-self:flex-start}
 .empty{padding:3rem 1rem;text-align:center;font-size:2rem}
 .about{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,5vw,5rem);align-items:stretch}
@@ -471,11 +477,11 @@ $('#filters').addEventListener('click',e=>{const b=e.target.closest('.chip');if(
 $('#q').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();render();});
 
 function render(){
- const list=L.filter(l=>(level==='All'||levelsOf(l).includes(level))&&(!q||(l.title+' '+(l.topic||'')+' '+tagsOf(l).join(' ')+' '+levelsOf(l).join(' ')).toLowerCase().includes(q)));
+ const list=L.filter(l=>(level==='All'||levelsOf(l).includes(level))&&(!q||[l.title,l.topic,l.vocab,l.grammar,...tagsOf(l),...levelsOf(l)].filter(Boolean).join(' ').toLowerCase().includes(q)));
  $('#grid').innerHTML=list.map((l,i)=>{const c=Array.isArray(l.color)?l.color:COLORS[l.color]||COLORS[ORDER[i%ORDER.length]];return `<button type="button" class="card" data-slug="${esc(l.slug)}" style="--c:${c[0]};--f:${c[1]}">
   <span class="meta">${levelLabel(l)?`<span>${esc(levelLabel(l))}</span>`:''}${tagsOf(l).length?`<span>${esc(tagsOf(l).join(' · '))}</span>`:''}${l.minutes?`<span>${esc(l.minutes)} min</span>`:''}</span>
   <span><h2 class="serif" style="--n:${Math.max(6,...l.title.split(/\s+/).map(w=>w.length))}">${esc(l.title)}</h2></span>
-  <span>${l.topic?`<p>${esc(l.topic)}</p>`:''}<span class="open">Open lesson</span></span>
+  <span><dl class="focus"><div><dt>Vocabulary</dt><dd>${esc(l.vocab||l.topic||'')}</dd></div><div><dt>Grammar</dt>${l.grammar?`<dd>${esc(l.grammar)}</dd>`:'<dd class="none">No grammar focus</dd>'}</div></dl><span class="open">Open lesson</span></span>
  </button>`;}).join('');
  $('#grid').hidden=!list.length;$('#empty').hidden=!!list.length;
  $('#count').textContent=list.length===1?'1 lesson':list.length+' lessons';

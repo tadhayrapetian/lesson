@@ -51,6 +51,7 @@ window.SITE = {
    1. Положи HTML-файл в папку private/lessons. Имя файла = slug + .html
       (например, small-joys.html для slug 'small-joys')
    2. Скопируй блок ниже, поставь запятую и заполни поля
+   vocab: тема лексики, grammar: грамматика (пусто '', если грамматики в уроке нет)
    tag: что в уроке, 'Speaking' или несколько ['Speaking', 'Grammar']
    level: уровень для фильтра, 'B1' или несколько ['B2', 'C1']
    color: цвет блока на главной. forest, midnight, sky, storm, cream
@@ -63,6 +64,8 @@ window.LESSONS = [
     slug: 'small-joys',
     title: 'Small joys',
     topic: 'Rituals, habits and the little things that make life better',
+    vocab: 'Small pleasures and everyday rituals',
+    grammar: 'Present simple vs present continuous',
     tag: ['Speaking', 'Grammar'],
     level: 'B1',
     minutes: 90,
@@ -73,6 +76,8 @@ window.LESSONS = [
     slug: 'underconsumption-core',
     title: 'Underconsumption Core',
     topic: 'What pushes us to buy, who profits from it, and why people are cutting back',
+    vocab: 'Consumerism and shopping habits',
+    grammar: '',
     tag: 'Speaking',
     level: ['B2', 'C1'],
     minutes: 60,
@@ -83,6 +88,8 @@ window.LESSONS = [
     slug: 'people-who-shaped-us',
     title: 'The people who shaped us',
     topic: 'A grandmother, a teacher, a stranger at a train station: who changed the way you see the world?',
+    vocab: 'Influence and role models',
+    grammar: 'Used to and would',
     tag: ['Speaking', 'Grammar'],
     level: 'B2',
     minutes: 60,
@@ -93,6 +100,8 @@ window.LESSONS = [
     slug: 'alone-among-millions',
     title: 'Alone among millions',
     topic: 'Why do people feel lonely in a city full of people, and what small steps help them feel at home?',
+    vocab: 'Loneliness and belonging',
+    grammar: 'The more…, the more…',
     tag: ['Speaking', 'Grammar'],
     level: 'B2',
     minutes: 60,
@@ -103,6 +112,8 @@ window.LESSONS = [
     slug: 'money-mindset',
     title: 'Money mindset',
     topic: 'Why we buy what we don\'t need, with the second conditional',
+    vocab: 'Money and spending',
+    grammar: 'Second conditional',
     tag: ['Speaking', 'Grammar'],
     level: 'B2',
     minutes: 60,
@@ -113,6 +124,8 @@ window.LESSONS = [
     slug: 'ghosting-friendship',
     title: 'Ghosted',
     topic: 'Why adult friendships fade, with reported speech',
+    vocab: 'Friendship and drifting apart',
+    grammar: 'Reported speech',
     tag: ['Speaking', 'Grammar'],
     level: 'B2',
     minutes: 60,
@@ -123,6 +136,8 @@ window.LESSONS = [
     slug: 'hustle-burnout',
     title: 'Hustle culture and burnout',
     topic: 'What we owe our jobs and what we don\'t, with modals of advice and obligation',
+    vocab: 'Work, stress and burnout',
+    grammar: 'Modals of advice and obligation',
     tag: ['Speaking', 'Grammar'],
     level: 'B2',
     minutes: 60,
@@ -133,6 +148,8 @@ window.LESSONS = [
     slug: 'cancel-culture',
     title: 'Cancel culture',
     topic: 'Public opinion on trial, with the passive voice',
+    vocab: 'Public opinion and scandal',
+    grammar: 'The passive voice',
     tag: ['Speaking', 'Grammar'],
     level: 'B2',
     minutes: 60,
@@ -143,6 +160,8 @@ window.LESSONS = [
     slug: 'nostalgia-generations',
     title: 'Nostalgia and generations',
     topic: 'Were things really better back then? With used to and would',
+    vocab: 'Nostalgia and generations',
+    grammar: 'Used to, would and present simple',
     tag: ['Speaking', 'Grammar'],
     level: 'B2',
     minutes: 60,

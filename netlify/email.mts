@@ -71,6 +71,10 @@ a{color:${t.accent}}
  <p style="margin:0 0 22px;font:500 11px/1 ${sans};letter-spacing:3px;text-transform:uppercase;color:${t.onAccent};opacity:.8;">${eyebrow}</p>
  <h1 class="title" style="margin:0;font:italic 400 52px/1 ${serif};color:${t.onAccent};letter-spacing:-1px;">${esc(a.lesson.title)}</h1>
  ${a.lesson.topic ? `<p style="margin:18px 0 0;font:300 16px/1.6 ${sans};color:${t.onAccent};opacity:.9;">${esc(a.lesson.topic)}</p>` : ""}
+ ${a.lesson.vocab || a.lesson.grammar ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:22px 0 0;">${[["Vocabulary", a.lesson.vocab], ["Grammar", a.lesson.grammar]]
+   .filter(([, v]) => v)
+   .map(([k, v]) => `<tr><td style="padding:3px 18px 3px 0;font:400 11px/1.6 ${sans};letter-spacing:2px;text-transform:uppercase;color:${t.onAccent};opacity:.75;white-space:nowrap;">${k}</td><td style="padding:3px 0;font:400 15px/1.5 ${sans};color:${t.onAccent};">${esc(v)}</td></tr>`)
+   .join("")}</table>` : ""}
  ${meta ? `<p style="margin:28px 0 0;padding-top:18px;border-top:1px solid ${t.onAccent}33;font:400 12px/1 ${sans};letter-spacing:2px;text-transform:uppercase;color:${t.onAccent};opacity:.85;">${meta}</p>` : ""}
 </td></tr>
 
