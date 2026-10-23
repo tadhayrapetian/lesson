@@ -1,0 +1,201 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="light"><title>Same Price, Smaller Bag | Grammar lesson</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Anton&family=Albert+Sans:wght@400;600;700&family=Noto+Sans+Armenian:wght@400;500;700&display=swap" rel="stylesheet"><style>body{--bg:#FFFBF2;--surface:#FFFFFF;--ink:#2A2118;--muted:#67594B;--line:#EADFCB;--accent:#D9482A;--onacc:#FFFFFF;--accent2:#FFC857;--soft:#FFF0D6;--hl:#FFE08A;--r:10px;--hw:400;--hls:0.01em;--fs:17px;--fh:"Anton",Georgia,serif;--fb:"Albert Sans",system-ui,-apple-system,"Segoe UI",sans-serif;}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--fb);font-size:var(--fs);line-height:1.62;-webkit-font-smoothing:antialiased;
+ --good:#17754A;--goodbg:#E2F3E9;--tbg:#FFF7D9;--tline:#E9D17F;--tink:#6E5200}
+.hy{font-family:"Noto Sans Armenian",var(--fb);font-weight:500}
+h1,h2,h3,h4{font-family:var(--fh);font-weight:var(--hw);line-height:1.1;margin:0;letter-spacing:var(--hls)}
+p{margin:0 0 .9em}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.bar{position:sticky;top:0;z-index:40;display:flex;justify-content:flex-end;gap:8px;padding:12px 16px;pointer-events:none}
+.btn{pointer-events:auto;font-family:var(--fb);font-weight:700;font-size:14px;line-height:1;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);padding:10px 16px;border-radius:999px;cursor:pointer;box-shadow:0 2px 0 var(--ink)}
+.btn:hover{background:var(--soft)}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.shell{display:block}
+.toc{display:none}
+.hero{padding:40px 0 34px}
+.hin{max-width:880px;margin:0 auto;padding:0 22px}
+.stub{display:none}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.tag{font-size:14px;font-weight:700;padding:6px 13px;border-radius:999px;background:var(--soft);color:var(--ink)}
+.tag.lv{background:var(--accent);color:var(--onacc)}
+.hero h1{font-size:clamp(40px,7vw,74px)}
+.sub{font-size:clamp(18px,2.3vw,22px);color:var(--muted);margin:16px 0 26px;max-width:34ch;line-height:1.4}
+.cando-h{font-weight:700;margin:0 0 10px}
+.cando{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.cando li{padding-left:28px;position:relative;line-height:1.45}
+.cando li::before{content:"";position:absolute;left:0;top:.28em;width:15px;height:15px;border-radius:50%;border:2.5px solid var(--accent)}
+.main{max-width:880px;margin:0 auto;padding:0 22px 72px}
+.stage{padding:44px 0 10px;scroll-margin-top:64px}
+.stage-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+.stage-head h2{font-size:clamp(27px,3.6vw,36px)}
+.num{display:inline-grid;place-items:center;min-width:46px;height:46px;padding:0 6px;border-radius:50%;background:var(--accent);color:var(--onacc);font-family:var(--fh);font-weight:var(--hw);font-size:20px;line-height:1}
+.meta{font-size:13.5px;font-weight:700;color:var(--tink);background:var(--tbg);border:1.5px solid var(--tline);border-radius:999px;padding:5px 12px}
+.task{font-weight:700;margin:26px 0 12px;font-size:1.02em}
+.task:first-child{margin-top:0}
+.intro{font-size:1.06em;max-width:62ch}
+.quote{font-family:var(--fh);font-weight:var(--hw);font-size:clamp(21px,2.8vw,28px);line-height:1.3;border-left:4px solid var(--accent);padding:4px 0 4px 20px;margin:6px 0 22px;max-width:30em}
+.quote cite{display:block;font-family:var(--fb);font-weight:400;font-style:normal;font-size:15px;color:var(--muted);margin-top:8px}
+.qlist{margin:0;padding-left:1.3em}
+.qlist li{margin:.45em 0;padding-left:.2em}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.vocab{width:100%;border-collapse:collapse;min-width:520px}
+.vocab th{text-align:left;font-size:13.5px;color:var(--muted);font-weight:700;padding:8px 10px;border-bottom:2px solid var(--ink)}
+.vocab td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+.vocab .i{color:var(--accent);font-weight:700;width:30px}
+.vocab .w{font-weight:700}
+.vocab .pos{display:block;color:var(--muted);font-size:13px;font-style:italic;font-weight:400}
+.vocab .hy{font-size:1em}
+.vocab td:nth-child(3){white-space:nowrap}
+select{font-family:var(--fb);font-size:15px;padding:7px 8px;border:1.5px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);min-width:64px}
+.defs{columns:2;column-gap:30px;margin:20px 0 0;padding:20px 22px;list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.defs li{break-inside:avoid;margin:0 0 12px;padding-left:28px;position:relative;line-height:1.45}
+.defs li:last-child{margin-bottom:0}
+.defs b{position:absolute;left:0;color:var(--accent)}
+.text{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:30px clamp(18px,4.5vw,44px)}
+.text h3{font-size:clamp(24px,3.2vw,32px);margin-bottom:8px}
+.dek{color:var(--muted);margin-bottom:22px;font-size:1.04em}
+.body p{line-height:1.78}
+.body p:last-child{margin-bottom:0}
+mark.v{background:linear-gradient(transparent 56%,var(--hl) 56%);color:inherit;padding:0 1px;font-weight:600}
+.opts{display:grid;gap:10px}
+.opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;font-family:var(--fb);font-size:1em;line-height:1.5;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:14px 16px;cursor:pointer}
+.opt .k{font-weight:800;color:var(--accent)}
+.opt:hover{border-color:var(--accent)}
+.opt.on{border-color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent);background:var(--soft)}
+body.teacher .opt.ok{border-color:var(--good);background:var(--goodbg);box-shadow:inset 0 0 0 1.5px var(--good)}
+.items{list-style:none;padding:0;margin:0;counter-reset:i}
+.items>li{display:flex;gap:14px;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line);counter-increment:i}
+.items>li.col{flex-direction:column;align-items:stretch;gap:8px}
+.items .s{line-height:1.55}
+.items .s::before{content:counter(i) ". ";font-weight:800;color:var(--accent)}
+.seg{display:flex;gap:6px;flex-shrink:0}
+.seg button{font-family:var(--fb);font-weight:700;font-size:13.5px;padding:9px 11px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;cursor:pointer;min-width:42px}
+.seg button:hover{border-color:var(--accent)}
+.seg button.on{background:var(--accent);border-color:var(--accent);color:var(--onacc)}
+body.teacher .seg button.ok{box-shadow:0 0 0 2.5px var(--good)}
+input.gap{font-family:var(--fb);font-size:1em;color:var(--accent);font-weight:700;border:0;border-bottom:2px solid var(--accent);background:transparent;width:8.5em;max-width:100%;padding:0 4px;margin:0 3px;border-radius:0}
+input.line,textarea{width:100%;font-family:var(--fb);font-size:1em;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px}
+input.line:focus,textarea:focus,input.gap:focus{outline:none;border-color:var(--accent)}
+textarea{min-height:140px;resize:vertical;line-height:1.6}
+.wc{font-size:13.5px;color:var(--muted);text-align:right;margin-top:6px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 18px;padding:14px;border:1.5px dashed var(--accent);border-radius:var(--r);background:var(--surface)}
+.bank span{background:var(--soft);padding:5px 13px;border-radius:999px;font-weight:700}
+.ex{list-style:none;padding:0;margin:0 0 6px}
+.ex li{padding:12px 18px;background:var(--surface);border-left:4px solid var(--accent2);margin-bottom:8px;border-radius:0 var(--r) var(--r) 0}
+.ex strong{color:var(--accent)}
+.tr .orig{display:inline}
+.kwrap{align-self:flex-start}
+.tr .kw{display:inline-block;font-weight:800;font-size:.86em;background:var(--ink);color:var(--surface);padding:2px 9px;border-radius:6px;margin:6px 0}
+.phr{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.phr span{border:1.5px solid var(--ink);border-radius:999px;padding:6px 14px;background:var(--surface);font-size:.96em}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.cardx{background:var(--surface);border:1.5px solid var(--line);border-top:5px solid var(--accent);border-radius:var(--r);padding:16px 18px}
+.cardx h4{font-size:1.15em;margin-bottom:6px}
+.cardx p{margin:0;font-size:.97em;line-height:1.55}
+.steps{margin:0;padding-left:1.3em}
+.steps li{margin:.5em 0;padding-left:.2em}
+.check{list-style:none;padding:0;margin:8px 0 14px}
+.check li{padding-left:30px;position:relative;margin:6px 0}
+.check li::before{content:"";position:absolute;left:0;top:.2em;width:16px;height:16px;border:2px solid var(--accent);border-radius:4px}
+.refl{display:grid;gap:10px;max-width:640px}
+.ans{display:none;font-weight:700;font-size:.9em;color:var(--good);background:var(--goodbg);padding:1px 8px;border-radius:6px;margin-left:4px}
+body.teacher .ans{display:inline-block}
+.ans.blk{margin:6px 0 0}
+.t-only{display:none!important}
+body.teacher .t-only{display:block!important}
+body.teacher span.t-only{display:inline!important}
+.tnote{margin:26px 0 8px;background:var(--tbg);border:1.5px solid var(--tline);border-radius:var(--r);padding:18px 22px;font-size:15.5px;line-height:1.55;color:#2B2410;font-family:var(--fb)}
+.tnote h4{font-family:var(--fb);font-size:15px;letter-spacing:0;color:var(--tink);margin:0 0 10px;font-weight:800}
+.tnote p{margin:0 0 .6em}
+.tnote ul{margin:4px 0 8px;padding-left:20px}
+.tnote li{margin:3px 0}
+.tnote .say{font-style:italic}
+.tnote .say b{font-style:normal;color:var(--tink)}
+.tnote table{border-collapse:collapse;width:100%;font-size:14.5px;margin:6px 0 4px}
+.tnote td,.tnote th{border-bottom:1px solid var(--tline);padding:6px 8px;text-align:left;vertical-align:top}
+.tov{margin-top:8px}
+.key{columns:2;column-gap:28px}
+.key div{break-inside:avoid;margin-bottom:12px}
+.key ol{margin:4px 0 0;padding-left:20px}
+footer{max-width:880px;margin:0 auto;padding:30px 22px 50px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+.modal{position:fixed;inset:0;background:rgba(20,20,30,.45);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+.modal.open{display:flex}
+.modal form{background:var(--surface);color:var(--ink);border-radius:16px;padding:26px;width:100%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.modal h3{font-size:22px;margin-bottom:6px}
+.modal p{color:var(--muted);font-size:15px}
+.modal .row{display:flex;gap:8px;margin-top:14px;justify-content:flex-end}
+.modal .err{color:#B42318;font-size:14px;min-height:1.2em;margin:8px 0 0}
+@media (max-width:640px){
+ .defs,.key{columns:1}
+ .items>li{flex-direction:column;align-items:stretch;gap:10px}
+ .seg{align-self:flex-start}
+ .stage-head h2{font-size:26px}
+}
+@media print{
+ .bar,.modal,.toc{display:none!important}
+ body{background:#fff}
+ .stage{break-inside:auto}
+ .text,.defs,.cardx,.opt{break-inside:avoid}
+}
+
+body.lay-frame{border:14px solid var(--accent);min-height:100vh}
+.lay-frame .hero{padding:44px 0 34px}
+.lay-frame .hero h1{font-size:clamp(48px,8.5vw,98px);line-height:.95;max-width:14ch}
+.lay-frame .tag.lv{background:var(--accent2);color:var(--ink)}
+.lay-frame .cando-box{border-top:3px solid var(--ink);padding-top:18px;max-width:640px}
+.lay-frame .stage-head h2{text-decoration:underline wavy var(--accent2) 2px;text-underline-offset:9px}
+.lay-frame .num{border-radius:var(--r);background:var(--accent2);color:var(--ink)}
+.lay-frame .text{box-shadow:10px 10px 0 var(--soft);border-color:var(--ink)}
+@media (max-width:640px){body.lay-frame{border-width:7px}}
+
+.tag.ty{background:var(--ink);color:var(--surface)}
+.listen{display:flex;gap:16px;align-items:center;background:var(--surface);border:1.5px dashed var(--accent);border-radius:var(--r);padding:16px 20px;margin:4px 0 18px}
+.listen svg{flex-shrink:0}
+.listen p{margin:0}
+.script{margin:14px 0 6px;background:#FFFDF3;border:1.5px solid var(--tline);border-radius:var(--r);padding:18px 22px;font-size:15.5px;line-height:1.65;color:#2B2410}
+.script h4{font-family:var(--fb);font-size:15px;margin:0 0 10px;color:var(--tink)}
+.script p{margin:0 0 .55em}
+.script b{color:var(--tink)}
+.inl{display:inline-flex;gap:4px;vertical-align:middle;margin:2px 3px;flex-wrap:wrap}
+.inl button{font-family:var(--fb);font-weight:700;font-size:.92em;padding:4px 10px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;cursor:pointer}
+.inl button.on{background:var(--accent);border-color:var(--accent);color:var(--onacc)}
+body.teacher .inl button.ok{box-shadow:0 0 0 2.5px var(--good)}
+.ord{list-style:none;padding:0;margin:0 0 12px;display:grid;gap:8px}
+.ord li{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:11px 14px 11px 46px;position:relative;line-height:1.5}
+.ord li b{position:absolute;left:16px;top:11px;color:var(--accent)}
+.phg-wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.phg{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:14px 18px}
+.phg h4{font-size:1.08em;margin-bottom:8px;color:var(--accent)}
+.phg ul{margin:0;padding-left:18px}
+.phg li{margin:4px 0}
+.pn{display:inline-block;font-weight:800;color:var(--accent);margin-right:8px;font-family:var(--fb)}
+.items .opts{margin-top:4px}
+.items .opt{padding:10px 14px}
+.plan{display:grid;gap:12px}
+.plan label{font-weight:700;display:grid;gap:6px}
+.plan textarea{min-height:70px;font-weight:400}
+.gloss{width:100%;border-collapse:collapse;min-width:480px}
+.gloss th{text-align:left;font-size:13.5px;color:var(--muted);font-weight:700;padding:8px 10px;border-bottom:2px solid var(--ink)}
+.gloss td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+.gloss td:first-child{font-weight:700}
+.h3x{font-size:1.4em;margin:26px 0 10px}
+.wrap-sel{display:inline-flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:4px;max-width:100%}
+.wrap-sel .ans{white-space:normal}
+.nonum .s::before{content:none}
+</style></head><body class="lay-frame"><div class="bar"><button class="btn" id="pr" type="button">Print</button><button class="btn" id="tview" type="button" aria-pressed="false">Teacher view</button></div><div class="shell"><nav class="toc" aria-label="Lesson stages"><p>Same Price, Smaller Bag</p><a href="#s1"><span>1</span>Warm-up</a><a href="#s2"><span>2</span>How much do you know?</a><a href="#s3"><span>3</span>Read</a><a href="#s4"><span>4</span>Language focus</a><a href="#s5"><span>5</span>Practice: forms</a><a href="#s6"><span>6</span>Practice: modifiers</a><a href="#s7"><span>7</span>Speaking: the price detective</a><a href="#s8"><span>8</span>Reflection and feedback</a><a href="#s9"><span>9</span>Homework</a></nav><div class="col"><header class="hero"><div class="hin"><div class="left"><div class="tags"><span class="tag ty">Grammar</span><span class="tag">60 minutes</span><span class="tag">Money</span></div><h1>Same Price, Smaller Bag</h1><p class="sub">Products are shrinking, but prices aren’t. Learn to compare like a price detective.</p></div><div class="right"><div class="cando-box"><p class="cando-h">By the end of this lesson, you can:</p><ul class="cando"><li>compare things with comparatives, superlatives and as... as</li><li>make comparisons stronger or weaker with much, far, slightly and a bit</li><li>talk about prices and changes in the shops</li></ul></div></div><div class="stub" aria-hidden="true"><div class="stamp">26</div><div class="dur">Grammar<br>60 minutes<br>Lesson 26</div></div></div></header><main class="main"><aside class="tnote t-only tov"><h4>Teacher’s overview</h4><p><b>Lesson type:</b> Grammar. <b>Length:</b> 60 minutes plus homework.</p><p><b>Main aim:</b> Grammar: comparatives and superlatives with modifiers, and (not) as... as.</p><p><b>Subsidiary aims:</b> Reading for detail. Speaking: comparing products with real numbers.</p><p><b>Language aim:</b> much / far / a lot / slightly / a bit + comparative. almost / nearly / not as... as.</p><table><tr><th>Stage</th><th>Time</th><th>Interaction</th></tr><tr><td>1. Warm-up</td><td>5 min</td><td>Whole class, then pairs</td></tr><tr><td>2. How much do you know?</td><td>5 min</td><td>Individual</td></tr><tr><td>3. Read</td><td>8 min</td><td>Individual, then pairs</td></tr><tr><td>4. Language focus</td><td>10 min</td><td>Pairs, then whole class</td></tr><tr><td>5. Practice: forms</td><td>7 min</td><td>Individual, then pairs</td></tr><tr><td>6. Practice: modifiers</td><td>7 min</td><td>Individual, then pairs</td></tr><tr><td>7. Speaking: the price detective</td><td>13 min</td><td>Pairs</td></tr><tr><td>8. Reflection and feedback</td><td>5 min</td><td>Whole class</td></tr><tr><td>9. Homework</td><td>Set at end</td><td>Individual</td></tr></table><p style="margin-top:10px"><b>Materials:</b> this page and a board or Miro for feedback. Share your screen in Student view so answers stay hidden.</p><p><b>One-to-one:</b> you are the student’s partner in every pair task. Keep teacher talk short. Let the student do most of the speaking.</p><p><b>Background:</b> ‘Shrinkflation’ means making products smaller while keeping the same price. Since July 2024, supermarkets in France must put labels on products that have shrunk. The lesson follows a Test-Teach-Test structure.</p></aside><section class="stage" id="s1"><div class="in"><div class="stage-head"><span class="num">1</span><h2>Warm-up</h2><span class="meta t-only">5 min</span></div><p class="task">Talk with a partner.</p><ol class="qlist"><li>Have prices in your supermarket changed in the last year? Give an example.</li><li>Have you ever noticed that a product got smaller?</li><li>What do you do when your favourite product gets more expensive?</li></ol><aside class="tnote t-only"><h4>Teacher notes. 5 min. Whole class, then pairs.</h4><p class="say"><b>Say:</b> Look at the questions. Talk with your partner for three minutes.</p><p>Take two or three examples from the class. Write any price words students use on the board.</p><p class="say"><b>Say:</b> Before we start, let’s see what you already know.</p></aside></div></section><section class="stage" id="s2"><div class="in"><div class="stage-head"><span class="num">2</span><h2>How much do you know?</h2><span class="meta t-only">5 min</span></div><p class="task">Choose the correct option. Don’t worry if you’re not sure.</p><ul class="items"><li><span class="s">This chocolate bar is <span class="inl" data-pick><button type="button" class="ok" aria-pressed="false">smaller</button><button type="button" class="" aria-pressed="false">more small</button></span> than last year.</span></li><li><span class="s">Prices are <span class="inl" data-pick><button type="button" class="ok" aria-pressed="false">much</button><button type="button" class="" aria-pressed="false">very</button></span> higher than in 2020.</span></li><li><span class="s">The new packet is <span class="inl" data-pick><button type="button" class="ok" aria-pressed="false">not as big as</button><button type="button" class="" aria-pressed="false">not as bigger as</button></span> the old one.</span></li><li><span class="s">This is the <span class="inl" data-pick><button type="button" class="ok" aria-pressed="false">cheapest</button><button type="button" class="" aria-pressed="false">most cheap</button></span> shop in town.</span></li><li><span class="s">The bottle looks the same, but it’s <span class="inl" data-pick><button type="button" class="ok" aria-pressed="false">slightly</button><button type="button" class="" aria-pressed="false">slight</button></span> smaller.</span></li><li><span class="s">Coffee is <span class="inl" data-pick><button type="button" class="ok" aria-pressed="false">far</button><button type="button" class="" aria-pressed="false">too</button></span> more expensive now.</span></li></ul><aside class="tnote t-only"><h4>Teacher notes. 5 min. Individual.</h4><p>This is the first test in a Test-Teach-Test lesson. Don’t give answers yet.</p><p class="say"><b>Say:</b> Choose the correct word. Work alone. You have three minutes. We’ll check later in the lesson.</p><p>Monitor and note which items are difficult. Spend more time on those in the language focus.</p></aside></div></section><section class="stage" id="s3"><div class="in"><div class="stage-head"><span class="num">3</span><h2>Read</h2><span class="meta t-only">8 min</span></div><article class="text"><h3>Same Price, Less Product</h3><p class="dek">Have you noticed that your favourite crisps disappear faster than before? You are not imagining it.</p><div class="body"><p>Many companies now sell smaller products at the same price. This is called ‘shrinkflation’. A bag of crisps that weighed 200 grams can become 180 grams. The bag looks almost as big as before, so most people don’t notice.</p><p>Companies say their costs are much higher than a few years ago, because energy, transport and ingredients cost more. They say making products a bit smaller is better than raising prices.</p><p>But shoppers are angry. ‘I feel tricked,’ says Marta, a mother of three. ‘When the price is higher, I can see it. A smaller packet is far harder to notice.’ In France, supermarkets must now put labels on products that have become smaller.</p><p>The best advice? Check the price per kilo, not the price per packet.</p></div></article><p class="task">Are the sentences true (T) or false (F)?</p><ul class="items"><li><span class="s">Shrinkflation means products get smaller but cost the same.</span><span class="seg" data-pick><button type="button" class="ok" aria-pressed="false">T</button><button type="button" class="" aria-pressed="false">F</button></span></li><li><span class="s">The new crisp bag looks much smaller than the old one.</span><span class="seg" data-pick><button type="button" class="" aria-pressed="false">T</button><button type="button" class="ok" aria-pressed="false">F</button></span></li><li><span class="s">Companies say their costs have gone up.</span><span class="seg" data-pick><button type="button" class="ok" aria-pressed="false">T</button><button type="button" class="" aria-pressed="false">F</button></span></li><li><span class="s">Marta says smaller packets are easy to notice.</span><span class="seg" data-pick><button type="button" class="" aria-pressed="false">T</button><button type="button" class="ok" aria-pressed="false">F</button></span></li><li><span class="s">French supermarkets must label products that have become smaller.</span><span class="seg" data-pick><button type="button" class="ok" aria-pressed="false">T</button><button type="button" class="" aria-pressed="false">F</button></span></li><li><span class="s">The writer says you should compare the price per packet.</span><span class="seg" data-pick><button type="button" class="" aria-pressed="false">T</button><button type="button" class="ok" aria-pressed="false">F</button></span></li></ul><aside class="tnote t-only"><h4>Teacher notes. 8 min. Individual, then pairs.</h4><p class="say"><b>Say:</b> Read the text. Are the sentences true or false? You have four minutes.</p><p>ICQ: ‘Do you need to show where the answer is in the text?’ (Yes.)</p><p>Pairs compare. In feedback ask ‘Where does it say that?’</p><p class="say"><b>Say:</b> Good. Now look at how the writer compares things.</p></aside></div></section><section class="stage" id="s4"><div class="in"><div class="stage-head"><span class="num">4</span><h2>Language focus</h2><span class="meta t-only">10 min</span></div><p class="task">Look at these examples.</p><ul class="ex"><li>Their costs are <strong>much higher than</strong> a few years ago.</li><li>The bag looks <strong>almost as big as</strong> before.</li><li>Making products <strong>a bit smaller</strong> is <strong>better than</strong> raising prices.</li><li>A smaller packet is <strong>far harder</strong> to notice.</li><li>The <strong>best</strong> advice? Check the price per kilo.</li></ul><p class="task">Answer the questions with a partner.</p><ul class="items"><li class="col"><span class="s">Which words make a comparison stronger? Which make it weaker?</span><input class="line" aria-label="Your answer" autocomplete="off"><span class="ans blk">Stronger: much, far, a lot. Weaker: a bit, slightly, a little.</span></li><li class="col"><span class="s">How do we compare two things that are almost the same?</span><input class="line" aria-label="Your answer" autocomplete="off"><span class="ans blk">almost as + adjective + as. Also: nearly as... as, not quite as... as.</span></li><li class="col"><span class="s">How do we form comparatives of short and long adjectives? What about good and bad?</span><input class="line" aria-label="Your answer" autocomplete="off"><span class="ans blk">Short: -er (higher, harder). Long: more + adjective (more expensive). good, better, best. bad, worse, worst.</span></li></ul><aside class="tnote t-only"><h4>Rule for the board: comparatives, superlatives and modifiers</h4><p>Comparative: adjective + -er / more + adjective + than. Superlative: the + -est / the most + adjective. Big difference: much / far / a lot + comparative. Small difference: a bit / slightly / a little + comparative. Equal: as + adjective + as. Almost equal: almost / nearly as... as. Not equal: not as... as.</p><p>CCQs: ‘Coffee is slightly more expensive.’ Big change or small change? (Small.) ‘Coffee is far more expensive.’ (Big.)</p><p>Common mistakes: ‘more cheaper’, ‘very more expensive’ (use much) and ‘as bigger as’.</p></aside><aside class="tnote t-only"><h4>Teacher notes. 10 min. Pairs, then whole class.</h4><p class="say"><b>Say:</b> Look at the sentences from the text. Answer the questions with your partner.</p><p>Elicit the rule. Draw a scale on the board: slightly / a bit on one side, much / far / a lot on the other.</p><p class="say"><b>Say:</b> Now go back to stage 2. Check your answers and change them if you need to.</p><p>Students self-correct the test. Confirm the answers from the key.</p></aside></div></section><section class="stage" id="s5"><div class="in"><div class="stage-head"><span class="num">5</span><h2>Practice: forms</h2><span class="meta t-only">7 min</span></div><p class="task">Complete the sentences with the correct form of the adjective in brackets.</p><ul class="items"><li><span class="s">Supermarket milk is <input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">cheaper</span> (cheap) than milk from the farm shop.</span></li><li><span class="s">This is the <input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">best</span> (good) price I’ve seen all week.</span></li><li><span class="s">Prices in the city centre are much <input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">more expensive</span> (expensive) than here.</span></li><li><span class="s">The new bottle isn’t as <input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">big</span> (big) as the old one.</span></li><li><span class="s">Online shopping is a bit <input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">easier</span> (easy) than going to the shop.</span></li><li><span class="s">That was the <input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">worst</span> (bad) coffee I’ve ever had!</span></li></ul><aside class="tnote t-only"><h4>Teacher notes. 7 min. Individual, then pairs.</h4><p class="say"><b>Say:</b> Work alone. Complete the sentences. Then check with your partner.</p><p>ICQ: ‘Look at the words around the gap. Do you see than, the or as?’ (Yes. They help you.)</p><p>Write answers on the board. Ask ‘Why more expensive, not expensiver?’ for item 3.</p></aside></div></section><section class="stage" id="s6"><div class="in"><div class="stage-head"><span class="num">6</span><h2>Practice: modifiers</h2><span class="meta t-only">7 min</span></div><p class="task">Read the facts. Write one comparison with the word given.</p><ul class="items"><li class="col tr"><span class="s"><span class="orig">Bread was 500 drams. Now it is 520 drams.</span></span><span class="kwrap"><span class="kw">slightly</span></span><input class="line" aria-label="Rewrite" autocomplete="off"><span class="ans blk">Bread is slightly more expensive now.</span></li><li class="col tr"><span class="s"><span class="orig">The old box had 500 g. The new box has 300 g.</span></span><span class="kwrap"><span class="kw">much</span></span><input class="line" aria-label="Rewrite" autocomplete="off"><span class="ans blk">The new box is much smaller than the old one.</span></li><li class="col tr"><span class="s"><span class="orig">Brand A costs 900 drams. Brand B costs 900 drams too.</span></span><span class="kwrap"><span class="kw">as</span></span><input class="line" aria-label="Rewrite" autocomplete="off"><span class="ans blk">Brand A is as expensive as Brand B.</span></li><li class="col tr"><span class="s"><span class="orig">The old packet was 200 g. The new one is 190 g.</span></span><span class="kwrap"><span class="kw">nearly</span></span><input class="line" aria-label="Rewrite" autocomplete="off"><span class="ans blk">The new packet is nearly as big as the old one.</span></li><li class="col tr"><span class="s"><span class="orig">Petrol is 30% more expensive than last year.</span></span><span class="kwrap"><span class="kw">a lot</span></span><input class="line" aria-label="Rewrite" autocomplete="off"><span class="ans blk">Petrol is a lot more expensive than last year.</span></li><li class="col tr"><span class="s"><span class="orig">The small shop is cheaper than the supermarket.</span></span><span class="kwrap"><span class="kw">not as</span></span><input class="line" aria-label="Rewrite" autocomplete="off"><span class="ans blk">The supermarket is not as cheap as the small shop.</span></li></ul><aside class="tnote t-only"><h4>Teacher notes. 7 min. Individual, then pairs.</h4><p class="say"><b>Say:</b> Look at the facts. Write one comparison with the word given. Think: is the difference big or small?</p><p>Monitor for ‘more cheaper’ and ‘very more’. Accept any correct answer with the right meaning.</p></aside></div></section><section class="stage" id="s7"><div class="in"><div class="stage-head"><span class="num">7</span><h2>Speaking: the price detective</h2><span class="meta t-only">13 min</span></div><p class="intro">Four products changed between 2023 and today. Compare them and decide which change is the worst.</p><div class="cards"><div class="cardx"><h4>Chocolate bar</h4><p>2023: 100 g, 450 drams. Now: 90 g, 450 drams.</p></div><div class="cardx"><h4>Shampoo</h4><p>2023: 400 ml, 1,800 drams. Now: 350 ml, 1,900 drams.</p></div><div class="cardx"><h4>Coffee</h4><p>2023: 250 g, 2,500 drams. Now: 250 g, 3,100 drams.</p></div><div class="cardx"><h4>Cereal</h4><p>2023: 500 g, 1,600 drams. Now: 375 g, 1,600 drams.</p></div></div><p class="task">Steps</p><ol class="steps"><li>Compare each product then and now. Use much, slightly, far and as... as.</li><li>Decide which product changed the most. Is it shrinkflation, a price rise or both?</li><li>Discuss: which is worse, a smaller packet or a higher price? Why?</li><li>Tell your partner about a product you buy that has changed.</li></ol><p class="task">Useful language</p><p class="phr"><span>The new packet is much smaller.</span><span>It’s slightly more expensive.</span><span>It isn’t as big as before.</span><span>The biggest change is...</span><span>A higher price is easier to see than...</span><span>I think shrinkflation is worse because...</span></p><aside class="tnote t-only"><h4>Teacher notes. 13 min. Pairs.</h4><p class="say"><b>Say:</b> You’re price detectives. Look at the four products. What changed? Compare them with your partner.</p><p>Pairs. 2 min reading, 6 min comparing, 5 min discussion.</p><p>Price per gram rose about 11% for chocolate, 21% for shampoo, 24% for coffee and 33% for cereal. Cereal changed the most.</p><p>One-to-one: you compare too, and sometimes make a deliberate mistake for the student to correct.</p></aside></div></section><section class="stage" id="s8"><div class="in"><div class="stage-head"><span class="num">8</span><h2>Reflection and feedback</h2><span class="meta t-only">5 min</span></div><p class="task">Think about today’s lesson.</p><div class="refl"><label>A new word or phrase I used today<input class="line" autocomplete="off"></label><label>Another new word or phrase I used today<input class="line" autocomplete="off"></label><label>One thing I want to say better next time<input class="line" autocomplete="off"></label></div><aside class="tnote t-only"><h4>Teacher notes. 5 min. Whole class.</h4><p>Delayed error correction. Write four or five sentences you heard on the board, some correct and some with errors. Students correct them in pairs. Then they complete the reflection boxes.</p><p>Common errors in this lesson:</p><ul><li>‘more cheaper’ &gt; ‘cheaper’</li><li>‘very more expensive’ &gt; ‘much more expensive’</li><li>‘as bigger as’ &gt; ‘as big as’</li><li>‘the most good’ &gt; ‘the best’</li></ul></aside></div></section><section class="stage" id="s9"><div class="in"><div class="stage-head"><span class="num">9</span><h2>Homework</h2><span class="meta t-only">Set at the end</span></div><p class="task">A. Complete the sentences with the words in the box. Use each one once.</p><div class="bank"><span>as</span><span>less</span><span>much</span><span>slightly</span><span>nearly</span><span>the most</span></div><ul class="items"><li><span class="s">The new phone is <input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">slightly</span> more expensive than the old one, only 2% more.</span></li><li><span class="s">Is this jacket <input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">as</span> warm as your old one?</span></li><li><span class="s">This is <input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">the most</span> expensive bag in the shop.</span></li><li><span class="s">The new bottle is <input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">nearly</span> as big as the old one. It’s only 10 ml smaller.</span></li><li><span class="s">My new flat is <input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">much</span> bigger than my old one. It has two more rooms!</span></li><li><span class="s">Buying big packets is <input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">less</span> expensive than buying small ones.</span></li></ul><p class="task">Write a short post for a shopping website (80-100 words).</p><p class="intro">Choose a product you buy often. Compare it with a similar product, or with the same product a few years ago. Is it better value now?</p><p style="font-weight:700;margin:14px 0 4px">Checklist</p><ul class="check"><li>Use at least four comparisons with modifiers.</li><li>Use as... as at least once.</li><li>Finish with a recommendation.</li></ul><textarea aria-label="Your writing" data-count="80-100" placeholder="Start writing here..."></textarea><div class="wc"></div><aside class="tnote t-only"><h4>Teacher notes. Set at the end, 2 min. Individual.</h4><p class="say"><b>Say:</b> For homework, complete Part A and write the post in Part B.</p><p>Mark the writing for accuracy of comparatives and range of modifiers.</p></aside></div></section><section class="stage t-only" id="key"><div class="in"><div class="stage-head"><span class="num">&#10003;</span><h2>Answer key</h2></div><div class="key"><div><b>How much do you know?</b><ol><li>smaller</li><li>much</li><li>not as big as</li><li>cheapest</li><li>slightly</li><li>far</li></ol></div><div><b>Read</b><ol><li>T</li><li>F</li><li>T</li><li>F</li><li>T</li><li>F</li></ol></div><div><b>Language focus</b><ol><li>Stronger: much, far, a lot. Weaker: a bit, slightly, a little.</li><li>almost as + adjective + as. Also: nearly as... as, not quite as... as.</li><li>Short: -er (higher, harder). Long: more + adjective (more expensive). good, better, best. bad, worse, worst.</li></ol></div><div><b>Practice: forms</b><ol><li>cheaper</li><li>best</li><li>more expensive</li><li>big</li><li>easier</li><li>worst</li></ol></div><div><b>Practice: modifiers</b><ol><li>Bread is slightly more expensive now.</li><li>The new box is much smaller than the old one.</li><li>Brand A is as expensive as Brand B.</li><li>The new packet is nearly as big as the old one.</li><li>Petrol is a lot more expensive than last year.</li><li>The supermarket is not as cheap as the small shop.</li></ol></div><div><b>Homework</b><ol><li>slightly</li><li>as</li><li>the most</li><li>nearly</li><li>much</li><li>less</li></ol></div></div></div></section></main><footer>Lesson 26. Same Price, Smaller Bag. Grammar lesson.</footer></div></div><div class="modal" id="tmodal" role="dialog" aria-modal="true" aria-labelledby="tmh"><form id="tform"><h3 id="tmh">Teacher view</h3><p>Enter the teacher code to see notes and answers.</p><input class="line" id="tcode" type="password" autocomplete="off" aria-label="Teacher code"><p class="err" id="terr" role="alert"></p><div class="row"><button class="btn" type="button" id="tcancel">Cancel</button><button class="btn" type="submit">Open</button></div></form></div><script>
+(function(){
+ var TEACHER_CODE = "teacher";
+ var b=document.body, tb=document.getElementById('tview'), m=document.getElementById('tmodal'), f=document.getElementById('tform'), inp=document.getElementById('tcode'), err=document.getElementById('terr'), ok=false;
+ function set(on){b.classList.toggle('teacher',on);tb.setAttribute('aria-pressed',on?'true':'false');tb.textContent=on?'Student view':'Teacher view';}
+ tb.addEventListener('click',function(){ if(b.classList.contains('teacher')){set(false);return;} if(ok||!TEACHER_CODE){set(true);return;} m.classList.add('open');err.textContent='';inp.value='';setTimeout(function(){inp.focus()},30);});
+ f.addEventListener('submit',function(e){e.preventDefault(); if(inp.value.trim().toLowerCase()===TEACHER_CODE.toLowerCase()){ok=true;m.classList.remove('open');set(true);} else {err.textContent='That code is not correct. Try again.';inp.select();}});
+ document.getElementById('tcancel').addEventListener('click',function(){m.classList.remove('open');});
+ m.addEventListener('click',function(e){if(e.target===m)m.classList.remove('open');});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')m.classList.remove('open');});
+ document.getElementById('pr').addEventListener('click',function(){window.print();});
+ document.querySelectorAll('[data-pick]').forEach(function(g){ g.addEventListener('click',function(e){ var t=e.target.closest('button'); if(!t||!g.contains(t))return; var was=t.classList.contains('on'); g.querySelectorAll('button').forEach(function(x){x.classList.remove('on');x.setAttribute('aria-pressed','false');}); if(!was){t.classList.add('on');t.setAttribute('aria-pressed','true');} }); });
+ document.querySelectorAll('textarea[data-count]').forEach(function(t){ var o=t.parentNode.querySelector('.wc'); function u(){var n=(t.value.trim().match(/\S+/g)||[]).length;o.textContent=n+' words (aim for '+t.dataset.count+')';} t.addEventListener('input',u);u(); });
+})();
+</script></body></html>

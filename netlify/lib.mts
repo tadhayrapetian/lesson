@@ -34,6 +34,7 @@ export type Lesson = {
   minutes?: number
   vocab?: string
   grammar?: string
+  focus?: string
   level?: string | string[]
   theme?: Partial<Record<"bg" | "card" | "ink" | "muted" | "accent" | "onAccent" | "soft", string>>
 }

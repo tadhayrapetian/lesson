@@ -1,0 +1,208 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="light"><title>The Joy of Doing It Slowly | Reading lesson</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Lora:wght@400;600;700&family=Noto+Sans+Armenian:wght@400;500;700&display=swap" rel="stylesheet"><style>body{--bg:#F7F1E8;--surface:#FFFDF9;--ink:#2D2419;--muted:#685B4A;--line:#E5DACA;--accent:#8C3B5C;--onacc:#FFFFFF;--accent2:#D79B36;--soft:#F1E4EC;--hl:#EED6B4;--r:4px;--hw:400;--hls:0;--fs:17px;--fh:"Abril Fatface",Georgia,serif;--fb:"Lora",system-ui,-apple-system,"Segoe UI",sans-serif;}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--fb);font-size:var(--fs);line-height:1.62;-webkit-font-smoothing:antialiased;
+ --good:#17754A;--goodbg:#E2F3E9;--tbg:#FFF7D9;--tline:#E9D17F;--tink:#6E5200}
+.hy{font-family:"Noto Sans Armenian",var(--fb);font-weight:500}
+h1,h2,h3,h4{font-family:var(--fh);font-weight:var(--hw);line-height:1.1;margin:0;letter-spacing:var(--hls)}
+p{margin:0 0 .9em}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.bar{position:sticky;top:0;z-index:40;display:flex;justify-content:flex-end;gap:8px;padding:12px 16px;pointer-events:none}
+.btn{pointer-events:auto;font-family:var(--fb);font-weight:700;font-size:14px;line-height:1;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);padding:10px 16px;border-radius:999px;cursor:pointer;box-shadow:0 2px 0 var(--ink)}
+.btn:hover{background:var(--soft)}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.shell{display:block}
+.toc{display:none}
+.hero{padding:40px 0 34px}
+.hin{max-width:880px;margin:0 auto;padding:0 22px}
+.stub{display:none}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.tag{font-size:14px;font-weight:700;padding:6px 13px;border-radius:999px;background:var(--soft);color:var(--ink)}
+.tag.lv{background:var(--accent);color:var(--onacc)}
+.hero h1{font-size:clamp(40px,7vw,74px)}
+.sub{font-size:clamp(18px,2.3vw,22px);color:var(--muted);margin:16px 0 26px;max-width:34ch;line-height:1.4}
+.cando-h{font-weight:700;margin:0 0 10px}
+.cando{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.cando li{padding-left:28px;position:relative;line-height:1.45}
+.cando li::before{content:"";position:absolute;left:0;top:.28em;width:15px;height:15px;border-radius:50%;border:2.5px solid var(--accent)}
+.main{max-width:880px;margin:0 auto;padding:0 22px 72px}
+.stage{padding:44px 0 10px;scroll-margin-top:64px}
+.stage-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+.stage-head h2{font-size:clamp(27px,3.6vw,36px)}
+.num{display:inline-grid;place-items:center;min-width:46px;height:46px;padding:0 6px;border-radius:50%;background:var(--accent);color:var(--onacc);font-family:var(--fh);font-weight:var(--hw);font-size:20px;line-height:1}
+.meta{font-size:13.5px;font-weight:700;color:var(--tink);background:var(--tbg);border:1.5px solid var(--tline);border-radius:999px;padding:5px 12px}
+.task{font-weight:700;margin:26px 0 12px;font-size:1.02em}
+.task:first-child{margin-top:0}
+.intro{font-size:1.06em;max-width:62ch}
+.quote{font-family:var(--fh);font-weight:var(--hw);font-size:clamp(21px,2.8vw,28px);line-height:1.3;border-left:4px solid var(--accent);padding:4px 0 4px 20px;margin:6px 0 22px;max-width:30em}
+.quote cite{display:block;font-family:var(--fb);font-weight:400;font-style:normal;font-size:15px;color:var(--muted);margin-top:8px}
+.qlist{margin:0;padding-left:1.3em}
+.qlist li{margin:.45em 0;padding-left:.2em}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.vocab{width:100%;border-collapse:collapse;min-width:520px}
+.vocab th{text-align:left;font-size:13.5px;color:var(--muted);font-weight:700;padding:8px 10px;border-bottom:2px solid var(--ink)}
+.vocab td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+.vocab .i{color:var(--accent);font-weight:700;width:30px}
+.vocab .w{font-weight:700}
+.vocab .pos{display:block;color:var(--muted);font-size:13px;font-style:italic;font-weight:400}
+.vocab .hy{font-size:1em}
+.vocab td:nth-child(3){white-space:nowrap}
+select{font-family:var(--fb);font-size:15px;padding:7px 8px;border:1.5px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);min-width:64px}
+.defs{columns:2;column-gap:30px;margin:20px 0 0;padding:20px 22px;list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.defs li{break-inside:avoid;margin:0 0 12px;padding-left:28px;position:relative;line-height:1.45}
+.defs li:last-child{margin-bottom:0}
+.defs b{position:absolute;left:0;color:var(--accent)}
+.text{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:30px clamp(18px,4.5vw,44px)}
+.text h3{font-size:clamp(24px,3.2vw,32px);margin-bottom:8px}
+.dek{color:var(--muted);margin-bottom:22px;font-size:1.04em}
+.body p{line-height:1.78}
+.body p:last-child{margin-bottom:0}
+mark.v{background:linear-gradient(transparent 56%,var(--hl) 56%);color:inherit;padding:0 1px;font-weight:600}
+.opts{display:grid;gap:10px}
+.opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;font-family:var(--fb);font-size:1em;line-height:1.5;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:14px 16px;cursor:pointer}
+.opt .k{font-weight:800;color:var(--accent)}
+.opt:hover{border-color:var(--accent)}
+.opt.on{border-color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent);background:var(--soft)}
+body.teacher .opt.ok{border-color:var(--good);background:var(--goodbg);box-shadow:inset 0 0 0 1.5px var(--good)}
+.items{list-style:none;padding:0;margin:0;counter-reset:i}
+.items>li{display:flex;gap:14px;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line);counter-increment:i}
+.items>li.col{flex-direction:column;align-items:stretch;gap:8px}
+.items .s{line-height:1.55}
+.items .s::before{content:counter(i) ". ";font-weight:800;color:var(--accent)}
+.seg{display:flex;gap:6px;flex-shrink:0}
+.seg button{font-family:var(--fb);font-weight:700;font-size:13.5px;padding:9px 11px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;cursor:pointer;min-width:42px}
+.seg button:hover{border-color:var(--accent)}
+.seg button.on{background:var(--accent);border-color:var(--accent);color:var(--onacc)}
+body.teacher .seg button.ok{box-shadow:0 0 0 2.5px var(--good)}
+input.gap{font-family:var(--fb);font-size:1em;color:var(--accent);font-weight:700;border:0;border-bottom:2px solid var(--accent);background:transparent;width:8.5em;max-width:100%;padding:0 4px;margin:0 3px;border-radius:0}
+input.line,textarea{width:100%;font-family:var(--fb);font-size:1em;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px}
+input.line:focus,textarea:focus,input.gap:focus{outline:none;border-color:var(--accent)}
+textarea{min-height:140px;resize:vertical;line-height:1.6}
+.wc{font-size:13.5px;color:var(--muted);text-align:right;margin-top:6px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 18px;padding:14px;border:1.5px dashed var(--accent);border-radius:var(--r);background:var(--surface)}
+.bank span{background:var(--soft);padding:5px 13px;border-radius:999px;font-weight:700}
+.ex{list-style:none;padding:0;margin:0 0 6px}
+.ex li{padding:12px 18px;background:var(--surface);border-left:4px solid var(--accent2);margin-bottom:8px;border-radius:0 var(--r) var(--r) 0}
+.ex strong{color:var(--accent)}
+.tr .orig{display:inline}
+.kwrap{align-self:flex-start}
+.tr .kw{display:inline-block;font-weight:800;font-size:.86em;background:var(--ink);color:var(--surface);padding:2px 9px;border-radius:6px;margin:6px 0}
+.phr{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.phr span{border:1.5px solid var(--ink);border-radius:999px;padding:6px 14px;background:var(--surface);font-size:.96em}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.cardx{background:var(--surface);border:1.5px solid var(--line);border-top:5px solid var(--accent);border-radius:var(--r);padding:16px 18px}
+.cardx h4{font-size:1.15em;margin-bottom:6px}
+.cardx p{margin:0;font-size:.97em;line-height:1.55}
+.steps{margin:0;padding-left:1.3em}
+.steps li{margin:.5em 0;padding-left:.2em}
+.check{list-style:none;padding:0;margin:8px 0 14px}
+.check li{padding-left:30px;position:relative;margin:6px 0}
+.check li::before{content:"";position:absolute;left:0;top:.2em;width:16px;height:16px;border:2px solid var(--accent);border-radius:4px}
+.refl{display:grid;gap:10px;max-width:640px}
+.ans{display:none;font-weight:700;font-size:.9em;color:var(--good);background:var(--goodbg);padding:1px 8px;border-radius:6px;margin-left:4px}
+body.teacher .ans{display:inline-block}
+.ans.blk{margin:6px 0 0}
+.t-only{display:none!important}
+body.teacher .t-only{display:block!important}
+body.teacher span.t-only{display:inline!important}
+.tnote{margin:26px 0 8px;background:var(--tbg);border:1.5px solid var(--tline);border-radius:var(--r);padding:18px 22px;font-size:15.5px;line-height:1.55;color:#2B2410;font-family:var(--fb)}
+.tnote h4{font-family:var(--fb);font-size:15px;letter-spacing:0;color:var(--tink);margin:0 0 10px;font-weight:800}
+.tnote p{margin:0 0 .6em}
+.tnote ul{margin:4px 0 8px;padding-left:20px}
+.tnote li{margin:3px 0}
+.tnote .say{font-style:italic}
+.tnote .say b{font-style:normal;color:var(--tink)}
+.tnote table{border-collapse:collapse;width:100%;font-size:14.5px;margin:6px 0 4px}
+.tnote td,.tnote th{border-bottom:1px solid var(--tline);padding:6px 8px;text-align:left;vertical-align:top}
+.tov{margin-top:8px}
+.key{columns:2;column-gap:28px}
+.key div{break-inside:avoid;margin-bottom:12px}
+.key ol{margin:4px 0 0;padding-left:20px}
+footer{max-width:880px;margin:0 auto;padding:30px 22px 50px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+.modal{position:fixed;inset:0;background:rgba(20,20,30,.45);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+.modal.open{display:flex}
+.modal form{background:var(--surface);color:var(--ink);border-radius:16px;padding:26px;width:100%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.modal h3{font-size:22px;margin-bottom:6px}
+.modal p{color:var(--muted);font-size:15px}
+.modal .row{display:flex;gap:8px;margin-top:14px;justify-content:flex-end}
+.modal .err{color:#B42318;font-size:14px;min-height:1.2em;margin:8px 0 0}
+@media (max-width:640px){
+ .defs,.key{columns:1}
+ .items>li{flex-direction:column;align-items:stretch;gap:10px}
+ .seg{align-self:flex-start}
+ .stage-head h2{font-size:26px}
+}
+@media print{
+ .bar,.modal,.toc{display:none!important}
+ body{background:#fff}
+ .stage{break-inside:auto}
+ .text,.defs,.cardx,.opt{break-inside:avoid}
+}
+
+.lay-paper .hero{padding:70px 0 40px;text-align:center}
+.lay-paper .hin{max-width:740px}
+.lay-paper .tags{justify-content:center}
+.lay-paper .tag{background:transparent;border:1px solid var(--ink)}
+.lay-paper .tag.lv{border-color:var(--accent);color:var(--accent);background:transparent}
+.lay-paper .hero h1{font-size:clamp(44px,7.5vw,82px);line-height:1.02}
+.lay-paper .sub{margin-left:auto;margin-right:auto;font-style:italic}
+.lay-paper .cando-box{display:inline-block;text-align:left;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:18px 6px;margin-top:8px}
+.lay-paper .main{max-width:740px}
+.lay-paper .stage{padding-top:56px}
+.lay-paper .stage-head{flex-direction:column;gap:6px;text-align:center}
+.lay-paper .stage-head::after{content:"";width:56px;height:2px;background:var(--accent);margin-top:8px}
+.lay-paper .num{background:transparent;color:var(--accent);font-style:italic;height:auto;min-width:0;font-size:24px}
+.lay-paper .text{border:0;border-top:3px double var(--ink);border-bottom:3px double var(--ink);border-radius:0;background:transparent;padding:30px 4px}
+.lay-paper .body p:first-child::first-letter{float:left;font-family:var(--fh);font-weight:var(--hw);font-size:4.4em;line-height:.82;padding:6px 10px 0 0;color:var(--accent)}
+.lay-paper footer{text-align:center;max-width:740px}
+
+.tag.ty{background:var(--ink);color:var(--surface)}
+.listen{display:flex;gap:16px;align-items:center;background:var(--surface);border:1.5px dashed var(--accent);border-radius:var(--r);padding:16px 20px;margin:4px 0 18px}
+.listen svg{flex-shrink:0}
+.listen p{margin:0}
+.script{margin:14px 0 6px;background:#FFFDF3;border:1.5px solid var(--tline);border-radius:var(--r);padding:18px 22px;font-size:15.5px;line-height:1.65;color:#2B2410}
+.script h4{font-family:var(--fb);font-size:15px;margin:0 0 10px;color:var(--tink)}
+.script p{margin:0 0 .55em}
+.script b{color:var(--tink)}
+.inl{display:inline-flex;gap:4px;vertical-align:middle;margin:2px 3px;flex-wrap:wrap}
+.inl button{font-family:var(--fb);font-weight:700;font-size:.92em;padding:4px 10px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;cursor:pointer}
+.inl button.on{background:var(--accent);border-color:var(--accent);color:var(--onacc)}
+body.teacher .inl button.ok{box-shadow:0 0 0 2.5px var(--good)}
+.ord{list-style:none;padding:0;margin:0 0 12px;display:grid;gap:8px}
+.ord li{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:11px 14px 11px 46px;position:relative;line-height:1.5}
+.ord li b{position:absolute;left:16px;top:11px;color:var(--accent)}
+.phg-wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.phg{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:14px 18px}
+.phg h4{font-size:1.08em;margin-bottom:8px;color:var(--accent)}
+.phg ul{margin:0;padding-left:18px}
+.phg li{margin:4px 0}
+.pn{display:inline-block;font-weight:800;color:var(--accent);margin-right:8px;font-family:var(--fb)}
+.items .opts{margin-top:4px}
+.items .opt{padding:10px 14px}
+.plan{display:grid;gap:12px}
+.plan label{font-weight:700;display:grid;gap:6px}
+.plan textarea{min-height:70px;font-weight:400}
+.gloss{width:100%;border-collapse:collapse;min-width:480px}
+.gloss th{text-align:left;font-size:13.5px;color:var(--muted);font-weight:700;padding:8px 10px;border-bottom:2px solid var(--ink)}
+.gloss td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+.gloss td:first-child{font-weight:700}
+.h3x{font-size:1.4em;margin:26px 0 10px}
+.wrap-sel{display:inline-flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:4px;max-width:100%}
+.wrap-sel .ans{white-space:normal}
+.nonum .s::before{content:none}
+</style></head><body class="lay-paper"><div class="bar"><button class="btn" id="pr" type="button">Print</button><button class="btn" id="tview" type="button" aria-pressed="false">Teacher view</button></div><div class="shell"><nav class="toc" aria-label="Lesson stages"><p>The Joy of Doing It Slowly</p><a href="#s1"><span>1</span>Warm-up and prediction</a><a href="#s2"><span>2</span>Key vocabulary</a><a href="#s3"><span>3</span>First read: headings</a><a href="#s4"><span>4</span>Close read</a><a href="#s5"><span>5</span>Words in context</a><a href="#s6"><span>6</span>Speaking: your slow day</a><a href="#s7"><span>7</span>Reflection and feedback</a><a href="#s8"><span>8</span>Homework</a></nav><div class="col"><header class="hero"><div class="hin"><div class="left"><div class="tags"><span class="tag ty">Reading</span><span class="tag">60 minutes</span><span class="tag">Lifestyle</span></div><h1>The Joy of Doing It Slowly</h1><p class="sub">Film cameras, vinyl records and knitting are back. Why are young people choosing the slow way?</p></div><div class="right"><div class="cando-box"><p class="cando-h">By the end of this lesson, you can:</p><ul class="cando"><li>match headings to paragraphs to understand the main ideas</li><li>find specific information and opinions in a longer text</li><li>guess the meaning of words from context</li></ul></div></div><div class="stub" aria-hidden="true"><div class="stamp">30</div><div class="dur">Reading<br>60 minutes<br>Lesson 30</div></div></div></header><main class="main"><aside class="tnote t-only tov"><h4>Teacher’s overview</h4><p><b>Lesson type:</b> Reading. <b>Length:</b> 60 minutes plus homework.</p><p><b>Main aim:</b> Reading: matching headings, multiple-choice detail and vocabulary in context.</p><p><b>Subsidiary aims:</b> Speaking: personal response to the text. Vocabulary for hobbies.</p><p><b>Language aim:</b> Words from context: rubbish, tiring, shelf, scarf, ironically.</p><table><tr><th>Stage</th><th>Time</th><th>Interaction</th></tr><tr><td>1. Warm-up and prediction</td><td>5 min</td><td>Whole class, then pairs</td></tr><tr><td>2. Key vocabulary</td><td>8 min</td><td>Individual, then pairs</td></tr><tr><td>3. First read: headings</td><td>9 min</td><td>Individual, then pairs</td></tr><tr><td>4. Close read</td><td>11 min</td><td>Individual, then pairs</td></tr><tr><td>5. Words in context</td><td>7 min</td><td>Individual, then pairs</td></tr><tr><td>6. Speaking: your slow day</td><td>15 min</td><td>Pairs</td></tr><tr><td>7. Reflection and feedback</td><td>5 min</td><td>Whole class</td></tr><tr><td>8. Homework</td><td>Set at end</td><td>Individual</td></tr></table><p style="margin-top:10px"><b>Materials:</b> this page and a board or Miro for feedback. Share your screen in Student view so answers stay hidden.</p><p><b>One-to-one:</b> you are the student’s partner in every pair task. Keep teacher talk short. Let the student do most of the speaking.</p><p><b>Background:</b> Film photography, vinyl records, board games and craft hobbies such as knitting have grown in popularity among people under 30 in many countries.</p></aside><section class="stage" id="s1"><div class="in"><div class="stage-head"><span class="num">1</span><h2>Warm-up and prediction</h2><span class="meta t-only">5 min</span></div><p class="task">Talk with a partner.</p><ol class="qlist"><li>Look at the title. What do you think ‘doing it slowly’ means?</li><li>Which of these have you tried: film cameras, vinyl records, knitting, board games, writing a diary?</li><li>Why would a young person choose a slow hobby today?</li></ol><aside class="tnote t-only"><h4>Teacher notes. 5 min. Whole class, then pairs.</h4><p class="say"><b>Say:</b> Look at the title and the subtitle. What do you think the text is about? Discuss the questions.</p><p>Write students’ predictions on the board. Check them after the first reading.</p></aside></div></section><section class="stage" id="s2"><div class="in"><div class="stage-head"><span class="num">2</span><h2>Key vocabulary</h2><span class="meta t-only">8 min</span></div><p class="task">Match the words 1-6 to the meanings a-f. The Armenian translation helps you.</p><div class="scroll"><table class="vocab"><thead><tr><th></th><th>Word</th><th>Meaning</th><th>Հայերեն</th></tr></thead><tbody><tr><td class="i">1</td><td><span class="w">develop</span><span class="pos">verb</span></td><td class="wrap-sel"><select aria-label="Meaning of develop"><option value="">-</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option></select><span class="ans">c</span></td><td class="hy" lang="hy">երևակել (ժապավենը)</td></tr><tr><td class="i">2</td><td><span class="w">roll</span><span class="pos">noun</span></td><td class="wrap-sel"><select aria-label="Meaning of roll"><option value="">-</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option></select><span class="ans">f</span></td><td class="hy" lang="hy">ժապավենի գլան</td></tr><tr><td class="i">3</td><td><span class="w">journal</span><span class="pos">noun</span></td><td class="wrap-sel"><select aria-label="Meaning of journal"><option value="">-</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option></select><span class="ans">b</span></td><td class="hy" lang="hy">օրագիր</td></tr><tr><td class="i">4</td><td><span class="w">knit</span><span class="pos">verb</span></td><td class="wrap-sel"><select aria-label="Meaning of knit"><option value="">-</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option></select><span class="ans">e</span></td><td class="hy" lang="hy">գործել (շարֆ, սվիտեր)</td></tr><tr><td class="i">5</td><td><span class="w">slow down</span><span class="pos">phrasal verb</span></td><td class="wrap-sel"><select aria-label="Meaning of slow down"><option value="">-</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option></select><span class="ans">d</span></td><td class="hy" lang="hy">դանդաղեցնել տեմպը</td></tr><tr><td class="i">6</td><td><span class="w">proof</span><span class="pos">noun</span></td><td class="wrap-sel"><select aria-label="Meaning of proof"><option value="">-</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option></select><span class="ans">a</span></td><td class="hy" lang="hy">ապացույց</td></tr></tbody></table></div><ul class="defs"><li><b>a</b>something that shows that something is true</li><li><b>b</b>a book where you write about your day and your thoughts</li><li><b>c</b>make photos from a film using chemicals</li><li><b>d</b>do things more calmly and less quickly</li><li><b>e</b>make clothes from wool with two long needles</li><li><b>f</b>a piece of camera film wound into a small tube</li></ul><aside class="tnote t-only"><h4>Teacher notes. 8 min. Individual, then pairs.</h4><p class="say"><b>Say:</b> Here are six words from the text. Match them to their meanings.</p><p>CCQs: develop: ‘Do you need to develop photos from a phone?’ (No.) proof: ‘Is proof an opinion or a fact?’ (A fact.)</p><p class="say"><b>Say:</b> Now read the text quickly.</p></aside></div></section><section class="stage" id="s3"><div class="in"><div class="stage-head"><span class="num">3</span><h2>First read: headings</h2><span class="meta t-only">9 min</span></div><article class="text"><h3>The Joy of Doing It Slowly</h3><div class="body"><p><span class="pn">1</span>Walk into a second-hand shop in any big city and you might see a teenager carefully looking at an old film camera. Twenty years ago, people thought these cameras were rubbish. Now some sell for more than a new phone. Film photography, vinyl records, knitting, board games and handwritten journals are all becoming popular again, especially with people under 30.</p><p><span class="pn">2</span>Why? One reason is that digital life never stops. Phones are fast, easy and always with us, but they can also feel tiring. ‘On my phone I take 200 photos and look at none of them,’ says Lea, 22. ‘With film, I have 36 pictures on a roll. I think about every one.’ Analog hobbies make people slow down.</p><p><span class="pn">3</span>Another reason is the feeling of owning something real. A playlist can disappear if you stop paying for an app, but a record stays on your shelf. Knitters say they love finishing a scarf that they can touch and wear. ‘It’s proof that I made something,’ explains Sam, 19.</p><p><span class="pn">4</span>There is also a social side. Board game cafés are full on Friday nights, and knitting clubs meet in bars and libraries. Many young people say these hobbies help them make friends without screens in the middle.</p><p><span class="pn">5</span>Of course, analog hobbies aren’t cheap. A roll of film and developing can cost more than 20 euros, and vinyl records are expensive too. And ironically, many people share their film photos and knitting projects on social media. ‘It’s not about hating technology,’ says Lea. ‘It’s about choosing when to use it.’</p></div></article><p class="task">Read quickly. Match each paragraph 1-5 to a heading a-e.</p><ul class="items nonum"><li><span class="s">Paragraph 1</span><span class="wrap-sel"><select aria-label="Match"><option value="">-</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select><span class="ans">b</span></span></li><li><span class="s">Paragraph 2</span><span class="wrap-sel"><select aria-label="Match"><option value="">-</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select><span class="ans">e</span></span></li><li><span class="s">Paragraph 3</span><span class="wrap-sel"><select aria-label="Match"><option value="">-</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select><span class="ans">d</span></span></li><li><span class="s">Paragraph 4</span><span class="wrap-sel"><select aria-label="Match"><option value="">-</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select><span class="ans">c</span></span></li><li><span class="s">Paragraph 5</span><span class="wrap-sel"><select aria-label="Match"><option value="">-</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select><span class="ans">a</span></span></li></ul><ul class="defs"><li><b>a</b>Not perfect, and not against technology</li><li><b>b</b>Old things, new fans</li><li><b>c</b>Making friends offline</li><li><b>d</b>Something real in your hands</li><li><b>e</b>Slowing down in a fast world</li></ul><aside class="tnote t-only"><h4>Teacher notes. 9 min. Individual, then pairs.</h4><p class="say"><b>Say:</b> Read the text quickly. Match each paragraph to a heading. Don’t read every word. You have four minutes.</p><p>ICQ: ‘Do you need to understand every word?’ (No.) ‘How many headings for each paragraph?’ (One.)</p><p>Strategy tip: read the first and last sentence of each paragraph. Show students how this helps.</p><p>Check the predictions from stage 1.</p></aside></div></section><section class="stage" id="s4"><div class="in"><div class="stage-head"><span class="num">4</span><h2>Close read</h2><span class="meta t-only">11 min</span></div><p class="task">Read again carefully. Choose the correct answer.</p><ul class="items"><li class="col"><span class="s">What does the writer say about old film cameras?</span><div class="opts" data-pick><button type="button" class="opt" aria-pressed="false"><span class="k">a</span><span>They are cheaper than phones.</span></button><button type="button" class="opt ok" aria-pressed="false"><span class="k">b</span><span>Some cost more than a new phone.</span></button><button type="button" class="opt" aria-pressed="false"><span class="k">c</span><span>Nobody buys them now.</span></button></div></li><li class="col"><span class="s">Why does Lea prefer film?</span><div class="opts" data-pick><button type="button" class="opt" aria-pressed="false"><span class="k">a</span><span>It’s cheaper than a phone.</span></button><button type="button" class="opt ok" aria-pressed="false"><span class="k">b</span><span>She thinks more about each photo.</span></button><button type="button" class="opt" aria-pressed="false"><span class="k">c</span><span>Her phone is broken.</span></button></div></li><li class="col"><span class="s">What is the problem with a playlist, according to the text?</span><div class="opts" data-pick><button type="button" class="opt ok" aria-pressed="false"><span class="k">a</span><span>It can disappear.</span></button><button type="button" class="opt" aria-pressed="false"><span class="k">b</span><span>It sounds bad.</span></button><button type="button" class="opt" aria-pressed="false"><span class="k">c</span><span>It is too long.</span></button></div></li><li class="col"><span class="s">Where do knitting clubs meet?</span><div class="opts" data-pick><button type="button" class="opt" aria-pressed="false"><span class="k">a</span><span>Only in people’s homes.</span></button><button type="button" class="opt ok" aria-pressed="false"><span class="k">b</span><span>In bars and libraries.</span></button><button type="button" class="opt" aria-pressed="false"><span class="k">c</span><span>In schools.</span></button></div></li><li class="col"><span class="s">What does Lea mean at the end?</span><div class="opts" data-pick><button type="button" class="opt" aria-pressed="false"><span class="k">a</span><span>She hates technology.</span></button><button type="button" class="opt ok" aria-pressed="false"><span class="k">b</span><span>She wants to choose when she uses technology.</span></button><button type="button" class="opt" aria-pressed="false"><span class="k">c</span><span>She will stop using social media.</span></button></div></li></ul><aside class="tnote t-only"><h4>Teacher notes. 11 min. Individual, then pairs.</h4><p class="say"><b>Say:</b> Now read again carefully. Choose the correct answer. Underline the part of the text that helps you.</p><p>Pairs compare. In feedback, always ask ‘Which line?’</p><p>Item 5 is about the writer’s or speaker’s meaning. Discuss why the other two options are wrong.</p></aside></div></section><section class="stage" id="s5"><div class="in"><div class="stage-head"><span class="num">5</span><h2>Words in context</h2><span class="meta t-only">7 min</span></div><p class="task">Find a word in the text that means...</p><ul class="items"><li class="col"><span class="s">old and useless (paragraph 1)</span><input class="line" aria-label="Your answer" autocomplete="off"><span class="ans blk">rubbish</span></li><li class="col"><span class="s">making you feel tired (paragraph 2)</span><input class="line" aria-label="Your answer" autocomplete="off"><span class="ans blk">tiring</span></li><li class="col"><span class="s">a flat board on the wall for books or records (paragraph 3)</span><input class="line" aria-label="Your answer" autocomplete="off"><span class="ans blk">shelf</span></li><li class="col"><span class="s">a long piece of clothing you wear around your neck (paragraph 3)</span><input class="line" aria-label="Your answer" autocomplete="off"><span class="ans blk">scarf</span></li><li class="col"><span class="s">in a way that is the opposite of what you expect (paragraph 5)</span><input class="line" aria-label="Your answer" autocomplete="off"><span class="ans blk">ironically</span></li></ul><aside class="tnote t-only"><h4>Teacher notes. 7 min. Individual, then pairs.</h4><p class="say"><b>Say:</b> Find these words in the text. The paragraph number helps you.</p><p>Teach the strategy: look at the words before and after. What kind of word is it? A noun? An adjective?</p></aside></div></section><section class="stage" id="s6"><div class="in"><div class="stage-head"><span class="num">6</span><h2>Speaking: your slow day</h2><span class="meta t-only">15 min</span></div><p class="task">Discuss the questions.</p><ol class="qlist"><li>Which analog hobby would you like to try? Why?</li><li>Are analog hobbies just a trend, or will they last?</li><li>Is it strange to share analog hobbies on social media?</li><li>What do you do when you want to slow down?</li></ol><p class="intro">Now plan a ‘slow Saturday’ for your partner: no screens from 10 a.m. to 6 p.m. What will they do?</p><p class="task">Useful language</p><p class="phr"><span>I’d love to try... because...</span><span>I think it’s just a trend.</span><span>It helps me slow down.</span><span>In the morning, you could...</span><span>That sounds relaxing / boring!</span><span>What about lunch?</span></p><aside class="tnote t-only"><h4>Teacher notes. 15 min. Pairs.</h4><p class="say"><b>Say:</b> Discuss the questions with your partner. Then plan a slow Saturday for each other. No screens!</p><p>8 min discussion, 5 min planning, 2 min sharing the best plans with the class.</p><p>One-to-one: plan a slow Saturday for each other and compare.</p></aside></div></section><section class="stage" id="s7"><div class="in"><div class="stage-head"><span class="num">7</span><h2>Reflection and feedback</h2><span class="meta t-only">5 min</span></div><p class="task">Think about today’s lesson.</p><div class="refl"><label>A new word or phrase I used today<input class="line" autocomplete="off"></label><label>Another new word or phrase I used today<input class="line" autocomplete="off"></label><label>One thing I want to say better next time<input class="line" autocomplete="off"></label></div><aside class="tnote t-only"><h4>Teacher notes. 5 min. Whole class.</h4><p>Delayed error correction. Write four or five sentences you heard on the board, some correct and some with errors. Students correct them in pairs. Then they complete the reflection boxes.</p><p>Common errors in this lesson:</p><ul><li>‘I want to try to knit.’ &gt; ‘I want to try knitting.’</li><li>‘make photos’ &gt; ‘take photos’</li><li>‘It is very tired to use a phone all day.’ &gt; ‘It is very tiring...’</li></ul></aside></div></section><section class="stage" id="s8"><div class="in"><div class="stage-head"><span class="num">8</span><h2>Homework</h2><span class="meta t-only">Set at the end</span></div><p class="task">A. Complete the sentences with words from the lesson. Change the form if you need to.</p><div class="bank"><span>proof</span><span>slow down</span><span>knitted</span><span>develop</span><span>journal</span></div><ul class="items"><li><span class="s">I took my old camera to a shop to <input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">develop</span> the film.</span></li><li><span class="s">My grandmother <input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">knitted</span> a warm hat for me.</span></li><li><span class="s">I write in my <input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">journal</span> every evening before bed.</span></li><li><span class="s">The doctor told him to <input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">slow down</span> and work less.</span></li><li><span class="s">This photo is <input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">proof</span> that I was there!</span></li></ul><p class="task">Write a short article for a newsletter (100-120 words).</p><p class="intro">Write an article called ‘My slow hobby’. Describe a hobby that helps you relax or slow down. Explain why you like it and how other people can start.</p><p style="font-weight:700;margin:14px 0 4px">Checklist</p><ul class="check"><li>Use at least four words from the lesson.</li><li>Give your article a title and three short paragraphs.</li><li>Give the reader one practical tip.</li></ul><textarea aria-label="Your writing" data-count="100-120" placeholder="Start writing here..."></textarea><div class="wc"></div><aside class="tnote t-only"><h4>Teacher notes. Set at the end, 2 min. Individual.</h4><p class="say"><b>Say:</b> For homework, do Part A and write the article.</p><p>Next lesson, students read two classmates’ articles and choose a hobby to try.</p></aside></div></section><section class="stage t-only" id="key"><div class="in"><div class="stage-head"><span class="num">&#10003;</span><h2>Answer key</h2></div><div class="key"><div><b>Key vocabulary</b><ol><li>c</li><li>f</li><li>b</li><li>e</li><li>d</li><li>a</li></ol></div><div><b>First read: headings</b><ol><li>b</li><li>e</li><li>d</li><li>c</li><li>a</li></ol></div><div><b>Close read</b><ol><li>b</li><li>b</li><li>a</li><li>b</li><li>b</li></ol></div><div><b>Words in context</b><ol><li>rubbish</li><li>tiring</li><li>shelf</li><li>scarf</li><li>ironically</li></ol></div><div><b>Homework</b><ol><li>develop</li><li>knitted</li><li>journal</li><li>slow down</li><li>proof</li></ol></div></div></div></section></main><footer>Lesson 30. The Joy of Doing It Slowly. Reading lesson.</footer></div></div><div class="modal" id="tmodal" role="dialog" aria-modal="true" aria-labelledby="tmh"><form id="tform"><h3 id="tmh">Teacher view</h3><p>Enter the teacher code to see notes and answers.</p><input class="line" id="tcode" type="password" autocomplete="off" aria-label="Teacher code"><p class="err" id="terr" role="alert"></p><div class="row"><button class="btn" type="button" id="tcancel">Cancel</button><button class="btn" type="submit">Open</button></div></form></div><script>
+(function(){
+ var TEACHER_CODE = "teacher";
+ var b=document.body, tb=document.getElementById('tview'), m=document.getElementById('tmodal'), f=document.getElementById('tform'), inp=document.getElementById('tcode'), err=document.getElementById('terr'), ok=false;
+ function set(on){b.classList.toggle('teacher',on);tb.setAttribute('aria-pressed',on?'true':'false');tb.textContent=on?'Student view':'Teacher view';}
+ tb.addEventListener('click',function(){ if(b.classList.contains('teacher')){set(false);return;} if(ok||!TEACHER_CODE){set(true);return;} m.classList.add('open');err.textContent='';inp.value='';setTimeout(function(){inp.focus()},30);});
+ f.addEventListener('submit',function(e){e.preventDefault(); if(inp.value.trim().toLowerCase()===TEACHER_CODE.toLowerCase()){ok=true;m.classList.remove('open');set(true);} else {err.textContent='That code is not correct. Try again.';inp.select();}});
+ document.getElementById('tcancel').addEventListener('click',function(){m.classList.remove('open');});
+ m.addEventListener('click',function(e){if(e.target===m)m.classList.remove('open');});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')m.classList.remove('open');});
+ document.getElementById('pr').addEventListener('click',function(){window.print();});
+ document.querySelectorAll('[data-pick]').forEach(function(g){ g.addEventListener('click',function(e){ var t=e.target.closest('button'); if(!t||!g.contains(t))return; var was=t.classList.contains('on'); g.querySelectorAll('button').forEach(function(x){x.classList.remove('on');x.setAttribute('aria-pressed','false');}); if(!was){t.classList.add('on');t.setAttribute('aria-pressed','true');} }); });
+ document.querySelectorAll('textarea[data-count]').forEach(function(t){ var o=t.parentNode.querySelector('.wc'); function u(){var n=(t.value.trim().match(/\S+/g)||[]).length;o.textContent=n+' words (aim for '+t.dataset.count+')';} t.addEventListener('input',u);u(); });
+})();
+</script></body></html>

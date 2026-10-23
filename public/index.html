@@ -62,7 +62,9 @@ body.library .landing{display:none}
 .search input{font:inherit;font-size:1rem;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--ink);padding:.5rem 0;width:100%}
 .search input:focus{outline:none;border-bottom-color:var(--forest)}
 .filters{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin:0 0 1.4rem}
-.filters .lbl{font-size:.72rem;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-right:.4rem}
+.filters{flex-direction:column;align-items:flex-start;gap:.6rem}
+.frow{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}
+.filters .lbl{min-width:3.2rem;font-size:.72rem;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-right:.4rem}
 .chip{background:transparent;border:1px solid var(--line);border-radius:999px;padding:.35rem 1.1rem;font-size:.85rem;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
 .count{color:var(--muted);font-size:.8rem;letter-spacing:.12em;margin:0 0 1rem}
@@ -443,6 +445,8 @@ $('#foot').textContent='© '+new Date().getFullYear()+' '+(S.name||'');
 
 const LEVELS=['A1','A2','B1','B2','C1','C2'];
 const levelsOf=l=>[].concat(l.level||[]);
+// Second line on cards: the grammar point, or the language focus for lessons without grammar.
+const langRow=l=>l.grammar?['Grammar',l.grammar]:l.focus?['Language',l.focus]:['Grammar',''];
 const tagsOf=l=>[].concat(l.tag||[]);
 const levelLabel=l=>{const v=levelsOf(l);return v.length>1?v[0]+'–'+v[v.length-1]:v[0]||'';};
 const allLevels=LEVELS.filter(x=>L.some(l=>levelsOf(l).includes(x)));
@@ -504,17 +508,22 @@ $('#cForm').addEventListener('submit',async e=>{
 });
 $('#cAgain').addEventListener('click',()=>{$('#cForm').reset();$('#cDone').hidden=true;$('#cForm').hidden=false;});
 
-let level='All',q='';
-$('#filters').innerHTML=allLevels.length>1?'<span class="lbl">Level</span>'+['All',...allLevels].map(t=>`<button type="button" class="chip" data-level="${t}" aria-pressed="${t===level}">${t==='All'?'All levels':t}</button>`).join(''):'';
-$('#filters').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;level=b.dataset.level;document.querySelectorAll('#filters .chip').forEach(c=>c.setAttribute('aria-pressed',c===b));render();});
+let level='All',type='All',q='';
+const TYPES=['Grammar','Vocabulary','Reading','Listening','Speaking','Writing'].filter(t=>L.some(l=>tagsOf(l).includes(t)));
+$('#filters').innerHTML=(allLevels.length>1?'<div class="frow"><span class="lbl">Level</span>'+['All',...allLevels].map(t=>`<button type="button" class="chip" data-level="${t}" aria-pressed="${t===level}">${t==='All'?'All levels':t}</button>`).join('')+'</div>':'')
+ +(TYPES.length>1?'<div class="frow"><span class="lbl">Type</span>'+['All',...TYPES].map(t=>`<button type="button" class="chip" data-type="${t}" aria-pressed="${t===type}">${t==='All'?'All types':t}</button>`).join('')+'</div>':'');
+$('#filters').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;
+ if(b.dataset.level){level=b.dataset.level;document.querySelectorAll('#filters [data-level]').forEach(c=>c.setAttribute('aria-pressed',c===b));}
+ else{type=b.dataset.type;document.querySelectorAll('#filters [data-type]').forEach(c=>c.setAttribute('aria-pressed',c===b));}
+ render();});
 $('#q').addEventListener('input',e=>{q=e.target.value.trim().toLowerCase();render();});
 
 function render(){
- const list=L.filter(l=>(level==='All'||levelsOf(l).includes(level))&&(!q||[l.title,l.topic,l.vocab,l.grammar,...tagsOf(l),...levelsOf(l)].filter(Boolean).join(' ').toLowerCase().includes(q)));
+ const list=L.filter(l=>(level==='All'||levelsOf(l).includes(level))&&(type==='All'||tagsOf(l).includes(type))&&(!q||[l.title,l.topic,l.vocab,l.grammar,l.focus,...tagsOf(l),...levelsOf(l)].filter(Boolean).join(' ').toLowerCase().includes(q)));
  $('#grid').innerHTML=list.map((l,i)=>{const c=Array.isArray(l.color)?l.color:COLORS[l.color]||COLORS[ORDER[i%ORDER.length]];return `<button type="button" class="card" data-slug="${esc(l.slug)}" style="--c:${c[0]};--f:${c[1]}">
   <span class="meta">${levelLabel(l)?`<span>${esc(levelLabel(l))}</span>`:''}${tagsOf(l).length?`<span>${esc(tagsOf(l).join(' · '))}</span>`:''}${l.minutes?`<span>${esc(l.minutes)} min</span>`:''}</span>
   <span><h2 class="serif" style="--n:${Math.max(6,...l.title.split(/\s+/).map(w=>w.length))}">${esc(l.title)}</h2></span>
-  <span><dl class="focus"><div><dt>Vocabulary</dt><dd>${esc(l.vocab||l.topic||'')}</dd></div><div><dt>Grammar</dt>${l.grammar?`<dd>${esc(l.grammar)}</dd>`:'<dd class="none">No grammar focus</dd>'}</div></dl><span class="open">Open lesson</span></span>
+  <span><dl class="focus"><div><dt>Vocabulary</dt><dd>${esc(l.vocab||l.topic||'')}</dd></div><div><dt>${langRow(l)[0]}</dt>${langRow(l)[1]?`<dd>${esc(langRow(l)[1])}</dd>`:'<dd class="none">No grammar focus</dd>'}</div></dl><span class="open">Open lesson</span></span>
  </button>`;}).join('');
  $('#grid').hidden=!list.length;$('#empty').hidden=!!list.length;
  $('#count').textContent=list.length===1?'1 lesson':list.length+' lessons';
@@ -539,7 +548,7 @@ function showGate(){
  const l=current,c=Array.isArray(l.color)?l.color:COLORS[l.color]||COLORS.forest;
  $('#buyHead').style.cssText=`--c:${c[0]};--f:${c[1]}`;
  $('#buyHead').innerHTML=`<p class="k">${esc([levelLabel(l),l.minutes?l.minutes+' min':''].filter(Boolean).join(' · '))}</p><h2 class="serif">${esc(l.title)}</h2>
-  <dl><dt>Vocabulary</dt><dd>${esc(l.vocab||'')}</dd><dt>Grammar</dt><dd>${esc(l.grammar||'No grammar focus')}</dd></dl>`;
+  <dl><dt>Vocabulary</dt><dd>${esc(l.vocab||'')}</dd><dt>${langRow(l)[0]}</dt><dd>${esc(langRow(l)[1]||'No grammar focus')}</dd></dl>`;
  $('#bMsgOut').textContent='';showForm('buyForm');
 }
 function showLogin(){showForm('emailForm');$('#emailMsg').textContent='';setTimeout(()=>$('#email').focus(),0);}

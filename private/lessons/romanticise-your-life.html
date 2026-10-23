@@ -1,0 +1,206 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="color-scheme" content="light"><title>Make Ordinary Days Beautiful | Writing lesson</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Literata:wght@400;600;700&family=Noto+Sans+Armenian:wght@400;500;700&display=swap" rel="stylesheet"><style>body{--bg:#FBF4EF;--surface:#FFFFFF;--ink:#3A2A2A;--muted:#6F5A58;--line:#EEDCD3;--accent:#B04C6C;--onacc:#FFFFFF;--accent2:#9FB98A;--soft:#F8E3EA;--hl:#F9D7E0;--r:6px;--hw:700;--hls:0;--fs:16.5px;--fh:"Caveat",Georgia,serif;--fb:"Literata",system-ui,-apple-system,"Segoe UI",sans-serif;}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--fb);font-size:var(--fs);line-height:1.62;-webkit-font-smoothing:antialiased;
+ --good:#17754A;--goodbg:#E2F3E9;--tbg:#FFF7D9;--tline:#E9D17F;--tink:#6E5200}
+.hy{font-family:"Noto Sans Armenian",var(--fb);font-weight:500}
+h1,h2,h3,h4{font-family:var(--fh);font-weight:var(--hw);line-height:1.1;margin:0;letter-spacing:var(--hls)}
+p{margin:0 0 .9em}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.bar{position:sticky;top:0;z-index:40;display:flex;justify-content:flex-end;gap:8px;padding:12px 16px;pointer-events:none}
+.btn{pointer-events:auto;font-family:var(--fb);font-weight:700;font-size:14px;line-height:1;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);padding:10px 16px;border-radius:999px;cursor:pointer;box-shadow:0 2px 0 var(--ink)}
+.btn:hover{background:var(--soft)}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.shell{display:block}
+.toc{display:none}
+.hero{padding:40px 0 34px}
+.hin{max-width:880px;margin:0 auto;padding:0 22px}
+.stub{display:none}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.tag{font-size:14px;font-weight:700;padding:6px 13px;border-radius:999px;background:var(--soft);color:var(--ink)}
+.tag.lv{background:var(--accent);color:var(--onacc)}
+.hero h1{font-size:clamp(40px,7vw,74px)}
+.sub{font-size:clamp(18px,2.3vw,22px);color:var(--muted);margin:16px 0 26px;max-width:34ch;line-height:1.4}
+.cando-h{font-weight:700;margin:0 0 10px}
+.cando{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.cando li{padding-left:28px;position:relative;line-height:1.45}
+.cando li::before{content:"";position:absolute;left:0;top:.28em;width:15px;height:15px;border-radius:50%;border:2.5px solid var(--accent)}
+.main{max-width:880px;margin:0 auto;padding:0 22px 72px}
+.stage{padding:44px 0 10px;scroll-margin-top:64px}
+.stage-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+.stage-head h2{font-size:clamp(27px,3.6vw,36px)}
+.num{display:inline-grid;place-items:center;min-width:46px;height:46px;padding:0 6px;border-radius:50%;background:var(--accent);color:var(--onacc);font-family:var(--fh);font-weight:var(--hw);font-size:20px;line-height:1}
+.meta{font-size:13.5px;font-weight:700;color:var(--tink);background:var(--tbg);border:1.5px solid var(--tline);border-radius:999px;padding:5px 12px}
+.task{font-weight:700;margin:26px 0 12px;font-size:1.02em}
+.task:first-child{margin-top:0}
+.intro{font-size:1.06em;max-width:62ch}
+.quote{font-family:var(--fh);font-weight:var(--hw);font-size:clamp(21px,2.8vw,28px);line-height:1.3;border-left:4px solid var(--accent);padding:4px 0 4px 20px;margin:6px 0 22px;max-width:30em}
+.quote cite{display:block;font-family:var(--fb);font-weight:400;font-style:normal;font-size:15px;color:var(--muted);margin-top:8px}
+.qlist{margin:0;padding-left:1.3em}
+.qlist li{margin:.45em 0;padding-left:.2em}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.vocab{width:100%;border-collapse:collapse;min-width:520px}
+.vocab th{text-align:left;font-size:13.5px;color:var(--muted);font-weight:700;padding:8px 10px;border-bottom:2px solid var(--ink)}
+.vocab td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+.vocab .i{color:var(--accent);font-weight:700;width:30px}
+.vocab .w{font-weight:700}
+.vocab .pos{display:block;color:var(--muted);font-size:13px;font-style:italic;font-weight:400}
+.vocab .hy{font-size:1em}
+.vocab td:nth-child(3){white-space:nowrap}
+select{font-family:var(--fb);font-size:15px;padding:7px 8px;border:1.5px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);min-width:64px}
+.defs{columns:2;column-gap:30px;margin:20px 0 0;padding:20px 22px;list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.defs li{break-inside:avoid;margin:0 0 12px;padding-left:28px;position:relative;line-height:1.45}
+.defs li:last-child{margin-bottom:0}
+.defs b{position:absolute;left:0;color:var(--accent)}
+.text{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:30px clamp(18px,4.5vw,44px)}
+.text h3{font-size:clamp(24px,3.2vw,32px);margin-bottom:8px}
+.dek{color:var(--muted);margin-bottom:22px;font-size:1.04em}
+.body p{line-height:1.78}
+.body p:last-child{margin-bottom:0}
+mark.v{background:linear-gradient(transparent 56%,var(--hl) 56%);color:inherit;padding:0 1px;font-weight:600}
+.opts{display:grid;gap:10px}
+.opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;font-family:var(--fb);font-size:1em;line-height:1.5;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:14px 16px;cursor:pointer}
+.opt .k{font-weight:800;color:var(--accent)}
+.opt:hover{border-color:var(--accent)}
+.opt.on{border-color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent);background:var(--soft)}
+body.teacher .opt.ok{border-color:var(--good);background:var(--goodbg);box-shadow:inset 0 0 0 1.5px var(--good)}
+.items{list-style:none;padding:0;margin:0;counter-reset:i}
+.items>li{display:flex;gap:14px;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line);counter-increment:i}
+.items>li.col{flex-direction:column;align-items:stretch;gap:8px}
+.items .s{line-height:1.55}
+.items .s::before{content:counter(i) ". ";font-weight:800;color:var(--accent)}
+.seg{display:flex;gap:6px;flex-shrink:0}
+.seg button{font-family:var(--fb);font-weight:700;font-size:13.5px;padding:9px 11px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;cursor:pointer;min-width:42px}
+.seg button:hover{border-color:var(--accent)}
+.seg button.on{background:var(--accent);border-color:var(--accent);color:var(--onacc)}
+body.teacher .seg button.ok{box-shadow:0 0 0 2.5px var(--good)}
+input.gap{font-family:var(--fb);font-size:1em;color:var(--accent);font-weight:700;border:0;border-bottom:2px solid var(--accent);background:transparent;width:8.5em;max-width:100%;padding:0 4px;margin:0 3px;border-radius:0}
+input.line,textarea{width:100%;font-family:var(--fb);font-size:1em;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px}
+input.line:focus,textarea:focus,input.gap:focus{outline:none;border-color:var(--accent)}
+textarea{min-height:140px;resize:vertical;line-height:1.6}
+.wc{font-size:13.5px;color:var(--muted);text-align:right;margin-top:6px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 18px;padding:14px;border:1.5px dashed var(--accent);border-radius:var(--r);background:var(--surface)}
+.bank span{background:var(--soft);padding:5px 13px;border-radius:999px;font-weight:700}
+.ex{list-style:none;padding:0;margin:0 0 6px}
+.ex li{padding:12px 18px;background:var(--surface);border-left:4px solid var(--accent2);margin-bottom:8px;border-radius:0 var(--r) var(--r) 0}
+.ex strong{color:var(--accent)}
+.tr .orig{display:inline}
+.kwrap{align-self:flex-start}
+.tr .kw{display:inline-block;font-weight:800;font-size:.86em;background:var(--ink);color:var(--surface);padding:2px 9px;border-radius:6px;margin:6px 0}
+.phr{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.phr span{border:1.5px solid var(--ink);border-radius:999px;padding:6px 14px;background:var(--surface);font-size:.96em}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.cardx{background:var(--surface);border:1.5px solid var(--line);border-top:5px solid var(--accent);border-radius:var(--r);padding:16px 18px}
+.cardx h4{font-size:1.15em;margin-bottom:6px}
+.cardx p{margin:0;font-size:.97em;line-height:1.55}
+.steps{margin:0;padding-left:1.3em}
+.steps li{margin:.5em 0;padding-left:.2em}
+.check{list-style:none;padding:0;margin:8px 0 14px}
+.check li{padding-left:30px;position:relative;margin:6px 0}
+.check li::before{content:"";position:absolute;left:0;top:.2em;width:16px;height:16px;border:2px solid var(--accent);border-radius:4px}
+.refl{display:grid;gap:10px;max-width:640px}
+.ans{display:none;font-weight:700;font-size:.9em;color:var(--good);background:var(--goodbg);padding:1px 8px;border-radius:6px;margin-left:4px}
+body.teacher .ans{display:inline-block}
+.ans.blk{margin:6px 0 0}
+.t-only{display:none!important}
+body.teacher .t-only{display:block!important}
+body.teacher span.t-only{display:inline!important}
+.tnote{margin:26px 0 8px;background:var(--tbg);border:1.5px solid var(--tline);border-radius:var(--r);padding:18px 22px;font-size:15.5px;line-height:1.55;color:#2B2410;font-family:var(--fb)}
+.tnote h4{font-family:var(--fb);font-size:15px;letter-spacing:0;color:var(--tink);margin:0 0 10px;font-weight:800}
+.tnote p{margin:0 0 .6em}
+.tnote ul{margin:4px 0 8px;padding-left:20px}
+.tnote li{margin:3px 0}
+.tnote .say{font-style:italic}
+.tnote .say b{font-style:normal;color:var(--tink)}
+.tnote table{border-collapse:collapse;width:100%;font-size:14.5px;margin:6px 0 4px}
+.tnote td,.tnote th{border-bottom:1px solid var(--tline);padding:6px 8px;text-align:left;vertical-align:top}
+.tov{margin-top:8px}
+.key{columns:2;column-gap:28px}
+.key div{break-inside:avoid;margin-bottom:12px}
+.key ol{margin:4px 0 0;padding-left:20px}
+footer{max-width:880px;margin:0 auto;padding:30px 22px 50px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+.modal{position:fixed;inset:0;background:rgba(20,20,30,.45);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+.modal.open{display:flex}
+.modal form{background:var(--surface);color:var(--ink);border-radius:16px;padding:26px;width:100%;max-width:360px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.modal h3{font-size:22px;margin-bottom:6px}
+.modal p{color:var(--muted);font-size:15px}
+.modal .row{display:flex;gap:8px;margin-top:14px;justify-content:flex-end}
+.modal .err{color:#B42318;font-size:14px;min-height:1.2em;margin:8px 0 0}
+@media (max-width:640px){
+ .defs,.key{columns:1}
+ .items>li{flex-direction:column;align-items:stretch;gap:10px}
+ .seg{align-self:flex-start}
+ .stage-head h2{font-size:26px}
+}
+@media print{
+ .bar,.modal,.toc{display:none!important}
+ body{background:#fff}
+ .stage{break-inside:auto}
+ .text,.defs,.cardx,.opt{break-inside:avoid}
+}
+
+.lay-note .hero{padding:24px 0 6px}
+.lay-note .hin,.lay-note .stage{position:relative;background-color:var(--surface);
+ background-image:linear-gradient(90deg,transparent var(--ml),color-mix(in srgb,var(--accent) 40%,transparent) var(--ml),color-mix(in srgb,var(--accent) 40%,transparent) calc(var(--ml) + 2px),transparent calc(var(--ml) + 2px)),repeating-linear-gradient(transparent 0 33px,color-mix(in srgb,var(--line) 70%,transparent) 33px 34px);
+ border-radius:var(--r);box-shadow:0 1px 0 var(--line),0 18px 34px -24px rgba(20,40,60,.35)}
+.lay-note{--ml:56px}
+.lay-note .hin{max-width:836px;padding:48px 30px 40px calc(var(--ml) + 26px)}
+.lay-note .main{padding-top:10px}
+.lay-note .stage{margin:40px 0;padding:44px 30px 34px calc(var(--ml) + 26px)}
+.lay-note .stage::before{content:"";position:absolute;top:-13px;left:50%;width:120px;height:28px;transform:translateX(-50%) rotate(-2.5deg);background:color-mix(in srgb,var(--accent2) 60%,transparent)}
+.lay-note .hero h1{font-size:clamp(46px,8vw,84px);line-height:1;color:var(--accent)}
+.lay-note .stage-head h2{font-size:clamp(32px,4.4vw,42px)}
+.lay-note .num{background:transparent;color:var(--accent);border:2.5px solid var(--accent);font-size:24px}
+.lay-note .text{box-shadow:0 0 0 6px var(--soft)}
+@media (max-width:640px){.lay-note{--ml:26px}.lay-note .hin,.lay-note .stage{padding-left:calc(var(--ml) + 16px);padding-right:16px}}
+
+.tag.ty{background:var(--ink);color:var(--surface)}
+.listen{display:flex;gap:16px;align-items:center;background:var(--surface);border:1.5px dashed var(--accent);border-radius:var(--r);padding:16px 20px;margin:4px 0 18px}
+.listen svg{flex-shrink:0}
+.listen p{margin:0}
+.script{margin:14px 0 6px;background:#FFFDF3;border:1.5px solid var(--tline);border-radius:var(--r);padding:18px 22px;font-size:15.5px;line-height:1.65;color:#2B2410}
+.script h4{font-family:var(--fb);font-size:15px;margin:0 0 10px;color:var(--tink)}
+.script p{margin:0 0 .55em}
+.script b{color:var(--tink)}
+.inl{display:inline-flex;gap:4px;vertical-align:middle;margin:2px 3px;flex-wrap:wrap}
+.inl button{font-family:var(--fb);font-weight:700;font-size:.92em;padding:4px 10px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;cursor:pointer}
+.inl button.on{background:var(--accent);border-color:var(--accent);color:var(--onacc)}
+body.teacher .inl button.ok{box-shadow:0 0 0 2.5px var(--good)}
+.ord{list-style:none;padding:0;margin:0 0 12px;display:grid;gap:8px}
+.ord li{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:11px 14px 11px 46px;position:relative;line-height:1.5}
+.ord li b{position:absolute;left:16px;top:11px;color:var(--accent)}
+.phg-wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.phg{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:14px 18px}
+.phg h4{font-size:1.08em;margin-bottom:8px;color:var(--accent)}
+.phg ul{margin:0;padding-left:18px}
+.phg li{margin:4px 0}
+.pn{display:inline-block;font-weight:800;color:var(--accent);margin-right:8px;font-family:var(--fb)}
+.items .opts{margin-top:4px}
+.items .opt{padding:10px 14px}
+.plan{display:grid;gap:12px}
+.plan label{font-weight:700;display:grid;gap:6px}
+.plan textarea{min-height:70px;font-weight:400}
+.gloss{width:100%;border-collapse:collapse;min-width:480px}
+.gloss th{text-align:left;font-size:13.5px;color:var(--muted);font-weight:700;padding:8px 10px;border-bottom:2px solid var(--ink)}
+.gloss td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
+.gloss td:first-child{font-weight:700}
+.h3x{font-size:1.4em;margin:26px 0 10px}
+.wrap-sel{display:inline-flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:4px;max-width:100%}
+.wrap-sel .ans{white-space:normal}
+.nonum .s::before{content:none}
+</style></head><body class="lay-note"><div class="bar"><button class="btn" id="pr" type="button">Print</button><button class="btn" id="tview" type="button" aria-pressed="false">Teacher view</button></div><div class="shell"><nav class="toc" aria-label="Lesson stages"><p>Make Ordinary Days Beautiful</p><a href="#s1"><span>1</span>Warm-up</a><a href="#s2"><span>2</span>Read the model</a><a href="#s3"><span>3</span>How is it organised?</a><a href="#s4"><span>4</span>Language: the five senses</a><a href="#s5"><span>5</span>Language: linking moments</a><a href="#s6"><span>6</span>Plan</a><a href="#s7"><span>7</span>Write</a><a href="#s8"><span>8</span>Peer review</a><a href="#s9"><span>9</span>Homework</a></nav><div class="col"><header class="hero"><div class="hin"><div class="left"><div class="tags"><span class="tag ty">Writing</span><span class="tag">60 minutes</span><span class="tag">Lifestyle</span></div><h1>Make Ordinary Days Beautiful</h1><p class="sub">Romanticise your life: write a descriptive blog post about small, happy moments.</p></div><div class="right"><div class="cando-box"><p class="cando-h">By the end of this lesson, you can:</p><ul class="cando"><li>describe places and moments using the five senses</li><li>organise a blog post into clear paragraphs with sequence linkers</li><li>plan, write and check a descriptive blog post</li></ul></div></div><div class="stub" aria-hidden="true"><div class="stamp">33</div><div class="dur">Writing<br>60 minutes<br>Lesson 33</div></div></div></header><main class="main"><aside class="tnote t-only tov"><h4>Teacher’s overview</h4><p><b>Lesson type:</b> Writing. <b>Length:</b> 60 minutes plus homework.</p><p><b>Main aim:</b> Writing: a descriptive blog post, planned, drafted and peer-reviewed.</p><p><b>Subsidiary aims:</b> Reading a model text for content and structure.</p><p><b>Language aim:</b> Sense verbs (looks, smells, sounds like) and sequence linkers (first, while, as soon as, after that).</p><table><tr><th>Stage</th><th>Time</th><th>Interaction</th></tr><tr><td>1. Warm-up</td><td>5 min</td><td>Whole class, then pairs</td></tr><tr><td>2. Read the model</td><td>8 min</td><td>Individual, then pairs</td></tr><tr><td>3. How is it organised?</td><td>7 min</td><td>Pairs</td></tr><tr><td>4. Language: the five senses</td><td>10 min</td><td>Individual, then pairs</td></tr><tr><td>5. Language: linking moments</td><td>7 min</td><td>Individual, then pairs</td></tr><tr><td>6. Plan</td><td>6 min</td><td>Individual</td></tr><tr><td>7. Write</td><td>12 min</td><td>Individual</td></tr><tr><td>8. Peer review</td><td>5 min</td><td>Pairs</td></tr><tr><td>9. Homework</td><td>Set at end</td><td>Individual</td></tr></table><p style="margin-top:10px"><b>Materials:</b> this page and a board or Miro for feedback. Share your screen in Student view so answers stay hidden.</p><p><b>One-to-one:</b> you are the student’s partner in every pair task. Keep teacher talk short. Let the student do most of the speaking.</p><p><b>Background:</b> ‘Romanticising your life’ became a popular social media idea: treating ordinary routines with care and attention, as if they were scenes from a film.</p></aside><section class="stage" id="s1"><div class="in"><div class="stage-head"><span class="num">1</span><h2>Warm-up</h2><span class="meta t-only">5 min</span></div><p class="task">Talk with a partner.</p><ol class="qlist"><li>What is a small thing that makes you happy every day?</li><li>Have you heard of ‘romanticising your life’? What do you think it means?</li><li>Do you take photos of ordinary moments, like your coffee or the sky?</li></ol><aside class="tnote t-only"><h4>Teacher notes. 5 min. Whole class, then pairs.</h4><p class="say"><b>Say:</b> Today you’re going to write a blog post about a happy, ordinary moment. First, discuss the questions.</p><p>Explain ‘romanticise your life’ with an example if needed: making your morning tea feel like a special ritual.</p></aside></div></section><section class="stage" id="s2"><div class="in"><div class="stage-head"><span class="num">2</span><h2>Read the model</h2><span class="meta t-only">8 min</span></div><article class="text"><h3>My Perfect Tuesday Morning</h3><div class="body"><p><span class="pn">1</span>Last Tuesday was a normal day, but I decided to treat it like a scene from a film.</p><p><span class="pn">2</span>First, I woke up early and opened the window. The air smelled fresh, like rain, and the street was quiet. While the kettle was boiling, I put on my favourite old song.</p><p><span class="pn">3</span>Then I walked to a small café near my flat. Inside, it was warm and cosy. The coffee tasted rich and a little sweet, and the croissant was still warm. I sat by the window and watched people hurrying to work.</p><p><span class="pn">4</span>After that, I took the long way to the office, through the park. The leaves were bright orange, and they made a soft sound under my feet.</p><p><span class="pn">5</span>Nothing special happened, but I felt calm and happy all day. Romanticising your life isn’t about expensive things. It’s about noticing. Tomorrow, try it. Look up, slow down and enjoy one small moment.</p></div></article><p class="task">Answer the questions.</p><ul class="items"><li class="col"><span class="s">Was Tuesday a special day?</span><input class="line" aria-label="Your answer" autocomplete="off"><span class="ans blk">No. It was a normal day.</span></li><li class="col"><span class="s">Which places did the writer go to?</span><input class="line" aria-label="Your answer" autocomplete="off"><span class="ans blk">Home, a café and the park on the way to the office.</span></li><li class="col"><span class="s">What is the writer’s main message?</span><input class="line" aria-label="Your answer" autocomplete="off"><span class="ans blk">Notice and enjoy small moments. It isn’t about expensive things.</span></li></ul><aside class="tnote t-only"><h4>Teacher notes. 8 min. Individual, then pairs.</h4><p class="say"><b>Say:</b> Read this blog post. It’s our model. Answer the three questions.</p><p>Ask: ‘Did you like it? Which moment can you see in your head?’</p></aside></div></section><section class="stage" id="s3"><div class="in"><div class="stage-head"><span class="num">3</span><h2>How is it organised?</h2><span class="meta t-only">7 min</span></div><p class="task">Match each paragraph to its purpose.</p><ul class="items nonum"><li><span class="s">Paragraph 1</span><span class="wrap-sel"><select aria-label="Match"><option value="">-</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select><span class="ans">e</span></span></li><li><span class="s">Paragraph 2</span><span class="wrap-sel"><select aria-label="Match"><option value="">-</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select><span class="ans">c</span></span></li><li><span class="s">Paragraph 3</span><span class="wrap-sel"><select aria-label="Match"><option value="">-</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select><span class="ans">b</span></span></li><li><span class="s">Paragraph 4</span><span class="wrap-sel"><select aria-label="Match"><option value="">-</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select><span class="ans">a</span></span></li><li><span class="s">Paragraph 5</span><span class="wrap-sel"><select aria-label="Match"><option value="">-</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option></select><span class="ans">d</span></span></li></ul><ul class="defs"><li><b>a</b>The third moment, outside</li><li><b>b</b>The second moment, in a café</li><li><b>c</b>The first moment, at home</li><li><b>d</b>Conclusion and advice for the reader</li><li><b>e</b>Introduction: what kind of day it was</li></ul><aside class="tnote t-only"><h4>Teacher notes. 7 min. Pairs.</h4><p class="say"><b>Say:</b> A good blog post has a clear plan. What does each paragraph do? Match them.</p><p>Point out: short introduction, three moments, a conclusion that speaks to the reader. Students will copy this structure.</p></aside></div></section><section class="stage" id="s4"><div class="in"><div class="stage-head"><span class="num">4</span><h2>Language: the five senses</h2><span class="meta t-only">10 min</span></div><p class="task">Which sense does each phrase from the text describe?</p><p class="phr"><span>sight</span><span>sound</span><span>smell</span><span>taste</span><span>touch</span></p><ul class="items"><li><span class="s">smelled fresh, like rain</span><span class="wrap-sel"><select aria-label="Category"><option value="">-</option><option>sight</option><option>sound</option><option>smell</option><option>taste</option><option>touch</option></select><span class="ans">smell</span></span></li><li><span class="s">quiet</span><span class="wrap-sel"><select aria-label="Category"><option value="">-</option><option>sight</option><option>sound</option><option>smell</option><option>taste</option><option>touch</option></select><span class="ans">sound</span></span></li><li><span class="s">warm and cosy</span><span class="wrap-sel"><select aria-label="Category"><option value="">-</option><option>sight</option><option>sound</option><option>smell</option><option>taste</option><option>touch</option></select><span class="ans">touch</span></span></li><li><span class="s">tasted rich and a little sweet</span><span class="wrap-sel"><select aria-label="Category"><option value="">-</option><option>sight</option><option>sound</option><option>smell</option><option>taste</option><option>touch</option></select><span class="ans">taste</span></span></li><li><span class="s">bright orange</span><span class="wrap-sel"><select aria-label="Category"><option value="">-</option><option>sight</option><option>sound</option><option>smell</option><option>taste</option><option>touch</option></select><span class="ans">sight</span></span></li><li><span class="s">a soft sound</span><span class="wrap-sel"><select aria-label="Category"><option value="">-</option><option>sight</option><option>sound</option><option>smell</option><option>taste</option><option>touch</option></select><span class="ans">sound</span></span></li><li><span class="s">still warm</span><span class="wrap-sel"><select aria-label="Category"><option value="">-</option><option>sight</option><option>sound</option><option>smell</option><option>taste</option><option>touch</option></select><span class="ans">touch</span></span></li></ul><p class="task">Choose the correct option.</p><ul class="items"><li><span class="s">The soup <span class="inl" data-pick><button type="button" class="ok" aria-pressed="false">smells</button><button type="button" class="" aria-pressed="false">smells like</button></span> delicious.</span></li><li><span class="s">It <span class="inl" data-pick><button type="button" class="ok" aria-pressed="false">sounds like</button><button type="button" class="" aria-pressed="false">sounds</button></span> rain on the roof.</span></li><li><span class="s">This scarf <span class="inl" data-pick><button type="button" class="ok" aria-pressed="false">feels</button><button type="button" class="" aria-pressed="false">feels like</button></span> soft.</span></li><li><span class="s">The cake <span class="inl" data-pick><button type="button" class="ok" aria-pressed="false">tastes like</button><button type="button" class="" aria-pressed="false">tastes</button></span> chocolate.</span></li><li><span class="s">You <span class="inl" data-pick><button type="button" class="ok" aria-pressed="false">look</button><button type="button" class="" aria-pressed="false">look like</button></span> happy today.</span></li></ul><aside class="tnote t-only"><h4>Teacher notes. 10 min. Individual, then pairs.</h4><p class="say"><b>Say:</b> Good descriptions use all five senses. Find which sense each phrase describes.</p><p>Before the second task, elicit the pattern: sense verb + adjective (smells delicious), sense verb + like + noun (smells like rain).</p><p>Common error: ‘It smells like delicious.’ Board the two patterns side by side.</p></aside></div></section><section class="stage" id="s5"><div class="in"><div class="stage-head"><span class="num">5</span><h2>Language: linking moments</h2><span class="meta t-only">7 min</span></div><p class="task">Complete the story with the words in the box. Use each one once.</p><div class="bank"><span>While</span><span>First</span><span>After that</span><span>Finally</span><span>As soon as</span></div><ul class="items"><li><span class="s"><input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">First</span>, I made a cup of tea.</span></li><li><span class="s"><input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">While</span> the tea was cooling, I opened my journal.</span></li><li><span class="s"><input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">As soon as</span> I opened the door, I smelled fresh bread.</span></li><li><span class="s">I bought two warm rolls. <input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">After that</span>, I sat in the park and ate them.</span></li><li><span class="s"><input class="gap" aria-label="Answer" autocomplete="off"><span class="ans">Finally</span>, I went home and wrote about my morning.</span></li></ul><aside class="tnote t-only"><h4>Teacher notes. 7 min. Individual, then pairs.</h4><p class="say"><b>Say:</b> These words show the order of events. Complete the mini story.</p><p>Highlight: while + an action in progress. as soon as = immediately when.</p></aside></div></section><section class="stage" id="s6"><div class="in"><div class="stage-head"><span class="num">6</span><h2>Plan</h2><span class="meta t-only">6 min</span></div><div class="plan"><label>My day and the title of my post<textarea aria-label="My day and the title of my post"></textarea></label><label>Moment 1: Where was I? What did I see, hear, smell, taste or feel?<textarea aria-label="Moment 1: Where was I? What did I see, hear, smell, taste or feel?"></textarea></label><label>Moment 2: Where was I? What did I notice?<textarea aria-label="Moment 2: Where was I? What did I notice?"></textarea></label><label>Moment 3: Where was I? What did I notice?<textarea aria-label="Moment 3: Where was I? What did I notice?"></textarea></label><label>My message for the reader<textarea aria-label="My message for the reader"></textarea></label></div><aside class="tnote t-only"><h4>Teacher notes. 6 min. Individual.</h4><p class="say"><b>Say:</b> Choose a real day: yesterday, last weekend or a day you remember well. Make notes for each box. Notes, not full sentences.</p><p>Monitor and help with vocabulary. Push for sense details.</p></aside></div></section><section class="stage" id="s7"><div class="in"><div class="stage-head"><span class="num">7</span><h2>Write</h2><span class="meta t-only">12 min</span></div><p class="task">Write your blog post (130-160 words).</p><p class="intro">Write a blog post about an ordinary day that you ‘romanticised’. Follow the model and your plan.</p><p style="font-weight:700;margin:14px 0 4px">Checklist</p><ul class="check"><li>Five short paragraphs: introduction, three moments, conclusion.</li><li>At least four senses and two sense verbs (looks, smells, sounds like).</li><li>At least three linkers: first, while, as soon as, after that, finally.</li><li>End with advice for your reader.</li></ul><textarea aria-label="Your writing" data-count="130-160" placeholder="Start writing here..."></textarea><div class="wc"></div><aside class="tnote t-only"><h4>Teacher notes. 12 min. Individual.</h4><p class="say"><b>Say:</b> Now write your post. You have twelve minutes. Use your plan and the checklist.</p><p>Quiet writing time. Monitor and point to errors without correcting them for the student.</p></aside></div></section><section class="stage" id="s8"><div class="in"><div class="stage-head"><span class="num">8</span><h2>Peer review</h2><span class="meta t-only">5 min</span></div><p class="task">Swap posts with your partner. Read and answer.</p><ol class="qlist"><li>Can you see the moments in your head? Which description do you like most?</li><li>Find two linkers and three sense words.</li><li>Give one suggestion to make the post better.</li></ol><aside class="tnote t-only"><h4>Teacher notes. 5 min. Pairs.</h4><p class="say"><b>Say:</b> Swap with your partner. Read their post and answer the three questions. Be kind and specific.</p><p>Model useful feedback language: ‘I love the part where...’, ‘Maybe you could add...’.</p></aside></div></section><section class="stage" id="s9"><div class="in"><div class="stage-head"><span class="num">9</span><h2>Homework</h2><span class="meta t-only">Set at the end</span></div><p class="task">Write your final draft (130-160 words).</p><p class="intro">Rewrite your blog post using your partner’s suggestions. Add a title and describe the photo you would put at the top.</p><p style="font-weight:700;margin:14px 0 4px">Checklist</p><ul class="check"><li>Check spelling and past tense verbs.</li><li>Check the five-paragraph structure.</li><li>Add one new sense detail.</li></ul><textarea aria-label="Your writing" data-count="130-160" placeholder="Start writing here..."></textarea><div class="wc"></div><aside class="tnote t-only"><h4>Teacher notes. Set at the end, 2 min. Individual.</h4><p class="say"><b>Say:</b> For homework, write your final draft. Use your partner’s ideas.</p><p>Mark the final draft for content, organisation, vocabulary and accuracy. Give one ‘keep doing’ and one ‘try next time’ comment.</p></aside></div></section><section class="stage t-only" id="key"><div class="in"><div class="stage-head"><span class="num">&#10003;</span><h2>Answer key</h2></div><div class="key"><div><b>Read the model</b><ol><li>No. It was a normal day.</li><li>Home, a café and the park on the way to the office.</li><li>Notice and enjoy small moments. It isn’t about expensive things.</li></ol></div><div><b>How is it organised?</b><ol><li>e</li><li>c</li><li>b</li><li>a</li><li>d</li></ol></div><div><b>Language: the five senses</b><ol><li>smell</li><li>sound</li><li>touch</li><li>taste</li><li>sight</li><li>sound</li><li>touch</li></ol></div><div><b>Language: the five senses</b><ol><li>smells</li><li>sounds like</li><li>feels</li><li>tastes like</li><li>look</li></ol></div><div><b>Language: linking moments</b><ol><li>First</li><li>While</li><li>As soon as</li><li>After that</li><li>Finally</li></ol></div></div></div></section></main><footer>Lesson 33. Make Ordinary Days Beautiful. Writing lesson.</footer></div></div><div class="modal" id="tmodal" role="dialog" aria-modal="true" aria-labelledby="tmh"><form id="tform"><h3 id="tmh">Teacher view</h3><p>Enter the teacher code to see notes and answers.</p><input class="line" id="tcode" type="password" autocomplete="off" aria-label="Teacher code"><p class="err" id="terr" role="alert"></p><div class="row"><button class="btn" type="button" id="tcancel">Cancel</button><button class="btn" type="submit">Open</button></div></form></div><script>
+(function(){
+ var TEACHER_CODE = "teacher";
+ var b=document.body, tb=document.getElementById('tview'), m=document.getElementById('tmodal'), f=document.getElementById('tform'), inp=document.getElementById('tcode'), err=document.getElementById('terr'), ok=false;
+ function set(on){b.classList.toggle('teacher',on);tb.setAttribute('aria-pressed',on?'true':'false');tb.textContent=on?'Student view':'Teacher view';}
+ tb.addEventListener('click',function(){ if(b.classList.contains('teacher')){set(false);return;} if(ok||!TEACHER_CODE){set(true);return;} m.classList.add('open');err.textContent='';inp.value='';setTimeout(function(){inp.focus()},30);});
+ f.addEventListener('submit',function(e){e.preventDefault(); if(inp.value.trim().toLowerCase()===TEACHER_CODE.toLowerCase()){ok=true;m.classList.remove('open');set(true);} else {err.textContent='That code is not correct. Try again.';inp.select();}});
+ document.getElementById('tcancel').addEventListener('click',function(){m.classList.remove('open');});
+ m.addEventListener('click',function(e){if(e.target===m)m.classList.remove('open');});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')m.classList.remove('open');});
+ document.getElementById('pr').addEventListener('click',function(){window.print();});
+ document.querySelectorAll('[data-pick]').forEach(function(g){ g.addEventListener('click',function(e){ var t=e.target.closest('button'); if(!t||!g.contains(t))return; var was=t.classList.contains('on'); g.querySelectorAll('button').forEach(function(x){x.classList.remove('on');x.setAttribute('aria-pressed','false');}); if(!was){t.classList.add('on');t.setAttribute('aria-pressed','true');} }); });
+ document.querySelectorAll('textarea[data-count]').forEach(function(t){ var o=t.parentNode.querySelector('.wc'); function u(){var n=(t.value.trim().match(/\S+/g)||[]).length;o.textContent=n+' words (aim for '+t.dataset.count+')';} t.addEventListener('input',u);u(); });
+})();
+</script></body></html>
