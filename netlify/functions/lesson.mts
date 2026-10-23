@@ -1,5 +1,6 @@
 import type { Config, Context } from "@netlify/functions"
-import { isStudent, json, readPrivate, sessionFrom } from "../lib.mts"
+import { isStudent, isTeacher, json, readPrivate, sessionFrom } from "../lib.mts"
+import { forStudent, forTeacher } from "../teacher-content.mts"
 
 // Added to every lesson: no right click, no save / print / view-source shortcuts, no copying.
 // Lessons run in a srcdoc frame, so #anchor links would load the site itself; they scroll in place instead.
@@ -17,8 +18,9 @@ export default async (req: Request, context: Context) => {
 
   const slug = context.params.slug
   if (!/^[a-z0-9-]+$/.test(slug)) return json({ error: "not_found" }, 404)
-  const html = await readPrivate(`lessons/${slug}.html`)
-  if (html === null) return json({ error: "not_found" }, 404)
+  const raw = await readPrivate(`lessons/${slug}.html`)
+  if (raw === null) return json({ error: "not_found" }, 404)
+  const html = isTeacher(session.email) ? forTeacher(raw) : forStudent(raw)
 
   const out = html.includes("</head>") ? html.replace("</head>", `${GUARD}</head>`) : GUARD + html
   return new Response(out, {
