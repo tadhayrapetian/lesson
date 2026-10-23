@@ -138,11 +138,20 @@ export type Request_ = {
   times?: string
   message?: string
   siteUrl: string
+  grantUrl?: string
 }
 
 const T = DEFAULT_THEME
 const SERIF = `Georgia,'Times New Roman',serif`
 const SANS = `'Helvetica Neue',Helvetica,Arial,sans-serif`
+
+const button = (href: string, label: string) => `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:30px 0 0;"><tr>
+ <td style="background:${T.accent};border-radius:999px;"><a href="${esc(href)}" target="_blank" style="display:inline-block;padding:15px 30px;font:500 15px/1 ${SANS};color:${T.onAccent};text-decoration:none;border-radius:999px;">${label}</a></td></tr></table>`
+
+const signature = (teacher: string, closing: string) => `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:30px;"><tr><td style="border-top:1px solid ${T.soft};padding-top:26px;">
+ <p style="margin:0;font:300 14px/1.5 ${SANS};color:${T.muted};">${closing}</p>
+ <p style="margin:6px 0 0;font:italic 400 26px/1.2 ${SERIF};color:${T.ink};">${esc(teacher)}</p>
+ <p style="margin:4px 0 0;font:400 11px/1.4 ${SANS};letter-spacing:2px;text-transform:uppercase;color:${T.muted};">English teacher</p></td></tr></table>`
 
 function rows(r: Request_) {
   const items: [string, string | undefined][] = [
@@ -160,7 +169,7 @@ function rows(r: Request_) {
     .join("")
 }
 
-function shell(r: Request_, eyebrow: string, title: string, body: string) {
+function shell(r: { teacher: string; siteUrl: string }, eyebrow: string, title: string, body: string) {
   return `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light"><style>@media (max-width:620px){.wrap{width:100%!important}.px{padding-left:24px!important;padding-right:24px!important}}</style></head>
 <body style="margin:0;padding:0;background:${T.bg};">
@@ -185,7 +194,9 @@ export function requestTeacherHtml(r: Request_) {
     r.name,
     `<p style="margin:0 0 24px;font:300 16px/1.6 ${SANS};color:${T.ink};"><a href="mailto:${esc(r.email)}" style="color:${T.accent};">${esc(r.email)}</a></p>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${rows(r)}</table>
-<p style="margin:26px 0 0;font:300 13px/1.6 ${SANS};color:${T.muted};">Press Reply to answer ${esc(r.name)} directly.</p>`,
+<p style="margin:26px 0 0;font:300 13px/1.6 ${SANS};color:${T.muted};">Press Reply to answer ${esc(r.name)} directly.</p>
+${r.grantUrl ? `${button(r.grantUrl, `Give ${esc(r.name.trim().split(/\s+/)[0])} access &rarr;`)}
+<p style="margin:14px 0 0;font:300 13px/1.6 ${SANS};color:${T.muted};">Press it once you have been paid. It opens the website and asks you to confirm, then ${esc(r.name.trim().split(/\s+/)[0])} gets an email with how to open the lessons. The button works for 30 days.</p>` : ""}`,
   )
 }
 
@@ -199,11 +210,47 @@ export function requestStudentHtml(r: Request_) {
     `<p style="margin:0;font:300 16px/1.7 ${SANS};color:${T.ink};">I have your message and will reply within a day to find a time that works for you.</p>
 <p style="margin:26px 0 8px;font:400 11px/1 ${SANS};letter-spacing:2px;text-transform:uppercase;color:${T.muted};">What you sent</p>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${rows(r)}</table>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:30px;"><tr><td style="border-top:1px solid ${T.soft};padding-top:26px;">
- <p style="margin:0;font:300 14px/1.5 ${SANS};color:${T.muted};">Talk soon,</p>
- <p style="margin:6px 0 0;font:italic 400 26px/1.2 ${SERIF};color:${T.ink};">${esc(r.teacher)}</p>
- <p style="margin:4px 0 0;font:400 11px/1.4 ${SANS};letter-spacing:2px;text-transform:uppercase;color:${T.muted};">English teacher</p></td></tr></table>`,
+${signature(r.teacher, "Talk soon,")}`,
   )
+}
+
+export type Welcome = { teacher: string; siteUrl: string; name?: string; email: string }
+
+// To a student who has just been given access.
+export function welcomeSubject(w: Welcome) {
+  return `Your access to ${w.teacher}'s lessons is ready`
+}
+
+export function welcomeHtml(w: Welcome) {
+  const first = (w.name ?? "").trim().split(/\s+/)[0]
+  const step = (n: number, text: string) => `<tr><td style="padding:12px 0;border-top:1px solid ${T.soft};vertical-align:top;width:34px;font:italic 400 22px/1.2 ${SERIF};color:${T.accent};">${n}</td>
+<td style="padding:12px 0;border-top:1px solid ${T.soft};font:300 15px/1.6 ${SANS};color:${T.ink};">${text}</td></tr>`
+  return shell(
+    w,
+    "Welcome",
+    first ? `Welcome, ${first}!` : "Welcome!",
+    `<p style="margin:0;font:300 16px/1.7 ${SANS};color:${T.ink};">Your access to my lessons is ready. Here is how to open them:</p>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:22px;">
+${step(1, "Open the lessons page and choose a lesson.")}
+${step(2, `Enter this email address: <b style="font-weight:500;">${esc(w.email)}</b>`)}
+${step(3, "We will send you a short code. Enter it, and the lesson opens.")}
+</table>
+${button(`${w.siteUrl}/#lessons`, "Open the lessons &rarr;")}
+${signature(w.teacher, "See you in class,")}`,
+  )
+}
+
+export function welcomeText(w: Welcome) {
+  return [
+    w.name ? `Hi ${w.name.trim().split(/\s+/)[0]},` : "Hi,",
+    "",
+    "Your access to my lessons is ready.",
+    `1. Open ${w.siteUrl}/#lessons and choose a lesson.`,
+    `2. Enter this email address: ${w.email}`,
+    "3. We will send you a short code. Enter it, and the lesson opens.",
+    "",
+    w.teacher,
+  ].join("\n")
 }
 
 export function requestText(r: Request_) {

@@ -101,13 +101,12 @@ const secret = () => {
 }
 const sign = (payload: string) => createHmac("sha256", secret()).update(payload).digest("base64url")
 
-export function makeToken(email: string) {
-  const exp = Date.now() + SESSION_TTL
-  const payload = Buffer.from(JSON.stringify({ email, exp })).toString("base64url")
+export function makeSigned(data: Record<string, unknown>, ttl: number) {
+  const payload = Buffer.from(JSON.stringify({ ...data, exp: Date.now() + ttl })).toString("base64url")
   return `${payload}.${sign(payload)}`
 }
 
-export function readToken(token: string): { email: string; exp: number } | null {
+export function readSigned(token: string): Record<string, any> | null {
   const [payload, sig] = token.split(".")
   if (!payload || !sig) return null
   const a = Buffer.from(sig)
@@ -119,6 +118,24 @@ export function readToken(token: string): { email: string; exp: number } | null 
   } catch {
     return null
   }
+}
+
+export const makeToken = (email: string) => makeSigned({ email }, SESSION_TTL)
+
+// Session tokens carry no "typ"; signed links (like "grant") do, so one can't be used as the other.
+export function readToken(token: string): { email: string; exp: number } | null {
+  const data = readSigned(token)
+  return data && !data.typ && typeof data.email === "string" ? (data as { email: string; exp: number }) : null
+}
+
+export const GRANT_TTL = 30 * 24 * 60 * 60 * 1000
+export const makeGrantLink = (siteUrl: string, email: string, name: string) =>
+  `${siteUrl}/#grant=${makeSigned({ typ: "grant", email, name }, GRANT_TTL)}`
+
+export async function grantAccess(email: string, name = "") {
+  const prev = await studentStore().get(email, { type: "json" })
+  await studentStore().setJSON(email, { name: name || prev?.name || "", addedAt: prev?.addedAt ?? Date.now() })
+  return !prev
 }
 
 export const json = (body: unknown, status = 200) =>

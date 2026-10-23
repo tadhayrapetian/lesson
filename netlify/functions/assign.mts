@@ -1,6 +1,6 @@
 import type { Config } from "@netlify/functions"
 import { assignmentHtml, assignmentSubject, assignmentText, type Assignment } from "../email.mts"
-import { isTeacher, json, mailError, mailer, normEmail, readPrivate, sessionFrom, siteData, studentStore, uploadStore } from "../lib.mts"
+import { grantAccess, isTeacher, json, mailError, mailer, normEmail, readPrivate, sessionFrom, siteData, uploadStore } from "../lib.mts"
 
 // Gmail accepts messages up to 25 MB; attachments grow by about a third when encoded.
 const MAX_FILES_BYTES = 18 * 1024 * 1024
@@ -77,8 +77,7 @@ export default async (req: Request) => {
   }
   await Promise.all(files.flatMap((f) => Array.from({ length: f.parts }, (_, i) => uploadStore().delete(`${f.id}/${i}`))))
   // Getting an assignment gives the student access to the site.
-  const prev = await studentStore().get(studentEmail, { type: "json" })
-  await studentStore().setJSON(studentEmail, { name: a.studentName || prev?.name || "", addedAt: prev?.addedAt ?? Date.now() })
+  await grantAccess(studentEmail, a.studentName)
   return json({ ok: true })
 }
 

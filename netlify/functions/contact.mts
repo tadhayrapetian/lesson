@@ -1,7 +1,7 @@
 import type { Config, Context } from "@netlify/functions"
 import { getStore } from "@netlify/blobs"
 import { requestStudentHtml, requestTeacherHtml, requestText, type Request_ } from "../email.mts"
-import { json, mailError, mailer, normEmail, sha256, siteData, teacherEmail } from "../lib.mts"
+import { json, mailError, mailer, makeGrantLink, normEmail, sha256, siteData, teacherEmail } from "../lib.mts"
 
 const LIMIT = 5
 const WINDOW = 60 * 60 * 1000
@@ -38,6 +38,7 @@ export default async (req: Request, context: Context) => {
     message: clip(body.message, 2000),
     siteUrl: new URL(req.url).origin,
   }
+  r.grantUrl = makeGrantLink(r.siteUrl, email, name)
 
   const { user, transport } = mailer()
   try {

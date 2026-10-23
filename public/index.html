@@ -177,6 +177,16 @@ body.viewing{-webkit-user-select:none;user-select:none}input,textarea{-webkit-us
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
 .mactions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:.4rem}
 .attach{margin:0 0 1.2rem}
+.slist{list-style:none;margin:1.4rem 0 0;padding:0;max-height:45vh;overflow:auto}
+.slist li{display:flex;align-items:center;gap:.8rem;padding:.6rem 0;border-top:1px solid var(--line);font-size:.92rem}
+.slist .who{flex:1;min-width:0}
+.slist .who b{font-weight:500;display:block;overflow:hidden;text-overflow:ellipsis}
+.slist .who span{color:var(--muted);font-size:.82rem;overflow:hidden;text-overflow:ellipsis;display:block}
+.slist button{background:none;border:1px solid var(--line);border-radius:999px;padding:.25rem .8rem;font-size:.8rem;cursor:pointer;color:var(--muted)}
+.slist button:hover{border-color:#A4473B;color:#A4473B}
+.check{display:flex!important;align-items:center;gap:.6rem;font-size:.9rem!important;letter-spacing:0!important;color:var(--ink)!important;margin:0 0 1.2rem!important;cursor:pointer}
+.check input{width:auto!important;margin:0!important}
+.gmsg a{color:inherit}
 .attach input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 .attach label.pick{display:inline-flex;align-items:center;gap:.5rem;border:1px dashed var(--ink);border-radius:999px;padding:.45rem 1.1rem;font-size:.88rem;letter-spacing:0;color:var(--ink);cursor:pointer;margin:0}
 .attach label.pick:hover{background:var(--bg)}
@@ -276,6 +286,7 @@ body.viewing{-webkit-user-select:none;user-select:none}input,textarea{-webkit-us
   <button type="button" id="back">← All lessons</button>
   <span class="vtitle serif" id="vtitle"></span>
   <span class="vname" id="vname"></span>
+  <button type="button" id="vstudents" hidden>Students</button>
   <button type="button" id="vassign" class="assign" hidden>Send to student</button>
   <button type="button" id="vfull" hidden>Full screen</button>
  </div>
@@ -337,6 +348,28 @@ body.viewing{-webkit-user-select:none;user-select:none}input,textarea{-webkit-us
  <div class="mbox sent" id="sentBox" hidden>
   <h2 class="serif">Sent</h2><p id="sentText"></p>
   <div class="mactions"><button type="button" class="gbtn ghost" id="sendAnother">Send to another student</button><button type="button" class="gbtn" data-close>Done</button></div>
+ </div>
+</div>
+
+<div class="modal" id="studentsModal" hidden>
+ <form class="mbox" id="stForm">
+  <div class="mhead"><div><h2 class="serif">Students</h2><p>Only these people can get a code and open lessons.</p></div><button type="button" class="x" data-sclose aria-label="Close">×</button></div>
+  <div class="row2">
+   <div><label for="stEmail">EMAIL</label><input id="stEmail" type="email" required autocomplete="off"></div>
+   <div><label for="stName">NAME</label><input id="stName" type="text" placeholder="Optional" autocomplete="off"></div>
+  </div>
+  <label class="check"><input type="checkbox" id="stWelcome" checked> Email them how to open the lessons</label>
+  <div class="mactions"><button class="gbtn" id="stAdd">Give access</button></div>
+  <p class="gmsg" id="stMsg" role="status"></p>
+  <ul class="slist" id="stList"></ul>
+ </form>
+</div>
+
+<div class="modal" id="grantModal" hidden>
+ <div class="mbox">
+  <div class="mhead"><div><h2 class="serif" id="grTitle">Give access</h2><p id="grText"></p></div><button type="button" class="x" data-gclose aria-label="Close">×</button></div>
+  <div class="mactions" id="grActions"><button type="button" class="gbtn ghost" data-gclose>Cancel</button><button type="button" class="gbtn" id="grOk">Give access</button></div>
+  <p class="gmsg" id="grMsg" role="status"></p>
  </div>
 </div>
 
@@ -438,7 +471,7 @@ $('#grid').addEventListener('click',e=>{const c=e.target.closest('.card');if(c)l
 
 // The session lives only in this tab's memory: reloading or closing the tab asks for a new code.
 let token=null,teacher=false,current=null,cooldown=0,timer=null;
-const MSG={bad_email:'Please check the email address.',not_allowed:'This email is not on the student list. Ask your teacher.',
+const MSG={bad_email:'Please check the email address.',not_allowed:'Lessons are open to my students only.',
  too_soon:'Please wait a moment before asking for a new code.',mail_failed:'Could not send the email. Try again in a minute.',
  expired:'This code has expired. Send a new one.',wrong_code:'Wrong code.',network:'No connection. Try again.'};
 async function api(path,body){
@@ -465,6 +498,7 @@ async function sendCode(msgEl){
   $('#code').value='';$('#code').focus();startCooldown(60);return;}
  if(r.error==='too_soon'&&r.wait){startCooldown(r.wait);}
  msgEl.className='gmsg';msgEl.textContent=MSG[r.error]||MSG.network;
+ if(r.error==='not_allowed')msgEl.insertAdjacentHTML('beforeend',' <a href="#membership">Choose a plan</a> or <a href="#contact">book a trial lesson</a> to get access.');
 }
 $('#emailForm').addEventListener('submit',async e=>{e.preventDefault();$('#sendBtn').disabled=true;await sendCode($('#emailMsg'));$('#sendBtn').disabled=false;});
 $('#resend').addEventListener('click',()=>sendCode($('#codeMsg')));
@@ -493,7 +527,7 @@ async function loadLesson(l){
  if(!r.ok){$('#gate').hidden=true;$('#frame').hidden=false;$('#frame').srcdoc='<p style="font:16px sans-serif;padding:2rem">Lesson not found.</p>';return;}
  const html=await r.text();if(current!==l)return;
  $('#gate').hidden=true;$('#frame').srcdoc=html;$('#frame').hidden=false;$('#vfull').hidden=!document.fullscreenEnabled;
- $('#vassign').hidden=!teacher;
+ $('#vassign').hidden=!teacher;$('#vstudents').hidden=!teacher;
 }
 
 // Teacher only: email the lesson link to a student.
@@ -570,9 +604,60 @@ $('#previewSend').addEventListener('click',()=>send($('#pMsg'),$('#previewSend')
 $('#previewEdit').addEventListener('click',()=>showStep('assignForm'));
 $('#previewBack').addEventListener('click',()=>showStep('assignForm'));
 $('#sendAnother').addEventListener('click',()=>{$('#aEmail').value='';$('#aName').value='';$('#aMsg').textContent='';showStep('assignForm');loadStudents();$('#aEmail').focus();});
+// Teacher: who can open lessons.
+const stMsgs={...MSG,in_file:'This email is in students.txt. Remove it there.',unauthorized:'Your session has ended. Reopen the lesson and log in again.'};
+function drawStudents(list){
+ $('#stList').innerHTML=list.length?list.map(s=>`<li><span class="who"><b>${esc(s.name||s.email)}</b>${s.name?`<span>${esc(s.email)}</span>`:''}</span><button type="button" data-srm="${esc(s.email)}">Remove</button></li>`).join(''):'<li><span class="who"><span>No students yet.</span></span></li>';
+}
+async function openStudents(){
+ if(document.fullscreenElement)document.exitFullscreen();
+ $('#stMsg').textContent='';$('#studentsModal').hidden=false;$('#stList').innerHTML='';
+ const r=await fetch('/api/students',{headers:{authorization:'Bearer '+token}}).then(r=>r.json()).catch(()=>({error:'network'}));
+ if(r.students)drawStudents(r.students);else $('#stMsg').textContent=stMsgs[r.error]||MSG.network;
+ setTimeout(()=>$('#stEmail').focus(),0);
+}
+$('#vstudents').addEventListener('click',openStudents);
+document.querySelectorAll('[data-sclose]').forEach(b=>b.addEventListener('click',()=>$('#studentsModal').hidden=true));
+$('#studentsModal').addEventListener('click',e=>{if(e.target===$('#studentsModal'))$('#studentsModal').hidden=true;});
+$('#stForm').addEventListener('submit',async e=>{
+ e.preventDefault();$('#stAdd').disabled=true;$('#stMsg').className='gmsg';$('#stMsg').textContent='Saving…';
+ const email=$('#stEmail').value.trim(),welcome=$('#stWelcome').checked;
+ const r=await authPost('/api/students',{action:'add',email,name:$('#stName').value.trim(),welcome});$('#stAdd').disabled=false;
+ if(!r.ok){$('#stMsg').textContent=stMsgs[r.error]||MSG.network;return;}
+ drawStudents(r.students);studentsLoaded=false;$('#stEmail').value='';$('#stName').value='';
+ $('#stMsg').className='gmsg ok';$('#stMsg').textContent=r.mail==='failed'?email+' can open lessons now, but the email did not send.':email+' can open lessons now'+(welcome?' and got an email with instructions.':'.');
+});
+$('#stList').addEventListener('click',async e=>{
+ const b=e.target.closest('[data-srm]');if(!b||!confirm('Remove '+b.dataset.srm+'? They will no longer be able to open lessons.'))return;
+ const r=await authPost('/api/students',{action:'remove',email:b.dataset.srm});
+ $('#stMsg').className='gmsg';
+ if(!r.ok){$('#stMsg').textContent=stMsgs[r.error]||MSG.network;return;}
+ drawStudents(r.students);studentsLoaded=false;$('#stMsg').textContent='';
+});
+
+// "Give access" button from a request email: #grant=<signed link>. Nothing changes until Confirm is pressed.
+let grantToken='';
+async function showGrant(t){
+ grantToken=t;$('#grantModal').hidden=false;$('#grActions').hidden=true;$('#grTitle').textContent='Give access';$('#grMsg').className='gmsg';$('#grMsg').textContent='Checking the link…';$('#grText').textContent='';
+ const r=await api('/api/grant',{token:t});
+ if(!r.email){$('#grMsg').textContent='This link is not valid or has expired. Add the student from Students inside any lesson.';return;}
+ $('#grMsg').textContent='';$('#grActions').hidden=false;
+ $('#grText').textContent='Give '+(r.name?r.name+' ('+r.email+')':r.email)+' access to all lessons? They will get an email with how to open them.';
+}
+function closeGrant(){$('#grantModal').hidden=true;history.replaceState('',document.title,location.pathname+location.search);}
+document.querySelectorAll('[data-gclose]').forEach(b=>b.addEventListener('click',closeGrant));
+$('#grOk').addEventListener('click',async()=>{
+ $('#grOk').disabled=true;$('#grMsg').className='gmsg';$('#grMsg').textContent='Saving…';
+ const r=await api('/api/grant',{token:grantToken,confirm:true});$('#grOk').disabled=false;
+ if(!r.ok){$('#grMsg').textContent=r.error==='bad_link'?'This link is not valid or has expired.':MSG.network;return;}
+ $('#grTitle').textContent='Done';$('#grActions').hidden=true;
+ $('#grText').textContent=r.added?(r.name||r.email)+' can open lessons now and got an email with instructions.':(r.name||r.email)+' already had access.';
+});
+
 $('#vfull').addEventListener('click',()=>{document.fullscreenElement?document.exitFullscreen():$('#viewer').requestFullscreen().catch(()=>{});});
 document.addEventListener('fullscreenchange',()=>{$('#vfull').textContent=document.fullscreenElement?'Exit full screen':'Full screen';});
 function route(){
+ if(location.hash.startsWith('#grant=')){showGrant(location.hash.slice(7));return;}
  const slug=decodeURIComponent(location.hash.slice(1)),l=L.find(x=>x.slug===slug);
  current=l||null;
  // #lessons and lesson links show the library; any other hash is a part of the landing page.
@@ -585,7 +670,7 @@ function route(){
  }
  document.querySelectorAll('.links a[aria-current]').forEach(a=>a.setAttribute('aria-current','page'));
  if(l){
-  $('#vtitle').textContent=l.title;$('#frame').hidden=true;$('#gate').hidden=true;$('#vassign').hidden=true;$('#assignModal').hidden=true;
+  $('#vtitle').textContent=l.title;$('#frame').hidden=true;$('#gate').hidden=true;$('#vassign').hidden=true;$('#vstudents').hidden=true;$('#assignModal').hidden=true;$('#studentsModal').hidden=true;
   $('#viewer').hidden=false;document.body.classList.add('viewing');document.title=l.title+(S.name?', '+S.name:'');
   loadLesson(l);
  }else{
@@ -599,7 +684,7 @@ function route(){
 document.addEventListener('keydown',e=>{if(!document.body.classList.contains('viewing'))return;const k=(e.key||'').toLowerCase(),m=e.ctrlKey||e.metaKey;
  if(k==='f12'||(m&&['s','u','p'].includes(k))||(m&&e.shiftKey&&['i','j','c'].includes(k)))e.preventDefault();},true);
 $('#back').addEventListener('click',()=>{location.hash='lessons';});
-document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!$('#assignModal').hidden)$('#assignModal').hidden=true;else if(!$('#viewer').hidden)$('#back').click();});
+document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!$('#grantModal').hidden)closeGrant();else if(!$('#studentsModal').hidden)$('#studentsModal').hidden=true;else if(!$('#assignModal').hidden)$('#assignModal').hidden=true;else if(!$('#viewer').hidden)$('#back').click();});
 window.addEventListener('hashchange',route);
 render();route();
 </script>
