@@ -34,6 +34,7 @@ export type Lesson = {
   minutes?: number
   vocab?: string
   grammar?: string
+  level?: string | string[]
   theme?: Partial<Record<"bg" | "card" | "ink" | "muted" | "accent" | "onAccent" | "soft", string>>
 }
 
@@ -138,6 +139,17 @@ export async function grantAccess(email: string, name = "") {
   const prev = await studentStore().get(email, { type: "json" })
   await studentStore().setJSON(email, { name: name || prev?.name || "", addedAt: prev?.addedAt ?? Date.now() })
   return !prev
+}
+
+// Public forms: at most `limit` sends per hour from one IP address.
+export async function overLimit(ip: string, limit = 5) {
+  const rate = getStore({ name: "contact-rate", consistency: "strong" })
+  const key = sha256(ip || "unknown")
+  const prev = await rate.get(key, { type: "json" })
+  const fresh = !prev || Date.now() - prev.start > 60 * 60 * 1000
+  if (!fresh && prev.count >= limit) return true
+  await rate.setJSON(key, fresh ? { start: Date.now(), count: 1 } : { ...prev, count: prev.count + 1 })
+  return false
 }
 
 export const json = (body: unknown, status = 200) =>

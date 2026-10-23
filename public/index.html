@@ -160,6 +160,23 @@ body.library .landing{display:none}
 .gmsg{min-height:1.4em;margin:.8rem 0 0;font-size:.85rem;color:#A4473B}
 .cform .gmsg{text-align:center}
 .gmsg.ok{color:var(--forest)}
+.gbox.wide{width:min(100%,560px)}
+.buyhead{margin:-1px -1px 1.6rem;padding:1.6rem clamp(1.5rem,5vw,2.5rem) 1.4rem;background:var(--c);color:var(--f)}
+.gbox.wide .buyhead{margin:calc(-1*clamp(1.5rem,5vw,2.5rem)) calc(-1*clamp(1.5rem,5vw,2.5rem)) 1.6rem}
+.buyhead .k{margin:0 0 .6rem;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;opacity:.8}
+.gbox .buyhead p,.buyhead dt,.buyhead dd{color:inherit}
+.gate{align-items:flex-start}
+.gate>.gbox{margin:auto 0}
+.buyhead h2{margin:0;font-size:2.4rem;line-height:1;color:inherit}
+.buyhead dl{margin:1rem 0 0;display:grid;grid-template-columns:auto 1fr;gap:.25rem 1rem;font-size:.86rem}
+.buyhead dt{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;opacity:.75;padding-top:.2rem}
+.buyhead dd{margin:0}
+.gbox select{font:inherit;font-size:1rem;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--ink);border-radius:0;padding:.5rem 0;width:100%;margin-bottom:1.2rem}
+.gbox select option{color:#162A2C}
+.gbox textarea{font:inherit;font-size:.98rem;color:var(--ink);background:transparent;border:1px solid var(--line);padding:.6rem .7rem;width:100%;min-height:5.5rem;resize:vertical;margin-bottom:1.2rem}
+.gbox .row2{gap:0 1.2rem}
+.studentlink{margin:1.2rem 0 0;padding-top:1rem;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted);text-align:center}
+.studentlink button{background:none;border:0;padding:0;color:var(--ink);text-decoration:underline;cursor:pointer;font-size:inherit}
 body.viewing{-webkit-user-select:none;user-select:none}input,textarea{-webkit-user-select:text;user-select:text}
 @media print{html{display:none!important}}
 .vbar .assign{background:var(--white);color:var(--midnight);border-color:var(--white)}
@@ -298,14 +315,30 @@ body.viewing{-webkit-user-select:none;user-select:none}input,textarea{-webkit-us
   <button type="button" id="vfull" hidden>Full screen</button>
  </div>
  <div class="gate" id="gate" hidden>
-  <form class="gbox" id="emailForm">
-   <h2 class="serif">Get your code</h2>
-   <p>Enter your email. We will send you a code to open the lesson.</p>
+  <form class="gbox wide" id="buyForm" novalidate>
+   <div class="buyhead" id="buyHead"></div>
+   <h2 class="serif" style="font-size:2rem">Get this lesson</h2>
+   <p>This lesson is for my students. If you would like to use it in your own classes, send a request and I will reply with the price.</p>
+   <div class="row2">
+    <div><label for="bName">NAME</label><input id="bName" autocomplete="name" maxlength="80"></div>
+    <div><label for="bEmail">EMAIL</label><input id="bEmail" type="email" autocomplete="email" maxlength="120"></div>
+   </div>
+   <label for="bRole">I AM</label><select id="bRole"><option>An English teacher</option><option>A language school</option><option>A learner</option><option>Other</option></select>
+   <label for="bMsg">MESSAGE</label><textarea id="bMsg" maxlength="2000" placeholder="Optional. Anything you would like to ask"></textarea>
+   <div class="hp" aria-hidden="true"><label for="bSite">Website</label><input id="bSite" tabindex="-1" autocomplete="off"></div>
+   <button class="gbtn" id="bSend">Request this lesson</button>
+   <p class="gmsg" id="bMsgOut" role="status"></p>
+   <p class="studentlink">Already my student? <button type="button" id="toStudent">Log in with your email</button></p>
+  </form>
+  <div class="gbox wide" id="buyDone" hidden><h2 class="serif">Thank you!</h2><p id="buyDoneText" style="margin:0"></p></div>
+  <form class="gbox" id="emailForm" hidden>
+   <h2 class="serif">Student login</h2>
+   <p>Enter the email your teacher gave access to. We will send you a code to open the lesson.</p>
    <label for="email">EMAIL</label>
    <input id="email" type="email" autocomplete="email" required>
    <button class="gbtn" id="sendBtn">Send code</button>
    <p class="gmsg" id="emailMsg" role="status"></p>
-   <div class="glinks"><span></span><button type="button" id="toPw">Teacher login</button></div>
+   <div class="glinks"><button type="button" id="toBuy">Not a student yet?</button><button type="button" id="toPw">Teacher login</button></div>
   </form>
   <form class="gbox" id="pwForm" hidden>
    <h2 class="serif">Teacher login</h2>
@@ -497,11 +530,33 @@ async function api(path,body){
  try{const r=await fetch(path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});return await r.json();}
  catch{return{error:'network'};}
 }
+// Without a session a lesson shows a request form (for other teachers); students log in from a link under it.
+const GATE_FORMS=['buyForm','buyDone','emailForm','codeForm','pwForm'];
+const showForm=id=>GATE_FORMS.forEach(f=>$('#'+f).hidden=f!==id);
 function showGate(){
  $('#frame').hidden=true;$('#frame').srcdoc='';$('#vfull').hidden=true;$('#gate').hidden=false;
- $('#emailForm').hidden=false;$('#codeForm').hidden=true;$('#pwForm').hidden=true;$('#emailMsg').textContent='';
- setTimeout(()=>$('#email').focus(),0);
+ if(!current)return;
+ const l=current,c=Array.isArray(l.color)?l.color:COLORS[l.color]||COLORS.forest;
+ $('#buyHead').style.cssText=`--c:${c[0]};--f:${c[1]}`;
+ $('#buyHead').innerHTML=`<p class="k">${esc([levelLabel(l),l.minutes?l.minutes+' min':''].filter(Boolean).join(' · '))}</p><h2 class="serif">${esc(l.title)}</h2>
+  <dl><dt>Vocabulary</dt><dd>${esc(l.vocab||'')}</dd><dt>Grammar</dt><dd>${esc(l.grammar||'No grammar focus')}</dd></dl>`;
+ $('#bMsgOut').textContent='';showForm('buyForm');
 }
+function showLogin(){showForm('emailForm');$('#emailMsg').textContent='';setTimeout(()=>$('#email').focus(),0);}
+$('#toStudent').addEventListener('click',showLogin);
+$('#toBuy').addEventListener('click',showGate);
+const BMSG={bad_name:'Please write your name.',bad_email:'Please check your email address.',too_many:'Too many requests. Please try again later.',mail_failed:'Could not send your request. Please try again in a minute.',not_found:'This lesson is not available.',network:'No connection. Please try again.'};
+$('#buyForm').addEventListener('submit',async e=>{
+ e.preventDefault();const out=$('#bMsgOut');out.className='gmsg';
+ if(!$('#bName').value.trim())return out.textContent=BMSG.bad_name;
+ if(!$('#bEmail').value.trim()||!$('#bEmail').checkValidity())return out.textContent=BMSG.bad_email;
+ $('#bSend').disabled=true;out.textContent='Sending…';
+ const r=await api('/api/buy',{slug:current.slug,name:$('#bName').value,email:$('#bEmail').value,role:$('#bRole').value,message:$('#bMsg').value,website:$('#bSite').value});
+ $('#bSend').disabled=false;
+ if(!r.ok){out.textContent=BMSG[r.error]||BMSG.network;return;}
+ out.textContent='';$('#buyDoneText').textContent='Your request for '+current.title+' is on its way. I will reply to '+$('#bEmail').value.trim()+' with the price and details. Check your inbox for a confirmation.';
+ $('#bMsg').value='';showForm('buyDone');
+});
 function tick(){
  const b=$('#resend');cooldown--;
  if(cooldown>0){b.disabled=true;b.textContent='New code in '+cooldown+'s';}
@@ -521,9 +576,9 @@ async function sendCode(msgEl){
 }
 $('#emailForm').addEventListener('submit',async e=>{e.preventDefault();$('#sendBtn').disabled=true;await sendCode($('#emailMsg'));$('#sendBtn').disabled=false;});
 $('#resend').addEventListener('click',()=>sendCode($('#codeMsg')));
-$('#changeEmail').addEventListener('click',showGate);
-$('#toCode').addEventListener('click',showGate);
-$('#toPw').addEventListener('click',()=>{$('#emailForm').hidden=true;$('#pwForm').hidden=false;$('#pwMsg').textContent='';$('#pwEmail').value=$('#email').value;setTimeout(()=>($('#pwEmail').value?$('#pw'):$('#pwEmail')).focus(),0);});
+$('#changeEmail').addEventListener('click',showLogin);
+$('#toCode').addEventListener('click',showLogin);
+$('#toPw').addEventListener('click',()=>{showForm('pwForm');$('#pwMsg').textContent='';$('#pwEmail').value=$('#email').value;setTimeout(()=>($('#pwEmail').value?$('#pw'):$('#pwEmail')).focus(),0);});
 $('#pwForm').addEventListener('submit',async e=>{
  e.preventDefault();$('#pwBtn').disabled=true;$('#pwMsg').className='gmsg';$('#pwMsg').textContent='Checking…';
  const r=await api('/api/verify-code',{email:$('#pwEmail').value.trim(),password:$('#pw').value});

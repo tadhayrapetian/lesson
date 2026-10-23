@@ -308,3 +308,88 @@ export function homeworkText(h: Homework) {
     ...(h.files.length ? ["", `Attached: ${h.files.join(", ")}`] : []),
   ].join("\n")
 }
+
+export type Purchase = {
+  teacher: string
+  lesson: Lesson
+  name: string
+  email: string
+  role?: string
+  message?: string
+  siteUrl: string
+}
+
+// A lesson request in the lesson's own colours: to the teacher (who) or a copy for the buyer.
+function purchaseShell(p: Purchase, eyebrow: string, title: string, body: string) {
+  const t = { ...DEFAULT_THEME, ...p.lesson.theme }
+  const l = p.lesson
+  const facts: [string, string | undefined][] = [
+    ["Vocabulary", l.vocab],
+    ["Grammar", l.grammar || "No grammar focus"],
+    ["Level", [l.level ?? []].flat().join("–")],
+    ["Length", l.minutes ? `${l.minutes} minutes` : ""],
+  ]
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light"><style>@media (max-width:620px){.wrap{width:100%!important}.px{padding-left:24px!important;padding-right:24px!important}.title{font-size:38px!important}}</style></head>
+<body style="margin:0;padding:0;background:${t.bg};">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${t.bg};"><tr><td align="center" style="padding:32px 12px 40px;">
+<table role="presentation" class="wrap" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:600px;">
+<tr><td class="px" style="padding:0 8px 18px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+ <td style="font:500 11px/1 ${SANS};letter-spacing:3px;text-transform:uppercase;color:${t.ink};">${esc(p.teacher)}</td>
+ <td align="right" style="font:400 11px/1 ${SANS};letter-spacing:3px;text-transform:uppercase;color:${t.muted};">${esc(eyebrow)}</td></tr></table></td></tr>
+<tr><td class="px" style="background:${t.accent};padding:48px 48px 40px;">
+ <p style="margin:0 0 20px;font:500 11px/1 ${SANS};letter-spacing:3px;text-transform:uppercase;color:${t.onAccent};opacity:.8;">${esc(title)}</p>
+ <h1 class="title" style="margin:0;font:italic 400 50px/1 ${SERIF};color:${t.onAccent};">${esc(l.title)}</h1>
+ ${l.topic ? `<p style="margin:16px 0 0;font:300 16px/1.6 ${SANS};color:${t.onAccent};opacity:.9;">${esc(l.topic)}</p>` : ""}
+ <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:24px 0 0;border-top:1px solid ${t.onAccent}33;padding-top:14px;">${facts
+   .filter(([, v]) => v)
+   .map(([k, v]) => `<tr><td style="padding:5px 20px 5px 0;font:400 11px/1.6 ${SANS};letter-spacing:2px;text-transform:uppercase;color:${t.onAccent};opacity:.75;white-space:nowrap;vertical-align:top;">${k}</td><td style="padding:5px 0;font:400 15px/1.5 ${SANS};color:${t.onAccent};">${esc(v)}</td></tr>`)
+   .join("")}</table>
+</td></tr>
+<tr><td class="px" style="background:${t.card};padding:40px 48px 44px;">${body}</td></tr>
+<tr><td class="px" style="padding:24px 8px 0;font:300 12px/1.6 ${SANS};color:${t.muted};" align="center"><a href="${esc(p.siteUrl)}" style="color:${t.muted};">${esc(p.siteUrl.replace(/^https?:\/\//, ""))}</a></td></tr>
+</table></td></tr></table></body></html>`
+}
+
+function buyerRows(p: Purchase) {
+  const t = { ...DEFAULT_THEME, ...p.lesson.theme }
+  return ([["Name", p.name], ["Email", p.email], ["Who", p.role], ["Message", p.message]] as [string, string | undefined][])
+    .filter(([, v]) => v && v.trim())
+    .map(([k, v]) => `<tr><td style="padding:13px 0;border-top:1px solid ${t.soft};vertical-align:top;width:110px;font:400 11px/1.6 ${SANS};letter-spacing:2px;text-transform:uppercase;color:${t.muted};">${k}</td>
+<td style="padding:13px 0;border-top:1px solid ${t.soft};font:300 15px/1.6 ${SANS};color:${t.ink};">${esc(v).replace(/\n/g, "<br>")}</td></tr>`)
+    .join("")
+}
+
+export function purchaseTeacherHtml(p: Purchase) {
+  const t = { ...DEFAULT_THEME, ...p.lesson.theme }
+  return purchaseShell(
+    p,
+    "Lesson request",
+    "Someone wants to buy this lesson",
+    `<p style="margin:0 0 20px;font:italic 400 28px/1.2 ${SERIF};color:${t.ink};">${esc(p.name)}</p>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${buyerRows(p)}</table>
+<p style="margin:26px 0 0;font:300 14px/1.6 ${SANS};color:${t.ink};">Press Reply to answer ${esc(p.name.split(/\s+/)[0])} with the price. The lesson file is attached to this email, so after the payment you can forward it.</p>
+<p style="margin:12px 0 0;font:300 13px/1.6 ${SANS};color:${t.muted};">They do not get access to your website.</p>`,
+  )
+}
+
+export function purchaseBuyerHtml(p: Purchase) {
+  const t = { ...DEFAULT_THEME, ...p.lesson.theme }
+  return purchaseShell(
+    p,
+    "Lesson request",
+    "Request received",
+    `<p style="margin:0 0 6px;font:italic 400 28px/1.2 ${SERIF};color:${t.ink};">Thank you, ${esc(p.name.split(/\s+/)[0])}!</p>
+<p style="margin:0;font:300 16px/1.7 ${SANS};color:${t.ink};">I have your request for <b style="font-weight:500;">${esc(p.lesson.title)}</b>. I will reply to this address with the price and how to pay. After the payment you will get the lesson file.</p>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:30px;"><tr><td style="border-top:1px solid ${t.soft};padding-top:26px;">
+ <p style="margin:0;font:300 14px/1.5 ${SANS};color:${t.muted};">Best wishes,</p>
+ <p style="margin:6px 0 0;font:italic 400 26px/1.2 ${SERIF};color:${t.ink};">${esc(p.teacher)}</p>
+ <p style="margin:4px 0 0;font:400 11px/1.4 ${SANS};letter-spacing:2px;text-transform:uppercase;color:${t.muted};">English teacher</p></td></tr></table>`,
+  )
+}
+
+export function purchaseText(p: Purchase) {
+  return [`Lesson request: ${p.lesson.title}`, `${p.name} <${p.email}>`, p.role && `Who: ${p.role}`, p.message && `\n${p.message}`]
+    .filter(Boolean)
+    .join("\n")
+}

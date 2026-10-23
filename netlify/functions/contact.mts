@@ -1,10 +1,7 @@
 import type { Config, Context } from "@netlify/functions"
-import { getStore } from "@netlify/blobs"
 import { requestStudentHtml, requestTeacherHtml, requestText, type Request_ } from "../email.mts"
-import { json, mailError, mailer, makeGrantLink, normEmail, sha256, siteData, teacherEmail } from "../lib.mts"
+import { json, mailError, mailer, makeGrantLink, normEmail, overLimit, siteData, teacherEmail } from "../lib.mts"
 
-const LIMIT = 5
-const WINDOW = 60 * 60 * 1000
 const clip = (v: unknown, n: number) => String(v ?? "").trim().slice(0, n)
 
 export default async (req: Request, context: Context) => {
@@ -17,12 +14,7 @@ export default async (req: Request, context: Context) => {
   if (!name) return json({ error: "bad_name" }, 400)
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json({ error: "bad_email" }, 400)
 
-  const rate = getStore({ name: "contact-rate", consistency: "strong" })
-  const key = sha256(context.ip || "unknown")
-  const prev = await rate.get(key, { type: "json" })
-  const fresh = !prev || Date.now() - prev.start > WINDOW
-  if (!fresh && prev.count >= LIMIT) return json({ error: "too_many" }, 429)
-  await rate.setJSON(key, fresh ? { start: Date.now(), count: 1 } : { ...prev, count: prev.count + 1 })
+  if (await overLimit(context.ip)) return json({ error: "too_many" }, 429)
 
   const { site } = await siteData()
   const plan = body.kind === "plan" ? site.plans?.[Number(body.plan)] : undefined
