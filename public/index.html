@@ -204,7 +204,7 @@ body.viewing{-webkit-user-select:none;user-select:none}input,textarea{-webkit-us
 .sent{text-align:center;padding:1rem 0}
 .sent h2{font-size:2.6rem;margin:0 0 .5rem}
 .sent p{color:var(--muted);margin:0 0 1.4rem}
-@media (max-width:640px){.vname{display:none}.vtitle{font-size:1.2rem;text-align:left}}
+@media (max-width:640px){.vname{display:none}.vbar{flex-wrap:wrap;gap:.5rem .6rem}.vtitle{order:-1;flex:1 1 100%;font-size:1.2rem;text-align:left}.vbar button,.vbar a{padding:.3rem .8rem;font-size:.8rem}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -286,6 +286,7 @@ body.viewing{-webkit-user-select:none;user-select:none}input,textarea{-webkit-us
   <button type="button" id="back">← All lessons</button>
   <span class="vtitle serif" id="vtitle"></span>
   <span class="vname" id="vname"></span>
+  <button type="button" id="vhomework" class="assign" hidden>Submit homework</button>
   <button type="button" id="vstudents" hidden>Students</button>
   <button type="button" id="vassign" class="assign" hidden>Send to student</button>
   <button type="button" id="vfull" hidden>Full screen</button>
@@ -349,6 +350,18 @@ body.viewing{-webkit-user-select:none;user-select:none}input,textarea{-webkit-us
   <h2 class="serif">Sent</h2><p id="sentText"></p>
   <div class="mactions"><button type="button" class="gbtn ghost" id="sendAnother">Send to another student</button><button type="button" class="gbtn" data-close>Done</button></div>
  </div>
+</div>
+
+<div class="modal" id="hwModal" hidden>
+ <form class="mbox" id="hwForm">
+  <div class="mhead"><div><h2 class="serif">Submit homework</h2><p id="hwLesson"></p></div><button type="button" class="x" data-hclose aria-label="Close">×</button></div>
+  <label for="hwName">YOUR NAME</label><input id="hwName" type="text" autocomplete="name" maxlength="80" placeholder="Optional">
+  <label for="hwAnswer">YOUR ANSWER</label><textarea id="hwAnswer" style="min-height:11rem" placeholder="Write your homework here, or attach a file below."></textarea>
+  <div class="attach"><label style="margin-bottom:.5rem">FILES</label><input type="file" id="hwFiles" multiple><label class="pick" for="hwFiles">+ Attach files</label><ul class="flist" id="hwList"></ul><p class="ftotal" id="hwTotal" hidden></p></div>
+  <div class="mactions"><button type="button" class="gbtn ghost" data-hclose>Cancel</button><button class="gbtn" id="hwSend">Send to teacher</button></div>
+  <p class="gmsg" id="hwMsg" role="status"></p>
+ </form>
+ <div class="mbox sent" id="hwDone" hidden><h2 class="serif">Sent</h2><p id="hwDoneText"></p><div class="mactions"><button type="button" class="gbtn" data-hclose>Done</button></div></div>
 </div>
 
 <div class="modal" id="studentsModal" hidden>
@@ -527,7 +540,7 @@ async function loadLesson(l){
  if(!r.ok){$('#gate').hidden=true;$('#frame').hidden=false;$('#frame').srcdoc='<p style="font:16px sans-serif;padding:2rem">Lesson not found.</p>';return;}
  const html=await r.text();if(current!==l)return;
  $('#gate').hidden=true;$('#frame').srcdoc=html;$('#frame').hidden=false;$('#vfull').hidden=!document.fullscreenEnabled;
- $('#vassign').hidden=!teacher;$('#vstudents').hidden=!teacher;
+ $('#vassign').hidden=!teacher;$('#vstudents').hidden=!teacher;$('#vhomework').hidden=teacher;
 }
 
 // Teacher only: email the lesson link to a student.
@@ -539,31 +552,36 @@ function authPost(path,body){
 function assignBody(preview,files){return{slug:current.slug,email:$('#aEmail').value.trim(),name:$('#aName').value.trim(),kind,due:$('#aDue').value,note:$('#aNote').value,files,preview};}
 
 // Attachments: kept in the page until Send, then uploaded in 3 MB parts and attached to the email.
+// Used by Send to student (teacher) and Submit homework (student).
 const PART=3*1024*1024,MAX_FILES=18*1024*1024;
-let attached=[];
 const fmtSize=n=>n<1024*1024?Math.max(1,Math.round(n/1024))+' KB':(n/1024/1024).toFixed(1)+' MB';
-const totalSize=()=>attached.reduce((n,f)=>n+f.size,0);
-function drawFiles(){
- $('#aList').innerHTML=attached.map((f,i)=>`<li><span class="fn">${esc(f.name)}</span><span class="fs">${fmtSize(f.size)}</span><button type="button" data-rm="${i}" aria-label="Remove ${esc(f.name)}">×</button></li>`).join('');
- const t=totalSize();$('#aTotal').hidden=!attached.length;
- $('#aTotal').className='ftotal'+(t>MAX_FILES?' over':'');
- $('#aTotal').textContent=t>MAX_FILES?'Total '+fmtSize(t)+'. Email attachments can be up to 18 MB, please remove something.':'Total '+fmtSize(t)+' of 18 MB';
-}
-$('#aFiles').addEventListener('change',e=>{attached=attached.concat([...e.target.files]).slice(0,10);e.target.value='';drawFiles();});
-$('#aList').addEventListener('click',e=>{const b=e.target.closest('[data-rm]');if(!b)return;attached.splice(+b.dataset.rm,1);drawFiles();});
 const newId=()=>(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2,12));
-const fileRefs=()=>attached.map(f=>({id:newId(),name:f.name,type:f.type,size:f.size,parts:Math.max(1,Math.ceil(f.size/PART))}));
-async function uploadFiles(refs,msgEl){
- for(let i=0;i<refs.length;i++){
-  const f=attached[i],ref=refs[i];
-  for(let p=0;p<ref.parts;p++){
-   msgEl.textContent='Uploading '+(refs.length>1?(i+1)+' of '+refs.length+': ':'')+f.name+(ref.parts>1?' ('+Math.round(p/ref.parts*100)+'%)':'')+'…';
-   let r;try{r=await fetch('/api/upload?id='+ref.id+'&part='+p,{method:'POST',headers:{authorization:'Bearer '+token,'content-type':'application/octet-stream'},body:f.slice(p*PART,(p+1)*PART)});}catch{return 'network';}
-   if(!r.ok)return(await r.json().catch(()=>({}))).error||'network';
+function makeAttach(input,list,total){
+ const A={files:[]};
+ A.size=()=>A.files.reduce((n,f)=>n+f.size,0);
+ A.draw=()=>{
+  $(list).innerHTML=A.files.map((f,i)=>`<li><span class="fn">${esc(f.name)}</span><span class="fs">${fmtSize(f.size)}</span><button type="button" data-rm="${i}" aria-label="Remove ${esc(f.name)}">×</button></li>`).join('');
+  const t=A.size();$(total).hidden=!A.files.length;$(total).className='ftotal'+(t>MAX_FILES?' over':'');
+  $(total).textContent=t>MAX_FILES?'Total '+fmtSize(t)+'. Files can be up to 18 MB together, please remove something.':'Total '+fmtSize(t)+' of 18 MB';
+ };
+ A.reset=()=>{A.files=[];A.draw();};
+ A.refs=()=>A.files.map(f=>({id:newId(),name:f.name,type:f.type,size:f.size,parts:Math.max(1,Math.ceil(f.size/PART))}));
+ A.upload=async(refs,msgEl)=>{
+  for(let i=0;i<refs.length;i++){
+   const f=A.files[i],ref=refs[i];
+   for(let p=0;p<ref.parts;p++){
+    msgEl.textContent='Uploading '+(refs.length>1?(i+1)+' of '+refs.length+': ':'')+f.name+(ref.parts>1?' ('+Math.round(p/ref.parts*100)+'%)':'')+'…';
+    let r;try{r=await fetch('/api/upload?id='+ref.id+'&part='+p,{method:'POST',headers:{authorization:'Bearer '+token,'content-type':'application/octet-stream'},body:f.slice(p*PART,(p+1)*PART)});}catch{return 'network';}
+    if(!r.ok)return(await r.json().catch(()=>({}))).error||'network';
+   }
   }
- }
- return null;
+  return null;
+ };
+ $(input).addEventListener('change',e=>{A.files=A.files.concat([...e.target.files]).slice(0,10);e.target.value='';A.draw();});
+ $(list).addEventListener('click',e=>{const b=e.target.closest('[data-rm]');if(!b)return;A.files.splice(+b.dataset.rm,1);A.draw();});
+ return A;
 }
+const assignFiles=makeAttach('#aFiles','#aList','#aTotal');
 function showStep(id){['assignForm','previewBox','sentBox'].forEach(x=>$('#'+x).hidden=x!==id);}
 async function loadStudents(){
  if(studentsLoaded)return;
@@ -584,26 +602,56 @@ $('#assignModal').addEventListener('click',e=>{if(e.target===$('#assignModal'))$
 $('#aPreview').addEventListener('click',async()=>{
  if(!$('#assignForm').reportValidity())return;
  $('#aMsg').className='gmsg';$('#aMsg').textContent='Preparing preview…';
- const r=await authPost('/api/assign',assignBody(true,fileRefs()));
+ const r=await authPost('/api/assign',assignBody(true,assignFiles.refs()));
  if(!r.html){$('#aMsg').textContent=aMsgs[r.error]||MSG.network;return;}
  $('#aMsg').textContent='';$('#previewSubject').textContent='Subject: '+r.subject;$('#previewFrame').srcdoc=r.html;$('#pMsg').textContent='';showStep('previewBox');
 });
 async function send(msgEl,btn){
- if(totalSize()>MAX_FILES){msgEl.className='gmsg';msgEl.textContent=aMsgs.files_too_large;return;}
+ if(assignFiles.size()>MAX_FILES){msgEl.className='gmsg';msgEl.textContent=aMsgs.files_too_large;return;}
  btn.disabled=true;msgEl.className='gmsg';
- const refs=fileRefs(),err=await uploadFiles(refs,msgEl);
+ const refs=assignFiles.refs(),err=await assignFiles.upload(refs,msgEl);
  if(err){btn.disabled=false;msgEl.textContent=aMsgs[err]||MSG.network;return;}
  msgEl.textContent='Sending…';
  const r=await authPost('/api/assign',assignBody(false,refs));btn.disabled=false;
  if(!r.ok){msgEl.textContent=aMsgs[r.error]||MSG.network;return;}
  msgEl.textContent='';studentsLoaded=false;
- $('#sentText').textContent=current.title+(attached.length?' and '+attached.length+(attached.length===1?' file are':' files are')+' on their way to ':' is on its way to ')+$('#aEmail').value.trim()+'.';showStep('sentBox');
+ $('#sentText').textContent=current.title+(assignFiles.files.length?' and '+assignFiles.files.length+(assignFiles.files.length===1?' file are':' files are')+' on their way to ':' is on its way to ')+$('#aEmail').value.trim()+'.';showStep('sentBox');
 }
 $('#assignForm').addEventListener('submit',e=>{e.preventDefault();send($('#aMsg'),$('#aSend'));});
 $('#previewSend').addEventListener('click',()=>send($('#pMsg'),$('#previewSend')));
 $('#previewEdit').addEventListener('click',()=>showStep('assignForm'));
 $('#previewBack').addEventListener('click',()=>showStep('assignForm'));
 $('#sendAnother').addEventListener('click',()=>{$('#aEmail').value='';$('#aName').value='';$('#aMsg').textContent='';showStep('assignForm');loadStudents();$('#aEmail').focus();});
+// Student: hand in homework for the open lesson. It arrives in the teacher's inbox.
+const hwFiles=makeAttach('#hwFiles','#hwList','#hwTotal');
+const hwMsgs={...MSG,empty:'Write an answer or attach a file first.',files_too_large:'The files are too big (up to 18 MB together).',too_large:'One of the files is too big to upload.',upload_missing:'A file did not upload. Please try again.',unauthorized:'Your session has ended. Close the lesson and open it again.'};
+let hwFor=null;
+$('#vhomework').addEventListener('click',()=>{
+ if(document.fullscreenElement)document.exitFullscreen();
+ if(hwFor!==current){hwFor=current;$('#hwAnswer').value='';hwFiles.reset();}
+ $('#hwLesson').textContent=current.title;$('#hwMsg').textContent='';$('#hwForm').hidden=false;$('#hwDone').hidden=true;$('#hwModal').hidden=false;
+ setTimeout(()=>($('#hwName').value?$('#hwAnswer'):$('#hwName')).focus(),0);
+});
+const closeHw=()=>$('#hwModal').hidden=true;
+$('#hwAnswer').addEventListener('input',()=>$('#hwMsg').textContent='');
+$('#hwFiles').addEventListener('change',()=>$('#hwMsg').textContent='');
+document.querySelectorAll('[data-hclose]').forEach(b=>b.addEventListener('click',closeHw));
+$('#hwModal').addEventListener('click',e=>{if(e.target===$('#hwModal'))closeHw();});
+$('#hwForm').addEventListener('submit',async e=>{
+ e.preventDefault();const msg=$('#hwMsg');msg.className='gmsg';
+ if(!$('#hwAnswer').value.trim()&&!hwFiles.files.length){msg.textContent=hwMsgs.empty;return;}
+ if(hwFiles.size()>MAX_FILES){msg.textContent=hwMsgs.files_too_large;return;}
+ $('#hwSend').disabled=true;
+ const refs=hwFiles.refs(),err=await hwFiles.upload(refs,msg);
+ if(err){$('#hwSend').disabled=false;msg.textContent=hwMsgs[err]||MSG.network;return;}
+ msg.textContent='Sending…';
+ const r=await authPost('/api/homework',{slug:current.slug,name:$('#hwName').value.trim(),answer:$('#hwAnswer').value,files:refs});
+ $('#hwSend').disabled=false;
+ if(!r.ok){msg.textContent=hwMsgs[r.error]||MSG.network;return;}
+ msg.textContent='';$('#hwDoneText').textContent='Your homework for '+current.title+' is with your teacher.';
+ $('#hwAnswer').value='';hwFiles.reset();$('#hwForm').hidden=true;$('#hwDone').hidden=false;
+});
+
 // Teacher: who can open lessons.
 const stMsgs={...MSG,in_file:'This email is in students.txt. Remove it there.',unauthorized:'Your session has ended. Reopen the lesson and log in again.'};
 function drawStudents(list){
@@ -670,7 +718,7 @@ function route(){
  }
  document.querySelectorAll('.links a[aria-current]').forEach(a=>a.setAttribute('aria-current','page'));
  if(l){
-  $('#vtitle').textContent=l.title;$('#frame').hidden=true;$('#gate').hidden=true;$('#vassign').hidden=true;$('#vstudents').hidden=true;$('#assignModal').hidden=true;$('#studentsModal').hidden=true;
+  $('#vtitle').textContent=l.title;$('#frame').hidden=true;$('#gate').hidden=true;$('#vassign').hidden=true;$('#vstudents').hidden=true;$('#vhomework').hidden=true;$('#assignModal').hidden=true;$('#studentsModal').hidden=true;$('#hwModal').hidden=true;
   $('#viewer').hidden=false;document.body.classList.add('viewing');document.title=l.title+(S.name?', '+S.name:'');
   loadLesson(l);
  }else{
@@ -684,7 +732,7 @@ function route(){
 document.addEventListener('keydown',e=>{if(!document.body.classList.contains('viewing'))return;const k=(e.key||'').toLowerCase(),m=e.ctrlKey||e.metaKey;
  if(k==='f12'||(m&&['s','u','p'].includes(k))||(m&&e.shiftKey&&['i','j','c'].includes(k)))e.preventDefault();},true);
 $('#back').addEventListener('click',()=>{location.hash='lessons';});
-document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!$('#grantModal').hidden)closeGrant();else if(!$('#studentsModal').hidden)$('#studentsModal').hidden=true;else if(!$('#assignModal').hidden)$('#assignModal').hidden=true;else if(!$('#viewer').hidden)$('#back').click();});
+document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!$('#grantModal').hidden)closeGrant();else if(!$('#studentsModal').hidden)$('#studentsModal').hidden=true;else if(!$('#hwModal').hidden)closeHw();else if(!$('#assignModal').hidden)$('#assignModal').hidden=true;else if(!$('#viewer').hidden)$('#back').click();});
 window.addEventListener('hashchange',route);
 render();route();
 </script>

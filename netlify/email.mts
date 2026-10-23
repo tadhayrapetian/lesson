@@ -258,3 +258,49 @@ export function requestText(r: Request_) {
     .filter(Boolean)
     .join("\n")
 }
+
+export type Homework = {
+  teacher: string
+  lesson: Lesson
+  studentEmail: string
+  studentName?: string
+  answer: string
+  files: string[]
+  siteUrl: string
+}
+
+// To the teacher: homework a student handed in, in the colours of the lesson.
+export function homeworkHtml(h: Homework) {
+  const t = { ...DEFAULT_THEME, ...h.lesson.theme }
+  const who = h.studentName || h.studentEmail
+  const label = (text: string) => `<p style="margin:28px 0 10px;font:400 11px/1 ${SANS};letter-spacing:2px;text-transform:uppercase;color:${t.muted};">${text}</p>`
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light"><style>@media (max-width:620px){.wrap{width:100%!important}.px{padding-left:24px!important;padding-right:24px!important}}</style></head>
+<body style="margin:0;padding:0;background:${t.bg};">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${t.bg};"><tr><td align="center" style="padding:32px 12px 40px;">
+<table role="presentation" class="wrap" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:600px;">
+<tr><td class="px" style="padding:0 8px 18px;font:500 11px/1 ${SANS};letter-spacing:3px;text-transform:uppercase;color:${t.ink};">${esc(h.teacher)} &nbsp;·&nbsp; Homework</td></tr>
+<tr><td class="px" style="background:${t.accent};padding:44px 48px 40px;">
+ <p style="margin:0 0 18px;font:500 11px/1 ${SANS};letter-spacing:3px;text-transform:uppercase;color:${t.onAccent};opacity:.8;">Homework handed in</p>
+ <h1 style="margin:0;font:italic 400 44px/1.05 ${SERIF};color:${t.onAccent};">${esc(who)}</h1>
+ <p style="margin:16px 0 0;font:300 16px/1.5 ${SANS};color:${t.onAccent};opacity:.9;">${esc(h.lesson.title)}</p></td></tr>
+<tr><td class="px" style="background:${t.card};padding:36px 48px 44px;">
+ <p style="margin:0;font:300 15px/1.6 ${SANS};color:${t.ink};"><a href="mailto:${esc(h.studentEmail)}" style="color:${t.accent};">${esc(h.studentEmail)}</a></p>
+ ${h.answer ? `${label("Answer")}<div style="background:${t.soft};border-left:3px solid ${t.accent};padding:18px 22px;font:300 16px/1.7 ${SANS};color:${t.ink};">${esc(h.answer).replace(/\n/g, "<br>")}</div>` : ""}
+ ${h.files.length ? `${label("Files attached to this email")}<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${h.files
+   .map((f) => `<tr><td style="padding:10px 0;border-top:1px solid ${t.soft};font:400 15px/1.4 ${SANS};color:${t.ink};"><span style="color:${t.accent};">&#9632;</span>&nbsp;&nbsp;${esc(f)}</td></tr>`)
+   .join("")}</table>` : ""}
+ <p style="margin:28px 0 0;font:300 13px/1.6 ${SANS};color:${t.muted};">Press Reply to answer ${esc(who)} directly.</p>
+</td></tr>
+<tr><td class="px" style="padding:24px 8px 0;font:300 12px/1.6 ${SANS};color:${t.muted};" align="center"><a href="${esc(h.siteUrl)}/#${esc(h.lesson.slug)}" style="color:${t.muted};">Open the lesson</a></td></tr>
+</table></td></tr></table></body></html>`
+}
+
+export function homeworkText(h: Homework) {
+  return [
+    `Homework from ${h.studentName || h.studentEmail} <${h.studentEmail}>`,
+    `Lesson: ${h.lesson.title}`,
+    ...(h.answer ? ["", h.answer] : []),
+    ...(h.files.length ? ["", `Attached: ${h.files.join(", ")}`] : []),
+  ].join("\n")
+}

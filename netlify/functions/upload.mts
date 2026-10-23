@@ -1,12 +1,13 @@
 import type { Config } from "@netlify/functions"
-import { isTeacher, json, sessionFrom, uploadStore } from "../lib.mts"
+import { isStudent, json, sessionFrom, uploadStore } from "../lib.mts"
 
 // Function requests are capped at ~6 MB, so the page sends files in parts of up to 3 MB.
 export const MAX_PART = 3 * 1024 * 1024 + 1024
 
 export default async (req: Request) => {
   const session = sessionFrom(req)
-  if (!session || !isTeacher(session.email)) return json({ error: "unauthorized" }, 401)
+  // Teachers attach files to assignments; students attach their homework.
+  if (!session || !(await isStudent(session.email))) return json({ error: "unauthorized" }, 401)
 
   const url = new URL(req.url)
   const id = url.searchParams.get("id") ?? ""
